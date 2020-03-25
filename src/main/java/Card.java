@@ -2,6 +2,12 @@ public class Card {
     private int suit;
     private int value;
 
+    /***
+     * Constructor for the Card object. A playing card.
+     *
+     * @param suit a numerical value of suit, 0 to 3
+     * @param value a numerical value of the card from 1 to 13.
+     */
     public Card (int suit, int value) {
         this.suit = suit;
         this.value = value;
@@ -23,6 +29,11 @@ public class Card {
         this.value = value;
     }
 
+    /***
+     * A method to get the suit in string form
+     *
+     * @return A string explaining the suit, depending on the value of the int
+     */
     public String readSuit() {
         switch(suit) {
             case 0:
@@ -38,6 +49,11 @@ public class Card {
         }
     }
 
+    /***
+     * A method to convert a card to a string
+     *
+     * @return A string explaining the card
+     */
     public String toString() {
         switch(value){
             case 1:
