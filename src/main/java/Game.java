@@ -6,10 +6,10 @@ public class Game {
 
     public Game() {
         List<Card> deck = generateDeck();
-        shuffle(deck);
-        for (Card card: deck) {
+        //shuffle(deck);
+        /*for (Card card: deck) {
             System.out.println(card.toString());
-        }
+        }*/
     }
 
     /**
