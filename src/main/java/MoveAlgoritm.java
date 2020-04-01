@@ -12,15 +12,16 @@ public class MoveAlgoritm {
         this.treakbunke = treakbunke;
     }
 
-    private String move(){
+    public String getBestMove(){
         String bestMove = "";
 
+        
         return bestMove;
     };
 
 
     //Altid ryk en es til grundbunker
-    private String CheckEs(){
+    private String checkEs(){
 
         return "";
     };
@@ -63,7 +64,7 @@ public class MoveAlgoritm {
 
     //Game is unsolvable (redo last move(s) or give up)
     private String endGame(){
-        return "no additional turn is detected";
+        return "Game is unsolvable (redo last move(s) or give up)";
     }
 
 }
