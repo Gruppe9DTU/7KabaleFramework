@@ -23,6 +23,8 @@ public class MoveAlgoritm {
     //Altid ryk en es til grundbunker
     private String checkEs(){
 
+        for (int i = 0; i < byggestabler)
+
         return "";
     };
 
