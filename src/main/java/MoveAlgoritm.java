@@ -50,7 +50,7 @@ public class MoveAlgoritm {
     }
 
     //Tjek om kort kan lægges til grundbunken
-    private String moveToGrundbunke(){
+    private String moveToFoundation(){
         return "";
     }
 
