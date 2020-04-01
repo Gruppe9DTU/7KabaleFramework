@@ -2,10 +2,6 @@ import java.util.List;
 
 public class MoveAlgoritm {
 
-    //skal fjernes når metoder bliver implementeret korrekt
-    Object ByggeStable;
-    Object GrundBunke;
-
     List<ByggeStable> byggestabler;
     List<GrundBunke> grundbunke;
     List<Card> treakbunke;
@@ -26,7 +22,7 @@ public class MoveAlgoritm {
     //Altid ryk en es til grundbunker
     private String CheckEs(){
 
-        for (int i = 0; i < ByggeStable)
+        for (int i = 0; i < byggestabler)
 
         return "";
     };
