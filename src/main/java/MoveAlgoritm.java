@@ -4,18 +4,18 @@ public class MoveAlgoritm {
 
     List<Tableau> tableaus;
     List<Foundation> foundations;
-    Waste waste;
+    List<Card> treakbunke;
 
-    public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Waste waste) {
+    public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, List<Card> treakbunke) {
         this.tableaus = tableaus;
         this.foundations = foundations;
-        this.waste = waste;
+        this.treakbunke = treakbunke;
     }
 
     public String getBestMove(){
         String bestMove = "";
 
-
+        
         return bestMove;
     };
 
@@ -31,7 +31,8 @@ public class MoveAlgoritm {
                 return "Move " + card[0].toString() + " to Foundation";
             }
         }
-        return "";
+
+        return "not possible";
     };
 
     //Ryk ikke kort fra byggestabel til grundbunken med mindre der er en konge, som kan tage dens plads
@@ -65,13 +66,8 @@ public class MoveAlgoritm {
         return "";
     }
 
-    //Vend kort fra grundbunken hvis ingen træk muligt.
-    private String revealCardFromWaste(){
-
-        if (waste.revealCard()){ //Hvis det er muligt at trække et kort fra grundbunken skal den returnere true
-            return "Vend et kort fra grundbunken";
-        }
-
+    //Vend kort fra bunke hvis ingen træk muligt.
+    private String revealCardFromTreakBunke(){
         return "";
     }
 
