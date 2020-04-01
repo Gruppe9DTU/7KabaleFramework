@@ -2,29 +2,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Game {
+public class Deck {
 
-    public Game() {
-        List<Card> deck = generateDeck();
-        shuffle(deck);
-        for (Card card: deck) {
-            System.out.println(card.toString());
-        }
+    List<Card> deck = new ArrayList<Card>();
+
+    public Deck() {
     }
 
     /**
      * generated a full deck of cards
      *
-     * @return a full 52-card deck without jokers.
      */
-    public List<Card> generateDeck() {
-        List deck = new ArrayList<Card>();
+    public void generateDeck() {
+        List generated = new ArrayList<Card>();
         for (int i = 0; i < 4; i++) {
             for (int j = 1; j < 14; j++) {
-                deck.add(new Card(i, j));
+                generated.add(new Card(i, j));
             }
         }
-        return deck;
+        deck = generated;
     }
 
     /**
@@ -43,13 +39,14 @@ public class Game {
     /**
      * Method to shuffle a deck of cards
      *
-     * @param deck the deck which you want to shuffle
      */
-    public void shuffle(List<Card> deck) {
+    public void shuffle() {
         Random random = new Random();
         random.nextInt();
         for (int i = 0; i < deck.size(); i++) {
             swap(deck, i, random.nextInt(deck.size()));
         }
     }
+
+    public List<Card> getDeck() { return deck; }
 }
