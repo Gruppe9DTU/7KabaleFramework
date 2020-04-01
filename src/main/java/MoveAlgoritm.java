@@ -2,13 +2,13 @@ import java.util.List;
 
 public class MoveAlgoritm {
 
-    List<ByggeStable> byggestabler;
-    List<GrundBunke> grundbunke;
+    List<Tableau> tableaus;
+    List<Foundation> foundations;
     List<Card> treakbunke;
 
-    public MoveAlgoritm(List<ByggeStable> byggestabler, List<GrundBunke> grundbunke, List<Card> treakbunke) {
-        this.byggestabler = byggestabler;
-        this.grundbunke = grundbunke;
+    public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, List<Card> treakbunke) {
+        this.tableaus = tableaus;
+        this.foundations = foundations;
         this.treakbunke = treakbunke;
     }
 
@@ -23,9 +23,16 @@ public class MoveAlgoritm {
     //Altid ryk en es til grundbunker
     private String checkEs(){
 
-        for (int i = 0; i < byggestabler)
+        for (Tableau tableu : tableaus){
+            //check if first visible card in stable is es
 
-        return "";
+            Card[] card = tableu.getVisibleCards();
+            if (card[0].getValue() == 1){
+                return "Move " + card[0].toString() + " to Foundation";
+            }
+        }
+
+        return "not possible";
     };
 
     //Ryk ikke kort fra byggestabel til grundbunken med mindre der er en konge, som kan tage dens plads
