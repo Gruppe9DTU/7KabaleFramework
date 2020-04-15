@@ -14,7 +14,7 @@ public class MoveAlgoritm {
 
     public String getBestMove(){
 
-        tabuleSorter();
+        tabuleSorter(0,tableaus.size()-1);
 
         String bestMove = "";
 
@@ -22,9 +22,28 @@ public class MoveAlgoritm {
     }
 
     //sort the tableau order so that the one with the highest amount of cards is first
-    public void tabuleSorter (){
+    //uses the quick-sort algorithm to sort the list of tableau
+    private void tabuleSorter (int l, int r){
 
-        Tableau holder = null;
+            int pivot = tableaus.get(r).getVisibleCards().length + tableaus.get(r).countHiddenCards();
+            int cnt = l;
+
+            for (int i = l; i <= r; i++){
+
+                int tableauTotalCards = tableaus.get(i).getVisibleCards().length + tableaus.get(i).countHiddenCards();
+
+                if (tableauTotalCards <= pivot){
+
+                    Tableau tabuleauHolder = tableaus.get(cnt);
+                    tableaus.set(cnt, tableaus.get(i));
+                    tableaus.set(i, tabuleauHolder);
+
+                    cnt++;
+                }
+            }
+
+            tabuleSorter( l, cnt-2);
+            tabuleSorter(cnt, r);
 
     }
 
@@ -42,7 +61,7 @@ public class MoveAlgoritm {
         }
 
         return "not possible";
-    };
+    }
 
     //Ryk ikke kort fra byggestabel til grundbunken med mindre der er en konge, som kan tage dens plads
     //Hvis rød og sort konge kan fylde en tom plads i byggestablen, vælg den hvor der er størst mulighed for at lave en stabel (hvis der ligger rød knægt, vælg rød konge og vent på sort dronning osv.)
@@ -62,7 +81,9 @@ public class MoveAlgoritm {
             }
         }
 
-        if (kingsAvalible.size() > 1){
+        if (kingsAvalible == null){
+
+        } else if (kingsAvalible.size() > 1){
 
             int kingSuitStreak = 0;
             int leadingKingSuitStreak = 0;
@@ -95,9 +116,9 @@ public class MoveAlgoritm {
 
         }
 
-        return "no kings available";
+        return "";
 
-    };
+    }
 
     //Afslør skjulte kort (prioriterer bunke med højest antal skjulte kort) (flyt slutkortet i stablen, samt det der hænger fast på den, over på en anden stabel, hvis det kommer til at vende et skjult kort)
     private String revealHiddenCard(){
@@ -114,9 +135,15 @@ public class MoveAlgoritm {
         for (Tableau tableau : tableaus){
             Card[] cards = tableau.getVisibleCards();
             for (Foundation foundation: foundations) {
+
+                //check first if card can be moved to foundation
                 if (cards[cards.length-1].getValue() == foundation.peekCard().getValue()+1 && cards[cards.length-1].getSuit() == foundation.peekCard().getSuit()){
-                    //foundation.addCard(cards[cards.length-1]);
-                    return "Tag " + cards[cards.length-1].toString() + " og placer den i grundbunken med matchende type";
+
+                    //now check if move creates an empty space and if a king is avalible to take that place
+                    if (cards.length -1 != 0 && tableau.countHiddenCards() != 0 || !kingCheck().equals("")) {
+                        return "Tag " + cards[cards.length - 1].toString() + " og placer den i grundbunken med matchende type";
+                    }
+
                 }
             }
         }
