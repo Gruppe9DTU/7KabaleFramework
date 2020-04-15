@@ -14,7 +14,7 @@ public class MoveAlgoritm {
 
     public String getBestMove(){
 
-        tabuleSorter();
+        tabuleSorter(0,tableaus.size()-1);
 
         String bestMove = "";
 
@@ -22,9 +22,28 @@ public class MoveAlgoritm {
     }
 
     //sort the tableau order so that the one with the highest amount of cards is first
-    private void tabuleSorter (){
+    //uses the quick-sort algorithm to sort the list of tableau
+    private void tabuleSorter (int l, int r){
 
-        Tableau holder = null;
+            int pivot = tableaus.get(r).getVisibleCards().length + tableaus.get(r).countHiddenCards();
+            int cnt = l;
+
+            for (int i = l; i <= r; i++){
+
+                int tableauTotalCards = tableaus.get(i).getVisibleCards().length + tableaus.get(i).countHiddenCards();
+
+                if (tableauTotalCards <= pivot){
+
+                    Tableau tabuleauHolder = tableaus.get(cnt);
+                    tableaus.set(cnt, tableaus.get(i));
+                    tableaus.set(i, tabuleauHolder);
+
+                    cnt++;
+                }
+            }
+
+            tabuleSorter( l, cnt-2);
+            tabuleSorter(cnt, r);
 
     }
 
