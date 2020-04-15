@@ -6,10 +6,10 @@ public class MoveAlgoritm {
     private List<Foundation> foundations;
     private List<Card> treakbunke;
 
-    public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, List<Card> treakbunke) {
+    public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Waste waste) {
         this.tableaus = tableaus;
         this.foundations = foundations;
-        this.treakbunke = treakbunke;
+        this.waste = waste;
     }
 
     public String getBestMove(){
@@ -18,7 +18,7 @@ public class MoveAlgoritm {
 
         String bestMove = "";
 
-        
+
         return bestMove;
     };
 
@@ -112,6 +112,16 @@ public class MoveAlgoritm {
 
     //Tjek om kort kan lægges til grundbunken
     private String moveToFoundation(){
+        for (Tableau tableau : tableaus){
+            Card[] cards = tableau.getVisibleCards();
+            for (Foundation foundation: foundations) {
+                if (cards[cards.length-1].getValue() == foundation.peekCard().getValue()+1 && cards[0].getSuit() == foundation.peekCard().getSuit()){
+                    //foundation.addCard(cards[cards.length-1]);
+                    return "Tag " + cards[cards.length-1].toString() + " og placer den i grundbunken med matchende type";
+                }
+            }
+        }
+
         return "";
     }
 
@@ -120,8 +130,13 @@ public class MoveAlgoritm {
         return "";
     }
 
-    //Vend kort fra bunke hvis ingen træk muligt.
-    private String revealCardFromTreakBunke(){
+    //Vend kort fra grundbunken hvis ingen træk muligt.
+    private String revealCardFromWaste(){
+
+        if (waste.revealCard()){ //Hvis det er muligt at trække et kort fra grundbunken skal den returnere true
+            return "Vend et kort fra grundbunken";
+        }
+
         return "";
     }
 
