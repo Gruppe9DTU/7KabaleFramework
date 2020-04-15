@@ -4,7 +4,7 @@ public class MoveAlgoritm {
 
     private List<Tableau> tableaus;
     private List<Foundation> foundations;
-    private List<Card> treakbunke;
+    private List<Card> waste;
 
     public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Waste waste) {
         this.tableaus = tableaus;
