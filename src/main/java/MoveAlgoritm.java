@@ -27,8 +27,8 @@ public class MoveAlgoritm {
             //check if first visible card in stable is es
 
             Card[] card = tableu.getVisibleCards();
-            if (card[0].getValue() == 1){
-                return "Move " + card[0].toString() + " to Foundation";
+            if (card[card.length-1].getValue() == 1){
+                return "Move " + card[card.length-1].toString() + " to Foundation";
             }
         }
         return "";
@@ -57,6 +57,16 @@ public class MoveAlgoritm {
 
     //Tjek om kort kan lægges til grundbunken
     private String moveToFoundation(){
+        for (Tableau tableau : tableaus){
+            Card[] cards = tableau.getVisibleCards();
+            for (Foundation foundation: foundations) {
+                if (cards[cards.length-1].getValue() == foundation.peekCard().getValue()+1 && cards[0].getSuit() == foundation.peekCard().getSuit()){
+                    //foundation.addCard(cards[cards.length-1]);
+                    return "Tag " + cards[cards.length-1].toString() + " og placer den i grundbunken med matchende type";
+                }
+            }
+        }
+
         return "";
     }
 
