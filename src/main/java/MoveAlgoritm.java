@@ -40,8 +40,12 @@ public class MoveAlgoritm {
     }
 
     //sort the tableau order so that the one with the highest amount of cards is first
-    //uses the quick-sort algorithm to sort the list of tableau
+    //uses the quick-sort algorithm to sort the list of tableau's
     private void tabuleSorter (int l, int r){
+
+        if (l >= r){
+            return;
+        }
 
             int pivot = tableaus.get(r).getVisibleCards().length + tableaus.get(r).countHiddenCards();
             int cnt = l;
