@@ -117,7 +117,7 @@ public class MoveAlgoritm {
 
                     Card[] card = tableau.getVisibleCards();
 
-                    for (int i = 0; i < card.length - 1; i++) {
+                    for (int i = 0; i < card.length; i++) {
                         if (card[i].getSuit() == king.getSuit() && card[i].getValue() == king.getValue() - kingSuitStreak) {
                             kingSuitStreak++;
                         }
@@ -142,8 +142,19 @@ public class MoveAlgoritm {
 
     }
 
+    private List<Tableau> sortAfterHiddenCards(){
+
+        //TODO: make sorting algoritm
+
+        return tableaus;
+    }
+
     //Afslør skjulte kort (prioriterer bunke med højest antal skjulte kort) (flyt slutkortet i stablen, samt det der hænger fast på den, over på en anden stabel, hvis det kommer til at vende et skjult kort)
-    private String revealHiddenCard() {
+    private String revealHiddenCard(){
+
+        List<Tableau> hiddenCardsTableau = sortAfterHiddenCards();
+
+
         return "";
     }
 
