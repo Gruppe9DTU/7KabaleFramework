@@ -97,7 +97,7 @@ public class MoveAlgoritm {
 
         }
 
-        return "no kings available";
+        return "";
 
     }
 
@@ -116,9 +116,15 @@ public class MoveAlgoritm {
         for (Tableau tableau : tableaus){
             Card[] cards = tableau.getVisibleCards();
             for (Foundation foundation: foundations) {
+
+                //check first if card can be moved to foundation
                 if (cards[cards.length-1].getValue() == foundation.peekCard().getValue()+1 && cards[0].getSuit() == foundation.peekCard().getSuit()){
-                    //foundation.addCard(cards[cards.length-1]);
-                    return "Tag " + cards[cards.length-1].toString() + " og placer den i grundbunken med matchende type";
+
+                    //now check if move creates an empty space and if a king is avalible to take that place
+                    if (cards.length -1 != 0 && tableau.countHiddenCards() != 0 || !kingCheck().equals("")) {
+                        return "Tag " + cards[cards.length - 1].toString() + " og placer den i grundbunken med matchende type";
+                    }
+
                 }
             }
         }
