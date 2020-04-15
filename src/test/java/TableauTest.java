@@ -8,8 +8,9 @@ public class TableauTest {
 
     @Test
     public void testGetVisibleCards() {
-        Game game = new Game();
-        List<Card> deck = game.generateDeck();
+        Deck game = new Deck();
+        game.generateDeck();
+        List<Card> deck = game.getDeck();
         Tableau stack = new Tableau(6);
         stack.addCardToStack(deck.get(0));
         Card[] expected = {new Card(0,1)};
