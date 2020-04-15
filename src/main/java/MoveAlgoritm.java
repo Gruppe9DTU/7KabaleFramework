@@ -4,7 +4,7 @@ public class MoveAlgoritm {
 
     private List<Tableau> tableaus;
     private List<Foundation> foundations;
-    private List<Card> waste;
+    private Waste waste;
 
     public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Waste waste) {
         this.tableaus = tableaus;
@@ -18,9 +18,8 @@ public class MoveAlgoritm {
 
         String bestMove = "";
 
-
         return bestMove;
-    };
+    }
 
     //sort the tableau order so that the one with the highest amount of cards is first
     public void tabuleSorter (){
