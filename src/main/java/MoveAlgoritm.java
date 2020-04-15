@@ -22,7 +22,7 @@ public class MoveAlgoritm {
     }
 
     //sort the tableau order so that the one with the highest amount of cards is first
-    public void tabuleSorter (){
+    private void tabuleSorter (){
 
         Tableau holder = null;
 
@@ -42,7 +42,7 @@ public class MoveAlgoritm {
         }
 
         return "not possible";
-    };
+    }
 
     //Ryk ikke kort fra byggestabel til grundbunken med mindre der er en konge, som kan tage dens plads
     //Hvis rød og sort konge kan fylde en tom plads i byggestablen, vælg den hvor der er størst mulighed for at lave en stabel (hvis der ligger rød knægt, vælg rød konge og vent på sort dronning osv.)
@@ -62,7 +62,9 @@ public class MoveAlgoritm {
             }
         }
 
-        if (kingsAvalible.size() > 1){
+        if (kingsAvalible == null){
+
+        } else if (kingsAvalible.size() > 1){
 
             int kingSuitStreak = 0;
             int leadingKingSuitStreak = 0;
@@ -97,7 +99,7 @@ public class MoveAlgoritm {
 
         return "no kings available";
 
-    };
+    }
 
     //Afslør skjulte kort (prioriterer bunke med højest antal skjulte kort) (flyt slutkortet i stablen, samt det der hænger fast på den, over på en anden stabel, hvis det kommer til at vende et skjult kort)
     private String revealHiddenCard(){
