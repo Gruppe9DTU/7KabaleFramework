@@ -68,4 +68,25 @@ public class Card {
                 return value + " of " + readSuit();
         }
     }
+
+    /**
+     * A method to give a short print of the card
+     * @return
+     */
+    public String shortString() {
+        switch (value) {
+            case 1:
+                return "Ac" + readSuit().charAt(0);
+            case 10:
+                return "10" + readSuit().charAt(0);
+            case 11:
+                return "Ja" + readSuit().charAt(0);
+            case 12:
+                return "Qu" + readSuit().charAt(0);
+            case 13:
+                return "Ki" + readSuit().charAt(0);
+            default:
+                return "0" + value + readSuit().charAt(0);
+        }
+    }
 }
