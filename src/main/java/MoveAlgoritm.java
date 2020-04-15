@@ -18,6 +18,24 @@ public class MoveAlgoritm {
 
         String bestMove = "";
 
+        List<String> moves = null;
+
+        moves.add(checkEs());
+        moves.add(kingCheck());
+        moves.add(revealHiddenCard());
+        moves.add(grundbunkeToBuildStable());
+        moves.add(moveToFoundation());
+        moves.add(typeStreak());
+        moves.add(revealCardFromWaste());
+        moves.add(endGame());
+
+        for (String move : moves){
+            if (!move.equals("")){
+                bestMove = move;
+                break;
+            }
+        }
+
         return bestMove;
     }
 
