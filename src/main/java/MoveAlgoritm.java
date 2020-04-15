@@ -4,9 +4,9 @@ public class MoveAlgoritm {
 
     private List<Tableau> tableaus;
     private List<Foundation> foundations;
-    private Waste waste;
+    private Card waste;
 
-    public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Waste waste) {
+    public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Card waste) {
         this.tableaus = tableaus;
         this.foundations = foundations;
         this.waste = waste;
@@ -101,7 +101,7 @@ public class MoveAlgoritm {
 
     //Afslør skjulte kort (prioriterer bunke med højest antal skjulte kort) (flyt slutkortet i stablen, samt det der hænger fast på den, over på en anden stabel, hvis det kommer til at vende et skjult kort)
     private String revealHiddenCard(){
-        return"";
+        return "";
     }
 
     //Tag kort fra grundbunken ned hvis det muliggøre øvrige træk (og giver mening)
@@ -114,7 +114,7 @@ public class MoveAlgoritm {
         for (Tableau tableau : tableaus){
             Card[] cards = tableau.getVisibleCards();
             for (Foundation foundation: foundations) {
-                if (cards[cards.length-1].getValue() == foundation.peekCard().getValue()+1 && cards[0].getSuit() == foundation.peekCard().getSuit()){
+                if (cards[cards.length-1].getValue() == foundation.peekCard().getValue()+1 && cards[cards.length-1].getSuit() == foundation.peekCard().getSuit()){
                     //foundation.addCard(cards[cards.length-1]);
                     return "Tag " + cards[cards.length-1].toString() + " og placer den i grundbunken med matchende type";
                 }
@@ -124,15 +124,36 @@ public class MoveAlgoritm {
         return "";
     }
 
-    //Hvis muligt sørg for at “typerne” passer. F.eks. hvis du kan rykke en hjerter 4 til to forskellige 5’er så priority den som har en hjerter 6
+    //Hvis muligt sørg for at “typerne” passer. F.eks. hvis du kan rykke en hjerter 4 til to forskellige 5’er så prioriter den som har en hjerter 6
     private String typeStreak(){
+        Card[] cards;
+        List<Tableau> useableTableaus = null;
+        for (Tableau tableau : tableaus){
+            cards = tableau.getVisibleCards();
+
+                if (cards[cards.length-1].getValue() == waste.getValue()-1 && cards[cards.length-1].getSuit() % 2 != waste.getSuit() % 2){
+                    useableTableaus.add(tableau);
+                }
+        }
+        if (useableTableaus != null) {
+            for (Tableau utableau : useableTableaus) {
+                cards = utableau.getVisibleCards();
+
+                if (cards.length >= 3){
+                    if (cards[cards.length - 3].getSuit() == waste.getSuit()) {
+                        return "Tag " + waste.toString() + " og placer kortet på " + cards[cards.length - 1].toString();
+                    }
+                }
+            }
+        }
+
         return "";
     }
 
     //Vend kort fra grundbunken hvis ingen træk muligt.
     private String revealCardFromWaste(){
 
-        if (waste.revealCard()){ //Hvis det er muligt at trække et kort fra grundbunken skal den returnere true
+        if (waste != null){ //Hvis det er muligt at trække et kort fra grundbunken skal den returnere true
             return "Vend et kort fra grundbunken";
         }
 
