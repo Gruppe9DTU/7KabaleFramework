@@ -13,10 +13,10 @@ public class WasteTest {
         List<Card> unknowncards = testdeck.getDeck();
         Waste testWaste = new Waste(unknowncards);
         assertEquals("King of Clubs", testWaste.revealCard().toString());
-        for (int i = 0; i < 51; i++) {
+        assertEquals("King of Clubs", testWaste.getKnownCards().get(0).toString());
+        for (int i = 0; i < 52; i++) {
             testWaste.revealCard();
         }
-        assertEquals("King of Clubs", testWaste.getKnownCards().get(0).toString());
         assertEquals("King of Clubs", testWaste.revealCard().toString());
         assertEquals("Queen of Clubs", testWaste.revealCard().toString());
         for (int i = 0; i < 50; i++) {

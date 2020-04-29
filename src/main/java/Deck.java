@@ -3,10 +3,10 @@ import java.util.List;
 import java.util.Random;
 
 public class Deck {
-
     List<Card> deck = new ArrayList<Card>();
 
     public Deck() {
+        generateDeck();
     }
 
     /**
@@ -49,4 +49,8 @@ public class Deck {
     }
 
     public List<Card> getDeck() { return deck; }
+
+    public Card getNextCard() {
+        return deck.remove(deck.size()-1);
+    }
 }

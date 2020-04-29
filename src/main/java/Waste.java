@@ -6,11 +6,15 @@ public class Waste {
     private List<Card> unknowncards;
     private int iterator = 0;
 
-    public Waste() {
-    }
-
     public Waste(List<Card> cards) {
         unknowncards = cards;
+    }
+
+    public Waste(int n, Deck deck) {
+        unknowncards = new ArrayList<Card>();
+        for(int i = 0 ; i < n ; i++) {
+            unknowncards.add(deck.getNextCard());
+        }
     }
 
     public Card takeCard() {
@@ -41,4 +45,5 @@ public class Waste {
 
     public List<Card> getKnownCards() { return knowncards; }
 
+    public int wasteSize() { return unknowncards.size(); }
 }
