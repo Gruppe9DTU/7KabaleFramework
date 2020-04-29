@@ -82,7 +82,7 @@ public class MoveAlgoritm {
             }
         }
 
-        return "not possible";
+        return "";
     }
 
     //Ryk ikke kort fra byggestabel til grundbunken med mindre der er en konge, som kan tage dens plads
