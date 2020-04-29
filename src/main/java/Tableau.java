@@ -5,8 +5,18 @@ public class Tableau {
     private int hiddenCards;
     private List<Card> visibleCards = new ArrayList<Card>();
 
+    /**
+     * For testing purposes
+     *
+     * @param hiddenCards
+     */
     public Tableau(int hiddenCards) {
         this.hiddenCards = hiddenCards;
+    }
+
+    public Tableau(int hiddenCards, List<Card> visibleCards) {
+        this.hiddenCards = hiddenCards;
+        this.visibleCards.addAll(visibleCards);
     }
 
     public Card[] getVisibleCards() {
@@ -51,5 +61,9 @@ public class Tableau {
         else {
             visibleCards.add(card);
         }
+    }
+
+    public Card getTopCard() {
+        return visibleCards.get(visibleCards.size() - 1);
     }
 }

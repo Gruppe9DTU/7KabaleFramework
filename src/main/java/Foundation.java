@@ -22,7 +22,9 @@ public class Foundation {
 
     public Card takeCard() { return cards.remove(cards.size()-1); }
 
-    public Card peekCard() { return cards.get(cards.size()-1); }
+    public Card peekCard() {
+            return cards.get(cards.size()-1);
+    }
 
     public int countCards() { return cards.size(); }
 
