@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoveAlgoritm {
@@ -18,7 +19,7 @@ public class MoveAlgoritm {
 
         String bestMove = "";
 
-        List<String> moves = null;
+        List<String> moves = new ArrayList<String>();
 
         moves.add(checkEs());
         moves.add(kingCheck());
@@ -89,10 +90,16 @@ public class MoveAlgoritm {
     //Hvis rød og sort konge kan fylde en tom plads i byggestablen, vælg den hvor der er størst mulighed for at lave en stabel (hvis der ligger rød knægt, vælg rød konge og vent på sort dronning osv.)
     private String kingCheck() {
 
-        List<Card> kingsAvalible = null;
+        List<Card> kingsAvalible = new ArrayList<Card>();
 
+        int emptySpaces = 0;
         //find available kings
+
         for (Tableau tableau : tableaus) {
+
+            if (tableau.isEmpty()){
+            emptySpaces++;
+            }
 
             //check if first card is king
             // TODO: might want to make it more complex later
@@ -103,9 +110,7 @@ public class MoveAlgoritm {
             }
         }
 
-        if (kingsAvalible == null) {
-
-        } else if (kingsAvalible.size() > 1) {
+        if (kingsAvalible.size() > 1 && emptySpaces > 0) {
 
             int kingSuitStreak = 0;
             int leadingKingSuitStreak = 0;
@@ -133,8 +138,8 @@ public class MoveAlgoritm {
 
             return "Best king to move is " + leadingCard.toString();
 
-        } else if (kingsAvalible.size() == 1) {
-            return "Move " + kingsAvalible.get(1).toString() + "to empty space";
+        } else if (kingsAvalible.size() == 1 && emptySpaces > 0) {
+            return "Move " + kingsAvalible.get(0).toString() + " to empty space";
 
         }
 
@@ -160,13 +165,24 @@ public class MoveAlgoritm {
 
     //Tag kort fra grundbunken ned hvis det muliggøre øvrige træk (og giver mening)
     private String grundbunkeToBuildStable() {
+
         for (Foundation foundation : foundations) {
-            for (Tableau tableau : tableaus) {
-                Card[] cards = tableau.getVisibleCards();
-                if (cards[cards.length - 1].getValue() - 1 == foundation.peekCard().getValue() && cards[cards.length - 1].getSuit() % 2 != foundation.peekCard().getSuit() % 2) { // Tjek om det er muligt at rykke et kort fra grundbunken ned på en af rækkerne
-                    if (waste.getValue() == foundation.peekCard().getValue() - 1 && waste.getSuit() % 2 != foundation.peekCard().getSuit() % 2) { //Tjek om det vil muliggøre andre træk at rykke kort fra grundbunken ned på en af rækkerne
-                        return "Ryk " + foundation.peekCard().toString() + "fra grundbunken ned på rækken med " + cards[cards.length - 1].toString();
+
+            if (foundation.countCards() > 0) {
+
+                for (Tableau tableau : tableaus) {
+
+                    Card[] cards = tableau.getVisibleCards();
+
+                    if (cards[cards.length - 1].getValue() - 1 == foundation.peekCard().getValue()
+                            && cards[cards.length - 1].getSuit() % 2 != foundation.peekCard().getSuit() % 2) { // Tjek om det er muligt at rykke et kort fra grundbunken ned på en af rækkerne
+
+                        if (waste.getValue() == foundation.peekCard().getValue() - 1 && waste.getSuit() % 2 != foundation.peekCard().getSuit() % 2) { //Tjek om det vil muliggøre andre træk at rykke kort fra grundbunken ned på en af rækkerne
+                            return "Ryk " + foundation.peekCard().toString() + "fra grundbunken ned på rækken med " + cards[cards.length - 1].toString();
+                        }
+
                     }
+
                 }
             }
         }
@@ -180,7 +196,8 @@ public class MoveAlgoritm {
             for (Foundation foundation : foundations) {
 
                 //check first if card can be moved to foundation
-                if (cards[cards.length - 1].getValue() == foundation.peekCard().getValue() + 1 && cards[cards.length - 1].getSuit() == foundation.peekCard().getSuit()) {
+                //if count cards == 0 it should be fixed by the checkEs function
+                if (foundation.countCards() > 0 && cards[cards.length - 1].getValue() == foundation.peekCard().getValue() + 1 && cards[cards.length - 1].getSuit() == foundation.peekCard().getSuit()) {
 
                     //now check if move creates an empty space and if a king is avalible to take that place
                     if (cards.length - 1 != 0 && tableau.countHiddenCards() != 0 || !kingCheck().equals("")) {
@@ -194,6 +211,7 @@ public class MoveAlgoritm {
         return "";
     }
 
+    //TODO: fix this
     //Hvis muligt sørg for at “typerne” passer. F.eks. hvis du kan rykke en hjerter 4 til to forskellige 5’er så prioriter den som har en hjerter 6
     private String typeStreak() {
         Card[] cards;
@@ -201,19 +219,15 @@ public class MoveAlgoritm {
         for (Tableau tableau : tableaus) {
             cards = tableau.getVisibleCards();
 
-            if (cards[cards.length - 1].getValue() == waste.getValue() - 1 && cards[cards.length - 1].getSuit() % 2 != waste.getSuit() % 2) {
+            if (waste != null && cards[cards.length - 1].getValue() == waste.getValue() - 1 && cards[cards.length - 1].getSuit() % 2 != waste.getSuit() % 2) {
                 useableTableaus.add(tableau);
             }
         }
+
         if (useableTableaus != null) {
             for (Tableau utableau : useableTableaus) {
                 cards = utableau.getVisibleCards();
-
-                if (cards.length >= 3) {
-                    if (cards[cards.length - 3].getSuit() == waste.getSuit()) {
-                        return "Tag " + waste.toString() + " og placer kortet på " + cards[cards.length - 1].toString();
-                    }
-                }
+                return "Tag " + waste.toString() + " og placer kortet på " + cards[cards.length - 1].toString();
             }
         }
 

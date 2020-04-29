@@ -47,4 +47,12 @@ public class Gamelogic {
         System.out.println(tableauLengths);
         System.out.println(tableauValues);
     }
+
+    public Tableau[] getTableau() {
+        return tableau;
+    }
+
+    public Foundation[] getFoundation() {
+        return foundation;
+    }
 }

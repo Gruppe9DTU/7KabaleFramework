@@ -46,4 +46,14 @@ public class Waste {
     public List<Card> getKnownCards() { return knowncards; }
 
     public int wasteSize() { return unknowncards.size(); }
+
+    public Card lookAtTop(){
+
+        try {
+            return knowncards.get(iterator);
+        }catch (IndexOutOfBoundsException e){
+            //nufin
+        }
+        return null;
+    }
 }
