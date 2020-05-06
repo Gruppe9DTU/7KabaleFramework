@@ -95,14 +95,105 @@ public class MoveAlgoritmTest {
         assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauDestinationCard, algoritmCtrl.grundbunkeToBuildStable());
     }
 
-
+    /**
+     * Move a card from tableau to foundation, without opening a space
+     */
     @Test
     public void testMoveToFoundation101() {
-        Card tableauCard = new Card(0,11);
         tableaus[1].addCardToStack(new Card(1, 12));
+        Card tableauCard = new Card(0,11);
         tableaus[1].addCardToStack(tableauCard);
 
-        for(int i = 1 ; i < 11 ; i++) {
+        for(int i = 1 ; i < 10 ; i++) {
+            foundations[1].addCard(new Card(0,i));
+        }
+        Card foundationCard = new Card(0,10);
+        foundations[1].addCard(foundationCard);
+
+        Waste waste = new Waste(null, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + tableauCard + " to it's respective foundation", algoritmCtrl.moveToFoundation());
+    }
+
+    /**
+     * Don't move card from tableau if opening an empty space
+     */
+    @Test
+    public void testMoveToFoundation102() {
+        Card tableauCard = new Card(0,11);
+        tableaus[1].addCardToStack(tableauCard);
+
+        for(int i = 1 ; i < 10 ; i++) {
+            foundations[1].addCard(new Card(0,i));
+        }
+        Card foundationCard = new Card(0,10);
+        foundations[1].addCard(foundationCard);
+
+        Waste waste = new Waste(null, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.moveToFoundation());
+    }
+
+    /**
+     * Move card from tableau and leave empty space, if King is present to take over without leaving and empty space
+     */
+    @Test
+    public void testMoveToFoundation103() { //TODO fix
+//        tableaus[1].addCardToStack(new Card(1, 12));
+        Card tableauCard = new Card(0,11);
+        tableaus[1].addCardToStack(tableauCard);
+        tableaus[2] = new Tableau(3);
+        tableaus[2].addCardToStack(new Card(3, 13));
+
+        for(int i = 1 ; i < 10 ; i++) {
+            foundations[1].addCard(new Card(0,i));
+        }
+        Card foundationCard = new Card(0,10);
+        foundations[1].addCard(foundationCard);
+
+        Waste waste = new Waste(null, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + tableauCard + " to it's respective foundation", algoritmCtrl.moveToFoundation());
+    }
+
+    /**
+     * Don't move card from tableau if leaving empty space and no King is able to take over without leaving empty spaces
+     */
+    @Test
+    public void testMoveToFoundation104() {
+        Card tableauCard = new Card(0,11);
+        tableaus[1].addCardToStack(tableauCard);
+        tableaus[2].addCardToStack(new Card(3, 13));
+
+        for(int i = 1 ; i < 10 ; i++) {
+            foundations[1].addCard(new Card(0,i));
+        }
+        Card foundationCard = new Card(0,10);
+        foundations[1].addCard(foundationCard);
+
+        Waste waste = new Waste(null, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.moveToFoundation());
+    }
+
+    /**
+     * Move card from tableau and leave empty space, if next card for foundation is available
+     */
+    @Test
+    public void testMoveToFoundation105() {
+        Card tableauCard = new Card(0, 11);
+        tableaus[1].addCardToStack(tableauCard);
+        tableaus[2].addCardToStack(new Card(0, 12));
+
+        for(int i = 1 ; i < 10 ; i++) {
             foundations[1].addCard(new Card(0,i));
         }
         Card foundationCard = new Card(0,10);
