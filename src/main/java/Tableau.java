@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Tableau {
@@ -67,23 +68,52 @@ public class Tableau {
         return visibleCards.get(visibleCards.size() - 1);
     }
 
-    /**
-     * Method to find a moveable card of a chosen value
-     *
-     * @param value Value of 1-13 to search for
-     * @return      If card of chosen value is found and moveable
-     */
-    public boolean searchMoveableCardByValue(int value) {
-        for(Card card : getVisibleCards()) {
-            if (card.getValue() == value) return true;
-        }
-        return false;
-    }
+    //region Comparator
 
-    public boolean searchMoveableCardBySuitAndValue(int suit, int value) {
-        for(Card card : getVisibleCards()) {
-            if (card.getSuit() == suit && card.getValue() == value) return true;
+    public static Comparator<Tableau> AllCardsCompare = new Comparator<Tableau>() {
+
+
+        public int compare(Tableau tableau1, Tableau tableau2) {
+            int numCards1 = tableau1.countHiddenCards() + tableau1.getVisibleCards().length;
+            int numCards2 = tableau2.countHiddenCards() + tableau2.getVisibleCards().length;
+
+
+            return numCards2-numCards1;
+
+
+
         }
-        return false;
-    }
+    };
+
+    public static Comparator<Tableau> HiddenCardsCompare = new Comparator<Tableau>() {
+
+
+        public int compare(Tableau tableau1, Tableau tableau2) {
+            int numCards1 = tableau1.countHiddenCards();
+            int numCards2 = tableau2.countHiddenCards();
+
+
+            return numCards2-numCards1;
+
+
+
+        }
+    };
+
+    public static Comparator<Tableau> VisibleCardsCompare = new Comparator<Tableau>() {
+
+
+        public int compare(Tableau tableau1, Tableau tableau2) {
+            int numCards1 = tableau1.getVisibleCards().length;
+            int numCards2 = tableau2.getVisibleCards().length;
+
+
+            return numCards2-numCards1;
+
+
+
+        }
+    };
+
+    //endregion
 }
