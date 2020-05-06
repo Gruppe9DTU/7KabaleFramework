@@ -275,4 +275,18 @@ public class MoveAlgoritmTest {
         assertEquals("Tag " + expected2.toString() + " og placer kortet på " + expected1.toString(), algoritmCtrl.typeStreak());
     }
 
+    @Test
+    public void testRevealHiddenCard() {
+        tableaus[1] = new Tableau(3);
+        tableaus[1].addCardToStack(new Card(0, 4));
+        tableaus[2] = new Tableau(2);
+
+        Waste waste = new Waste(null, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        //Test
+        assertEquals("Turn over a card from the tableau with the highest amount of hidden cards", algoritmCtrl.revealHiddenCard());
+    }
+
 }
