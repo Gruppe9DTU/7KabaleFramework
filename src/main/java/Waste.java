@@ -50,12 +50,14 @@ public class Waste {
     public int wasteSize() { return unknowncards.size(); }
 
     public Card lookAtTop(){
-        try {
-            return knowncards.get(iterator);
-        }catch (IndexOutOfBoundsException e){
-            //nufin
-        }
-        return null;
+        return knowncards.size() > 0 ? knowncards.get(iterator) : null;
+        //TODO Cleanup: delete if works
+//        try {
+//            return knowncards.get(iterator);
+//        }catch (IndexOutOfBoundsException e){
+//            //
+//        }
+//        return null;
     }
 
     public void setPileStatus(boolean pileStatus) { this.pileStatus = pileStatus; }

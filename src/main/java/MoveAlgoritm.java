@@ -177,18 +177,26 @@ public class MoveAlgoritm {
                 for (Tableau tableau : tableaus) {
                     Card[] tableauCards = tableau.getVisibleCards();
                     //Check if possible to place card
-                    if (tableauCards[tableauCards.length - 1].getValue() - 1 == foundationCard.getValue()
+                    if (tableauCards.length != 0 &&
+                            tableauCards[tableauCards.length - 1].getValue() - 1 == foundationCard.getValue()
                             && tableauCards[tableauCards.length - 1].getSuit() % 2 != foundationCard.getSuit() % 2) { //Check if possible to move card from foundation to tableau
 
-                        //Check if it opens up possibilities
+                        //Check if it opens up possibilities //TODO Check with others if best order
                         //First check waste
-                        if (waste.getValue() == foundationCard.getValue() - 1 && waste.getSuit() % 2 != foundationCard.getSuit() % 2) {
+                        if (waste != null && waste.getValue() == foundationCard.getValue() - 1 && waste.getSuit() % 2 != foundationCard.getSuit() % 2) {
                             return "Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCards[tableauCards.length - 1].toString();
                         }
 
                         //Then check other tableaus
-                        //TODO Loop through other tableaus to check if any cards can be moved, if foundationCard is placed down
-
+                        for (Tableau otherTableau : tableaus) {
+                            if (tableau != otherTableau) {
+                                for(Card card : otherTableau.getVisibleCards()) {
+                                    if(card.getValue() == foundationCard.getValue()-1 && card.getSuit() % 2 != foundationCard.getSuit() % 2) {
+                                        return "Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCards[tableauCards.length - 1].toString();
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
