@@ -73,7 +73,7 @@ public class MoveAlgoritm {
     }
 
     //Altid ryk en es til grundbunker
-    private String checkEs() {
+    public String checkEs() {
 
         for (Tableau tableau : tableaus) {
 
@@ -90,7 +90,7 @@ public class MoveAlgoritm {
 
     //Ryk ikke kort fra byggestabel til grundbunken med mindre der er en konge, som kan tage dens plads
     //Hvis rød og sort konge kan fylde en tom plads i byggestablen, vælg den hvor der er størst mulighed for at lave en stabel (hvis der ligger rød knægt, vælg rød konge og vent på sort dronning osv.)
-    private String kingCheck() {
+    public String kingCheck() {
 
         List<Card> kingsAvalible = new ArrayList<Card>();
 
@@ -157,7 +157,7 @@ public class MoveAlgoritm {
     }
 
     //Afslør skjulte kort (prioriterer bunke med højest antal skjulte kort) (flyt slutkortet i stablen, samt det der hænger fast på den, over på en anden stabel, hvis det kommer til at vende et skjult kort)
-    private String revealHiddenCard(){
+    public String revealHiddenCard(){
 
         List<Tableau> hiddenCardsTableau = sortAfterHiddenCards();
 
@@ -169,7 +169,7 @@ public class MoveAlgoritm {
      * Control if taking a card from foundation to tableau opens up other interactions
      * @return  String  Instructions to player
      */
-    private String grundbunkeToBuildStable() {
+    public String grundbunkeToBuildStable() {
         for (Foundation foundation : foundations) {
             if (foundation.countCards() > 0) {  //If there is a card in the foundation
                 Card foundationCard = foundation.peekCard(); //Set current possible card
@@ -208,7 +208,7 @@ public class MoveAlgoritm {
     }
 
     //Tjek om kort kan lægges til grundbunken
-    private String moveToFoundation() {
+    public String moveToFoundation() {
         for (Tableau tableau : tableaus) {
             Card[] cards = tableau.getVisibleCards();
             for (Foundation foundation : foundations) {
@@ -231,7 +231,7 @@ public class MoveAlgoritm {
 
     //TODO: fix this
     //Hvis muligt sørg for at “typerne” passer. F.eks. hvis du kan rykke en hjerter 4 til to forskellige 5’er så prioriter den som har en hjerter 6
-    private String typeStreak() {
+    public String typeStreak() {
         Card[] cards;
         List<Tableau> useableTableaus = null;
         for (Tableau tableau : tableaus) {
@@ -256,13 +256,13 @@ public class MoveAlgoritm {
      * Translator to tell if possible to draw card from the waste pile
      * @return  String  Instructions to player
      */
-    private String revealCardFromWaste() {
+    public String revealCardFromWaste() {
         return wastePile ? "Vend et kort fra grundbunken" : "" ;
     }
 
     //TODO Take a stance to delete this, literally only returns a string
     //Game is unsolvable (redo last move(s) or give up)
-    private String endGame() {
+    public String endGame() {
         return "Game is unsolvable (redo last move(s) or give up)";
     }
 }
