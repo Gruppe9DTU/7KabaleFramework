@@ -114,7 +114,7 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Move " + tableauCard + " to it's respective foundation", algoritmCtrl.moveToFoundation());
+        assertEquals("Move " + tableauCard.toString() + " to it's respective foundation", algoritmCtrl.moveToFoundation());
     }
 
     /**
@@ -142,8 +142,7 @@ public class MoveAlgoritmTest {
      * Move card from tableau and leave empty space, if King is present to take over without leaving and empty space
      */
     @Test
-    public void testMoveToFoundation103() { //TODO fix
-//        tableaus[1].addCardToStack(new Card(1, 12));
+    public void testMoveToFoundation103() {
         Card tableauCard = new Card(0,11);
         tableaus[1].addCardToStack(tableauCard);
         tableaus[2] = new Tableau(3);
@@ -159,7 +158,7 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Move " + tableauCard + " to it's respective foundation", algoritmCtrl.moveToFoundation());
+        assertEquals("Move " + tableauCard.toString() + " to it's respective foundation", algoritmCtrl.moveToFoundation());
     }
 
     /**
@@ -203,6 +202,27 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Move " + tableauCard + " to it's respective foundation", algoritmCtrl.moveToFoundation());
+        assertEquals("Move " + tableauCard.toString() + " to it's respective foundation", algoritmCtrl.moveToFoundation());
+    }
+
+    /**
+     * Move card from waste if possible
+     */
+    @Test
+    public void testMoveToFoundation106() {
+        for(int i = 1 ; i < 10 ; i++) {
+            foundations[1].addCard(new Card(0,i));
+        }
+        Card foundationCard = new Card(0,10);
+        foundations[1].addCard(foundationCard);
+        List<Card> wastePile = new ArrayList<Card>();
+        Card wasteCard = new Card(0,11);
+        wastePile.add(wasteCard);
+        Waste waste = new Waste(wastePile, true);
+        waste.revealCard();
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + wasteCard.toString() + " to it's respective foundation", algoritmCtrl.moveToFoundation());
     }
 }

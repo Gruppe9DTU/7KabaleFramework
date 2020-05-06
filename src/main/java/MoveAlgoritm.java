@@ -212,7 +212,7 @@ public class MoveAlgoritm {
      * @return  Instructions for player
      */
     public String moveToFoundation() {
-        //TODO What about from Waste?
+        //Check if possible to move from tableau
         for (Tableau tableau : tableaus) {
             if(!tableau.isEmpty()) {
                 Card card = tableau.getTopCard();
@@ -220,7 +220,9 @@ public class MoveAlgoritm {
                 for (Foundation foundation : foundations) {
 
                     //check first if card can be moved to foundation
-                    if (foundation.countCards() > 0 && card.getValue() == foundation.peekCard().getValue() + 1 && card.getSuit() == foundation.peekCard().getSuit()) {
+                    if (foundation.countCards() > 0 &&
+                            card.getValue() == foundation.peekCard().getValue() + 1 &&
+                            card.getSuit() == foundation.peekCard().getSuit()) {
 
                         //If creating empty space, controls King is there to replace or next card in foundation is able to be put up aswell
                         if (tableau.getVisibleCards().length - 1 != 0 || tableau.countHiddenCards() != 0 || //Is card left behind
@@ -229,6 +231,16 @@ public class MoveAlgoritm {
                             return "Move " + card.toString() + " to it's respective foundation";
                         }
                     }
+                }
+            }
+        }
+        //Check if possible to move from waste
+        if(waste != null) {
+            for(Foundation foundation : foundations) {
+                if(foundation.countCards() > 0 &&
+                        waste.getValue() == foundation.peekCard().getValue() + 1 &&
+                        waste.getSuit() == foundation.peekCard().getSuit()) {
+                    return "Move " + waste.toString() + " to it's respective foundation";
                 }
             }
         }
