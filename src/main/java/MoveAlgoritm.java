@@ -265,6 +265,7 @@ public class MoveAlgoritm {
         return wastePile ? "Vend et kort fra grundbunken" : "" ;
     }
 
+    //TODO Take a stance to delete this, literally only returns a string
     //Game is unsolvable (redo last move(s) or give up)
     private String endGame() {
         return "Game is unsolvable (redo last move(s) or give up)";
