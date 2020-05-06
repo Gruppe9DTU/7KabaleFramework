@@ -6,11 +6,13 @@ public class MoveAlgoritm {
     private List<Tableau> tableaus;
     private List<Foundation> foundations;
     private Card waste;
+    private boolean wastePile;
 
-    public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Card waste) {
+    public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Card waste, boolean wastePile) {
         this.tableaus = tableaus;
         this.foundations = foundations;
         this.waste = waste;
+        this.wastePile = wastePile;
     }
 
     public String getBestMove() {
@@ -163,30 +165,46 @@ public class MoveAlgoritm {
         return "";
     }
 
-    //Tag kort fra grundbunken ned hvis det muliggøre øvrige træk (og giver mening)
+    /**
+     * Control if taking a card from foundation to tableau opens up other interactions
+     * @return  String  Instructions to player
+     */
     private String grundbunkeToBuildStable() {
-
         for (Foundation foundation : foundations) {
-
-            if (foundation.countCards() > 0) {
+            if (foundation.countCards() > 0) {  //If there is a card in the foundation
+                Card foundationCard = foundation.peekCard(); //Set current possible card
 
                 for (Tableau tableau : tableaus) {
+                    Card[] tableauCards = tableau.getVisibleCards();
+                    //Check if possible to place card
+                    if (tableauCards.length != 0 &&
+                            tableauCards[tableauCards.length - 1].getValue() - 1 == foundationCard.getValue()
+                            && tableauCards[tableauCards.length - 1].getSuit() % 2 != foundationCard.getSuit() % 2) { //Check if possible to move card from foundation to tableau
 
-                    Card[] cards = tableau.getVisibleCards();
-
-                    if (cards[cards.length - 1].getValue() - 1 == foundation.peekCard().getValue()
-                            && cards[cards.length - 1].getSuit() % 2 != foundation.peekCard().getSuit() % 2) { // Tjek om det er muligt at rykke et kort fra grundbunken ned på en af rækkerne
-
-                        if (waste.getValue() == foundation.peekCard().getValue() - 1 && waste.getSuit() % 2 != foundation.peekCard().getSuit() % 2) { //Tjek om det vil muliggøre andre træk at rykke kort fra grundbunken ned på en af rækkerne
-                            return "Ryk " + foundation.peekCard().toString() + "fra grundbunken ned på rækken med " + cards[cards.length - 1].toString();
+                        //Check if it opens up possibilities //TODO Check with others if best order
+                        //First check waste
+                        if (waste != null && waste.getValue() == foundationCard.getValue() - 1 && waste.getSuit() % 2 != foundationCard.getSuit() % 2) {
+                            return "Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCards[tableauCards.length - 1].toString();
                         }
 
+                        //Then check other tableaus
+                        for (Tableau otherTableau : tableaus) {
+                            if (tableau != otherTableau) {
+                                for(Card card : otherTableau.getVisibleCards()) {
+                                    if(card.getValue() == foundationCard.getValue()-1 && card.getSuit() % 2 != foundationCard.getSuit() % 2) {
+                                        return "Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCards[tableauCards.length - 1].toString();
+                                    }
+                                }
+                            }
+                        }
                     }
-
                 }
             }
         }
         return "";
+    }
+    public String testGrundbunkeToBuildStable() {
+        return grundbunkeToBuildStable();
     }
 
     //Tjek om kort kan lægges til grundbunken
@@ -234,19 +252,17 @@ public class MoveAlgoritm {
         return "";
     }
 
-    //Vend kort fra grundbunken hvis ingen træk muligt.
+    /**
+     * Translator to tell if possible to draw card from the waste pile
+     * @return  String  Instructions to player
+     */
     private String revealCardFromWaste() {
-
-        if (waste != null) { //Hvis det er muligt at trække et kort fra grundbunken skal den returnere true
-            return "Vend et kort fra grundbunken";
-        }
-
-        return "";
+        return wastePile ? "Vend et kort fra grundbunken" : "" ;
     }
 
+    //TODO Take a stance to delete this, literally only returns a string
     //Game is unsolvable (redo last move(s) or give up)
     private String endGame() {
         return "Game is unsolvable (redo last move(s) or give up)";
     }
-
 }

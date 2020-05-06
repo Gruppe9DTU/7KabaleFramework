@@ -5,9 +5,11 @@ public class Waste {
     private List<Card> knowncards = new ArrayList<Card>();
     private List<Card> unknowncards;
     private int iterator = 0;
+    private boolean pileStatus;
 
-    public Waste(List<Card> cards) {
+    public Waste(List<Card> cards, boolean pileStatus) {
         unknowncards = cards;
+        this.pileStatus = pileStatus;
     }
 
     public Waste(int n, Deck deck) {
@@ -48,12 +50,16 @@ public class Waste {
     public int wasteSize() { return unknowncards.size(); }
 
     public Card lookAtTop(){
-
-        try {
-            return knowncards.get(iterator);
-        }catch (IndexOutOfBoundsException e){
-            //nufin
-        }
-        return null;
+        return knowncards.size() > 0 ? knowncards.get(iterator) : null;
+        //TODO Cleanup: delete if works
+//        try {
+//            return knowncards.get(iterator);
+//        }catch (IndexOutOfBoundsException e){
+//            //
+//        }
+//        return null;
     }
+
+    public void setPileStatus(boolean pileStatus) { this.pileStatus = pileStatus; }
+    public boolean getPileStatus() { return pileStatus; }
 }
