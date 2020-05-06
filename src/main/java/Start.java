@@ -9,7 +9,7 @@ public class Start {
 
         List<Tableau> tableaus = Arrays.asList(gamelogic.getTableau());
         List<Foundation> foundations = Arrays.asList(gamelogic.getFoundation());
-        MoveAlgoritm move = new MoveAlgoritm(tableaus, foundations, gamelogic.waste.lookAtTop());
+        MoveAlgoritm move = new MoveAlgoritm(tableaus, foundations, gamelogic.waste.lookAtTop(), gamelogic.getWaste().getPileStatus());
 
         System.out.println(move.getBestMove());
     }

@@ -11,7 +11,7 @@ public class WasteTest {
         Deck testdeck = new Deck();
         testdeck.generateDeck();
         List<Card> unknowncards = testdeck.getDeck();
-        Waste testWaste = new Waste(unknowncards);
+        Waste testWaste = new Waste(unknowncards, true);
         assertEquals("King of Clubs", testWaste.revealCard().toString());
         assertEquals("King of Clubs", testWaste.getKnownCards().get(0).toString());
         for (int i = 0; i < 52; i++) {
@@ -30,7 +30,7 @@ public class WasteTest {
         Deck testdeck = new Deck();
         testdeck.generateDeck();
         List<Card> unknowncards = testdeck.getDeck();
-        Waste testWaste = new Waste(unknowncards);
+        Waste testWaste = new Waste(unknowncards, true);
         testWaste.revealCard();
         assertEquals("King of Clubs", testWaste.takeCard().toString());
         assertEquals(0, testWaste.getKnownCards().size());

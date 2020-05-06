@@ -55,4 +55,6 @@ public class Gamelogic {
     public Foundation[] getFoundation() {
         return foundation;
     }
+
+    public Waste getWaste() { return waste; }
 }
