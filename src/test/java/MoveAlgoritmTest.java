@@ -53,7 +53,7 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Ryk " + tableauCard2.toString() + " til Foundation", algoritmCtrl.checkEs());
+        assertEquals("Ryk " + tableauCard2.toString() + " til Foundation", algoritmCtrl.getBestMove());
     }
 
     /**
@@ -82,7 +82,7 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Ryk " + tableauCard.toString() + " til Foundation", algoritmCtrl.checkEs());
+        assertEquals("Ryk " + tableauCard.toString() + " til Foundation", algoritmCtrl.getBestMove());
     }
 
     /**
