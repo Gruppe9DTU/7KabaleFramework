@@ -203,9 +203,6 @@ public class MoveAlgoritm {
         }
         return "";
     }
-    public String testGrundbunkeToBuildStable() {
-        return grundbunkeToBuildStable();
-    }
 
     //Tjek om kort kan lægges til grundbunken
     public String moveToFoundation() {
