@@ -239,17 +239,20 @@ public class MoveAlgoritm {
 
             for (Tableau tableau2 : tableaus) {
                 cards2 = tableau2.getVisibleCards();
-                //hvis øverste kort i tableu passer med anden tableus øverste kort lig den på hvis "typerne" passer ellers vent
-                if (cards[cards.length - 1].getValue() == cards2[cards2.length - 1].getValue() - 1 && cards[cards.length - 1].getSuit() % 2 != cards2[cards2.length - 1].getSuit() % 2) {
-                    move = "Tag " + cards[cards.length - 1] + " og placer kortet på " + cards2[cards2.length - 1].toString();
-                    if (cards2.length - 2 >= 0 && cards[cards.length - 1].getSuit() == cards2[cards2.length - 2].getSuit()){
-                        return move;
+                //Hvis en af bunkerne er tomme er der ingen grund til at sammenligne dem
+                if (cards.length - 1 >= 0 && cards2.length - 1 >= 0) {
+                    //hvis øverste kort i tableu passer med anden tableus øverste kort lig den på hvis "typerne" passer ellers vent
+                    if (cards[cards.length - 1].getValue() == cards2[cards2.length - 1].getValue() - 1 && cards[cards.length - 1].getSuit() % 2 != cards2[cards2.length - 1].getSuit() % 2) {
+                        move = "Tag " + cards[cards.length - 1] + " og placer kortet på " + cards2[cards2.length - 1].toString();
+                        if (cards2.length - 2 >= 0 && cards[cards.length - 1].getSuit() == cards2[cards2.length - 2].getSuit()) {
+                            return move;
+                        }
                     }
                 }
             }
 
             //hvis waste passer så lig den på
-            if (waste != null && cards[cards.length - 1].getValue() - 1 == waste.getValue() && cards[cards.length - 1].getSuit() % 2 != waste.getSuit() % 2) {
+            if (waste != null && cards.length - 1 >= 0 && cards[cards.length - 1].getValue() - 1 == waste.getValue() && cards[cards.length - 1].getSuit() % 2 != waste.getSuit() % 2) {
                 move = "Tag " + waste.toString() + " og placer kortet på " + cards[cards.length - 1].toString();
                 if (cards.length - 2 >= 0 && waste.getSuit() == cards[cards.length - 2].getSuit()){
                     return move;
