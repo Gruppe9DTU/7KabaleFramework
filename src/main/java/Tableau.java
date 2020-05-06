@@ -115,5 +115,26 @@ public class Tableau {
         }
     };
 
+
+    /**
+     * Method to find a moveable card of a chosen value
+     *
+     * @param value Value of 1-13 to search for
+     * @return      If card of chosen value is found and moveable
+     */
+    public boolean searchMoveableCardByValue(int value) {
+        for(Card card : getVisibleCards()) {
+            if (card.getValue() == value) return true;
+        }
+        return false;
+    }
+
+    public boolean searchMoveableCardBySuitAndValue(int suit, int value) {
+        for(Card card : getVisibleCards()) {
+            if (card.getSuit() == suit && card.getValue() == value) return true;
+        }
+        return false;
+    }
+
     //endregion
 }
