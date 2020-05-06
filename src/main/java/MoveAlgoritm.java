@@ -203,12 +203,7 @@ public class MoveAlgoritm {
         }
         return "";
     }
-    public String testGrundbunkeToBuildStable(
-            //List<Foundation> foundations, List<Tableau> tableaus, Card waste
-    ) {
-//        this.foundations = foundations;
-//        this.tableaus = tableaus;
-//        this.waste = waste;
+    public String testGrundbunkeToBuildStable() {
         return grundbunkeToBuildStable();
     }
 
