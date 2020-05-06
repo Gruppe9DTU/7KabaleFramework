@@ -118,7 +118,7 @@ public class MoveAlgoritmTest {
     }
 
     /**
-     * Don't move card from tableau if opening an empty space
+     * Don't move card from tableau if opening an empty space, and it doesn't open up new moves
      */
     @Test
     public void testMoveToFoundation102() {
@@ -139,7 +139,7 @@ public class MoveAlgoritmTest {
     }
 
     /**
-     * Move card from tableau and leave empty space, if King is present to take over without leaving and empty space
+     * Move card from tableau and leave empty space, if King is present to take over without leaving an empty space
      */
     @Test
     public void testMoveToFoundation103() {
