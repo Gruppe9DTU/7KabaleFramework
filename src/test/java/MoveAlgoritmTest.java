@@ -32,18 +32,24 @@ public class MoveAlgoritmTest {
      */
     @Test
     public void testCheckEs(){
+
         Card tableauCard = new Card(0,1); //ace of hearts
         Card tableauCard2 = new Card(1,1); //ace of spades
-        tableaus[0].addCardToStack(new Card(1, 3)); //randome card
-        tableaus[1].addCardToStack(new Card(1, 2)); //randome card
+
+        tableaus[0].addCardToStack(new Card(1, 3)); //random card
+
+        tableaus[1].addCardToStack(new Card(1, 2)); //random card
         tableaus[1].addCardToStack(tableauCard);
+
         tableaus[2].addCardToStack(new Card(0, 3));
-        tableaus[3].addCardToStack(new Card(1, 4)); //randome card
-        tableaus[4].addCardToStack(new Card(1, 6)); //randome card
-        tableaus[5].addCardToStack(new Card(1, 3)); //randome card
-        tableaus[5].addCardToStack(new Card(0, 2)); //randome card
+        tableaus[3].addCardToStack(new Card(1, 4)); //random card
+        tableaus[4].addCardToStack(new Card(1, 6)); //random card
+
+        tableaus[5].addCardToStack(new Card(1, 3)); //random card
+        tableaus[5].addCardToStack(new Card(0, 2)); //random card
         tableaus[5].addCardToStack(tableauCard2);
-        tableaus[6].addCardToStack(new Card(1, 7)); //randome card
+
+        tableaus[6].addCardToStack(new Card(1, 7)); //random card
 
 
         //Create a wastepile with 8 of Hearts on top
@@ -53,7 +59,7 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Ryk " + tableauCard2.toString() + " til Foundation", algoritmCtrl.checkEs());
+        assertEquals("Ryk " + tableauCard2.toString() + " til Foundation", algoritmCtrl.getBestMove());
     }
 
     /**
@@ -61,18 +67,24 @@ public class MoveAlgoritmTest {
      */
     @Test
     public void testCheckEs2(){
+
         Card tableauCard = new Card(0,1); //ace of hearts
         Card tableauCard2 = new Card(1,1); //ace of spades
-        tableaus[0].addCardToStack(new Card(1, 3)); //randome card
-        tableaus[1].addCardToStack(new Card(0, 3)); //randome card
-        tableaus[1].addCardToStack(new Card(1, 2)); //randome card
+
+        tableaus[0].addCardToStack(new Card(1, 3)); //random card
+
+        tableaus[1].addCardToStack(new Card(0, 3)); //random card
+        tableaus[1].addCardToStack(new Card(1, 2)); //random card
         tableaus[1].addCardToStack(tableauCard);
+
         tableaus[2].addCardToStack(new Card(0, 4));
-        tableaus[3].addCardToStack(new Card(1, 6)); //randome card
-        tableaus[4].addCardToStack(new Card(1, 7)); //randome card
-        tableaus[5].addCardToStack(new Card(0, 2)); //randome card
+        tableaus[3].addCardToStack(new Card(1, 6)); //random card
+        tableaus[4].addCardToStack(new Card(1, 7)); //random card
+
+        tableaus[5].addCardToStack(new Card(0, 2)); //random card
         tableaus[5].addCardToStack(tableauCard2);
-        tableaus[6].addCardToStack(new Card(1, 9)); //randome card
+
+        tableaus[6].addCardToStack(new Card(1, 9)); //random card
 
 
         //Create a dummy wastepile
@@ -82,7 +94,60 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Ryk " + tableauCard.toString() + " til Foundation", algoritmCtrl.checkEs());
+        assertEquals("Ryk " + tableauCard.toString() + " til Foundation", algoritmCtrl.getBestMove());
+    }
+
+    /**
+     * Test if king can be moved to empty space
+     */
+    @Test
+    public void testKingCheck(){
+
+        Card tableauCard = new Card(0,13); //King of hearts
+
+        tableaus[0].addCardToStack(new Card(1, 3)); //random card
+
+        tableaus[1].addCardToStack(tableauCard);
+
+        tableaus[2].addCardToStack(new Card(0, 4));
+        tableaus[3].addCardToStack(new Card(1, 6)); //random card
+        tableaus[4].addCardToStack(new Card(1, 7)); //random card
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + tableauCard.toString() + " to empty space", algoritmCtrl.kingCheck());
+
+    }
+
+    /**
+     * Test if correct king is chosen to take empty space
+     */
+    @Test
+    public void testKingCheck2(){
+
+        Card tableauCard = new Card(0,13); //King of hearts
+        Card tableauCard2 = new Card(1,13); //King of spades
+
+        tableaus[0].addCardToStack(new Card(0, 12)); //Queen of hearts
+        tableaus[1].addCardToStack(tableauCard);
+        tableaus[2].addCardToStack(new Card(0, 11)); //jack of hearts
+        tableaus[3].addCardToStack(new Card(1, 12)); //Queen of spades
+        tableaus[4].addCardToStack(tableauCard2);
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Best king to move is " + tableauCard.toString(), algoritmCtrl.kingCheck());
+
     }
 
     /**

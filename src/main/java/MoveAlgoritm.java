@@ -44,7 +44,7 @@ public class MoveAlgoritm {
 
     //sort the tableau order so that the one with the highest amount of cards is first
     //uses the quick-sort algorithm to sort the list of tableau's
-    private void tabuleSorter(int l, int r) {
+    private void tabuleSorter(int l, int r) { //left and right
 
         if (l >= r) {
             return;
@@ -105,11 +105,17 @@ public class MoveAlgoritm {
 
             //check if first card is king
             // TODO: might want to make it more complex later
-            Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
 
-            if (card.getValue() == 13) {
-                kingsAvalible.add(card);
+            if(!tableau.isEmpty()) { //cant get length if no cards is avalible
+                Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
+
+                if (card.getValue() == 13) {
+                    kingsAvalible.add(card);
+                }
+
             }
+
+
         }
 
         if (kingsAvalible.size() > 1 && emptySpaces > 0) {
@@ -132,7 +138,7 @@ public class MoveAlgoritm {
 
                 }
 
-                if (kingSuitStreak > leadingKingSuitStreak) {
+                if (kingSuitStreak >= leadingKingSuitStreak) {
                     leadingKingSuitStreak = kingSuitStreak;
                     leadingCard = king;
                 }
@@ -152,15 +158,15 @@ public class MoveAlgoritm {
     private List<Tableau> sortAfterHiddenCards(){
 
         //TODO: make sorting algoritm
+        List<Tableau> tableau = tableaus;
 
-        return tableaus;
+        return tableau;
     }
 
     //Afslør skjulte kort (prioriterer bunke med højest antal skjulte kort) (flyt slutkortet i stablen, samt det der hænger fast på den, over på en anden stabel, hvis det kommer til at vende et skjult kort)
     public String revealHiddenCard(){
 
-        List<Tableau> hiddenCardsTableau = sortAfterHiddenCards();
-
+        List<Tableau> hiddenCardsTableaus = sortAfterHiddenCards();
 
         return "";
     }
@@ -265,4 +271,5 @@ public class MoveAlgoritm {
     public String endGame() {
         return "Game is unsolvable (redo last move(s) or give up)";
     }
+
 }
