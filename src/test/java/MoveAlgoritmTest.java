@@ -17,12 +17,12 @@ public class MoveAlgoritmTest {
      */
     @Before
     public void setup() {
-        tableaus = new Tableau[4];
-        for(int i = 0 ; i < 4 ; i++){
+        tableaus = new Tableau[7];
+        for(int i = 0 ; i < 7 ; i++){
             tableaus[i] = new Tableau(0);
         }
-        foundations = new Foundation[7];
-        for(int i = 0 ; i < 7 ; i++){
+        foundations = new Foundation[4];
+        for(int i = 0 ; i < 4 ; i++){
             foundations[i] = new Foundation();
         }
     }

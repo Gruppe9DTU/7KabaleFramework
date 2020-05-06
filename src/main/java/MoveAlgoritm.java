@@ -232,24 +232,32 @@ public class MoveAlgoritm {
     //TODO: fix this
     //Hvis muligt sørg for at “typerne” passer. F.eks. hvis du kan rykke en hjerter 4 til to forskellige 5’er så prioriter den som har en hjerter 6
     public String typeStreak() {
-        Card[] cards;
-        List<Tableau> useableTableaus = null;
+        Card[] cards, cards2;
+        String move = "";
         for (Tableau tableau : tableaus) {
             cards = tableau.getVisibleCards();
 
-            if (waste != null && cards[cards.length - 1].getValue() == waste.getValue() - 1 && cards[cards.length - 1].getSuit() % 2 != waste.getSuit() % 2) {
-                useableTableaus.add(tableau);
+            for (Tableau tableau2 : tableaus) {
+                cards2 = tableau2.getVisibleCards();
+                //hvis øverste kort i tableu passer med anden tableus øverste kort lig den på hvis "typerne" passer ellers vent
+                if (cards[cards.length - 1].getValue() == cards2[cards2.length - 1].getValue() - 1 && cards[cards.length - 1].getSuit() % 2 != cards2[cards2.length - 1].getSuit() % 2) {
+                    move = "Tag " + cards[cards.length - 1] + " og placer kortet på " + cards2[cards2.length - 1].toString();
+                    if (cards2.length - 2 >= 0 && cards[cards.length - 1].getSuit() == cards2[cards2.length - 2].getSuit()){
+                        return move;
+                    }
+                }
+            }
+
+            //hvis waste passer så lig den på
+            if (waste != null && cards[cards.length - 1].getValue() - 1 == waste.getValue() && cards[cards.length - 1].getSuit() % 2 != waste.getSuit() % 2) {
+                move = "Tag " + waste.toString() + " og placer kortet på " + cards[cards.length - 1].toString();
+                if (cards.length - 2 >= 0 && waste.getSuit() == cards[cards.length - 2].getSuit()){
+                    return move;
+                }
             }
         }
 
-        if (useableTableaus != null) {
-            for (Tableau utableau : useableTableaus) {
-                cards = utableau.getVisibleCards();
-                return "Tag " + waste.toString() + " og placer kortet på " + cards[cards.length - 1].toString();
-            }
-        }
-
-        return "";
+        return move;
     }
 
     /**
