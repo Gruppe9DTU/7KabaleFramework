@@ -78,11 +78,11 @@ public class MoveAlgoritm {
         for (Tableau tableau : tableaus) {
 
             //check if first visible card in stable is es
-            Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
+                Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
 
-            if (card.getValue() == 1) {
-                return "Move " + card.toString() + " to Foundation";
-            }
+                if (card.getValue() == 1) {
+                    return "Ryk " + card.toString() + " til Foundation";
+                }
         }
 
         return "";
