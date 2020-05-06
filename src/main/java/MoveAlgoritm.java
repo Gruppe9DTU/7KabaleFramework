@@ -77,10 +77,12 @@ public class MoveAlgoritm {
 
             //check if first card is king
             // TODO: might want to make it more complex later
-            Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
+            if (!tableau.isEmpty()) {
+                Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
 
-            if (card.getValue() == 13) {
-                kingsAvalible.add(card);
+                if (card.getValue() == 13) {
+                    kingsAvalible.add(card);
+                }
             }
 
 
