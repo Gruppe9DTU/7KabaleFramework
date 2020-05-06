@@ -17,12 +17,12 @@ public class MoveAlgoritmTest {
      */
     @Before
     public void setup() {
-        tableaus = new Tableau[4];
-        for(int i = 0 ; i < 4 ; i++){
+        tableaus = new Tableau[7];
+        for(int i = 0 ; i < 7 ; i++){
             tableaus[i] = new Tableau(0);
         }
-        foundations = new Foundation[7];
-        for(int i = 0 ; i < 7 ; i++){
+        foundations = new Foundation[4];
+        for(int i = 0 ; i < 4 ; i++){
             foundations[i] = new Foundation();
         }
     }
@@ -93,5 +93,25 @@ public class MoveAlgoritmTest {
 
         //Test
         assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauDestinationCard, algoritmCtrl.grundbunkeToBuildStable());
+    }
+
+
+    @Test
+    public void testMoveToFoundation101() {
+        Card tableauCard = new Card(0,11);
+        tableaus[1].addCardToStack(new Card(1, 12));
+        tableaus[1].addCardToStack(tableauCard);
+
+        for(int i = 1 ; i < 11 ; i++) {
+            foundations[1].addCard(new Card(0,i));
+        }
+        Card foundationCard = new Card(0,10);
+        foundations[1].addCard(foundationCard);
+
+        Waste waste = new Waste(null, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + tableauCard + " to it's respective foundation", algoritmCtrl.moveToFoundation());
     }
 }

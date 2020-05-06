@@ -204,26 +204,51 @@ public class MoveAlgoritm {
         return "";
     }
 
-    //Tjek om kort kan lægges til grundbunken
+    //Checks if cards (other than Aces) can be moved to foundation
+
+    /**
+     * Checks if cards from tableau, other than Aces, can be moved to foundation
+     *
+     * @return  String  Instructions for player
+     */
     public String moveToFoundation() {
+        //TODO What about from Waste?
         for (Tableau tableau : tableaus) {
-            Card[] cards = tableau.getVisibleCards();
-            for (Foundation foundation : foundations) {
+            if(!tableau.isEmpty()) {
+                Card card = tableau.getTopCard();
 
-                //check first if card can be moved to foundation
-                //if count cards == 0 it should be fixed by the checkEs function
-                if (foundation.countCards() > 0 && cards[cards.length - 1].getValue() == foundation.peekCard().getValue() + 1 && cards[cards.length - 1].getSuit() == foundation.peekCard().getSuit()) {
+                for (Foundation foundation : foundations) {
 
-                    //now check if move creates an empty space and if a king is avalible to take that place
-                    if (cards.length - 1 != 0 && tableau.countHiddenCards() != 0 || !kingCheck().equals("")) {
-                        return "Tag " + cards[cards.length - 1].toString() + " og placer den i grundbunken med matchende type";
+                    //check first if card can be moved to foundation
+                    if (foundation.countCards() > 0 && card.getValue() == foundation.peekCard().getValue() + 1 && card.getSuit() == foundation.peekCard().getSuit()) {
+
+                        //If creating empty space, controls King is there to replace or next card in foundation is able to be put up aswell
+                        if (tableau.getVisibleCards().length - 1 != 0 || tableau.countHiddenCards() != 0 || //Is card left behind
+                                checkForMoveableCardFromValue(12) || //Is there a king to take the space
+                                checkForMoveableCardFromSuitAndValue(card.getSuit(), card.getValue()+1)) { //Is the card needed for another card
+                            return "Move " + card.toString() + " to it's respective foundation";
+                        }
                     }
-
                 }
             }
         }
-
         return "";
+    }
+
+    private boolean checkForMoveableCardFromValue(int value) {
+        boolean result = false;
+        for(Tableau tableau : tableaus) {
+            result = tableau.searchMoveableCardByValue(value);
+        }
+        return result || waste != null && (waste.getValue() == value); //returns true if found in tableau or in waste
+    }
+
+    private boolean checkForMoveableCardFromSuitAndValue(int suit, int value) {
+        boolean result = false;
+        for(Tableau tableau : tableaus) {
+            result = tableau.searchMoveableCardBySuitAndValue(suit, value);
+        }
+        return result || waste != null && (waste.getSuit() == suit && waste.getValue() == value); //returns true if found in tableau or in waste
     }
 
     //TODO: fix this
