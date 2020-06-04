@@ -133,16 +133,24 @@ public class MoveAlgoritm {
         return tableau;
     }
 
-    //Afslør skjulte kort (prioriterer bunke med højest antal skjulte kort) (flyt slutkortet i stablen, samt det der hænger fast på den, over på en anden stabel, hvis det kommer til at vende et skjult kort)
+    /**
+     * Checks if there is a tableau where the player can turn over a hidden card
+     *
+     * @return  Instruction to player
+     */
     public String revealHiddenCard(){
-
-        List<Tableau> hiddenCardsTableaus = sortAfterHiddenCards();
-
+        for(Tableau tableau : sortAfterHiddenCards()) {
+            if(tableau.getVisibleCards() == null || tableau.getVisibleCards().length == 0
+                    && tableau.countHiddenCards() > 0) {
+                return "Turn over a card from the tableau with the highest amount of hidden cards";
+            }
+        }
         return "";
     }
 
     /**
      * Control if taking a card from foundation to tableau opens up other interactions
+     *
      * @return  Instructions to player
      */
     public String grundbunkeToBuildStable() {
