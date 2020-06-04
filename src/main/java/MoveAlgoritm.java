@@ -125,21 +125,13 @@ public class MoveAlgoritm {
 
     }
 
-    private List<Tableau> sortAfterHiddenCards(){
-
-        //TODO: make sorting algoritm
-        List<Tableau> tableau = tableaus;
-
-        return tableau;
-    }
-
     /**
      * Checks if there is a tableau where the player can turn over a hidden card
      *
      * @return  Instruction to player
      */
     public String revealHiddenCard(){
-        for(Tableau tableau : sortAfterHiddenCards()) {
+        for(Tableau tableau : tableaus) {
             if(tableau.getVisibleCards() == null || tableau.getVisibleCards().length == 0
                     && tableau.countHiddenCards() > 0) {
                 return "Turn over a card from the tableau with the highest amount of hidden cards";
