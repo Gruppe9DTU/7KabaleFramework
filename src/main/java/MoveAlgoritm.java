@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MoveAlgoritm {
@@ -17,7 +18,7 @@ public class MoveAlgoritm {
 
     public String getBestMove() {
 
-        tabuleSorter(0, tableaus.size() - 1);
+        Collections.sort(tableaus,Tableau.AllCardsCompare);
 
         String bestMove = "";
 
@@ -42,35 +43,6 @@ public class MoveAlgoritm {
         return bestMove;
     }
 
-    //sort the tableau order so that the one with the highest amount of cards is first
-    //uses the quick-sort algorithm to sort the list of tableau's
-    private void tabuleSorter(int l, int r) {
-
-        if (l >= r) {
-            return;
-        }
-
-        int pivot = tableaus.get(r).getVisibleCards().length + tableaus.get(r).countHiddenCards();
-        int cnt = l;
-
-        for (int i = l; i <= r; i++) {
-
-            int tableauTotalCards = tableaus.get(i).getVisibleCards().length + tableaus.get(i).countHiddenCards();
-
-            if (tableauTotalCards <= pivot) {
-
-                Tableau tabuleauHolder = tableaus.get(cnt);
-                tableaus.set(cnt, tableaus.get(i));
-                tableaus.set(i, tabuleauHolder);
-
-                cnt++;
-            }
-        }
-
-        tabuleSorter(l, cnt - 2);
-        tabuleSorter(cnt, r);
-
-    }
 
     //Altid ryk en es til grundbunker
     public String checkEs() {
@@ -78,11 +50,11 @@ public class MoveAlgoritm {
         for (Tableau tableau : tableaus) {
 
             //check if first visible card in stable is es
-            Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
+                Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
 
-            if (card.getValue() == 1) {
-                return "Move " + card.toString() + " to Foundation";
-            }
+                if (card.getValue() == 1) {
+                    return "Ryk " + card.toString() + " til Foundation";
+                }
         }
 
         return "";
@@ -105,11 +77,15 @@ public class MoveAlgoritm {
 
             //check if first card is king
             // TODO: might want to make it more complex later
-            Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
+            if (!tableau.isEmpty()) {
+                Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
 
-            if (card.getValue() == 13) {
-                kingsAvalible.add(card);
+                if (card.getValue() == 13) {
+                    kingsAvalible.add(card);
+                }
             }
+
+
         }
 
         if (kingsAvalible.size() > 1 && emptySpaces > 0) {
@@ -132,7 +108,7 @@ public class MoveAlgoritm {
 
                 }
 
-                if (kingSuitStreak > leadingKingSuitStreak) {
+                if (kingSuitStreak >= leadingKingSuitStreak) {
                     leadingKingSuitStreak = kingSuitStreak;
                     leadingCard = king;
                 }
@@ -152,8 +128,9 @@ public class MoveAlgoritm {
     private List<Tableau> sortAfterHiddenCards(){
 
         //TODO: make sorting algoritm
+        List<Tableau> tableau = tableaus;
 
-        return tableaus;
+        return tableau;
     }
 
     /**
@@ -330,4 +307,5 @@ public class MoveAlgoritm {
     public String endGame() {
         return "Game is unsolvable (redo last move(s) or give up)";
     }
+
 }

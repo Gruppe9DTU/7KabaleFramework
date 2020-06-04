@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Tableau {
@@ -67,6 +68,54 @@ public class Tableau {
         return visibleCards.get(visibleCards.size() - 1);
     }
 
+    //region Comparator
+
+    public static Comparator<Tableau> AllCardsCompare = new Comparator<Tableau>() {
+
+
+        public int compare(Tableau tableau1, Tableau tableau2) {
+            int numCards1 = tableau1.countHiddenCards() + tableau1.getVisibleCards().length;
+            int numCards2 = tableau2.countHiddenCards() + tableau2.getVisibleCards().length;
+
+
+            return numCards2-numCards1;
+
+
+
+        }
+    };
+
+    public static Comparator<Tableau> HiddenCardsCompare = new Comparator<Tableau>() {
+
+
+        public int compare(Tableau tableau1, Tableau tableau2) {
+            int numCards1 = tableau1.countHiddenCards();
+            int numCards2 = tableau2.countHiddenCards();
+
+
+            return numCards2-numCards1;
+
+
+
+        }
+    };
+
+    public static Comparator<Tableau> VisibleCardsCompare = new Comparator<Tableau>() {
+
+
+        public int compare(Tableau tableau1, Tableau tableau2) {
+            int numCards1 = tableau1.getVisibleCards().length;
+            int numCards2 = tableau2.getVisibleCards().length;
+
+
+            return numCards2-numCards1;
+
+
+
+        }
+    };
+
+
     /**
      * Method to find a moveable card of a chosen value
      *
@@ -86,4 +135,6 @@ public class Tableau {
         }
         return false;
     }
+
+    //endregion
 }
