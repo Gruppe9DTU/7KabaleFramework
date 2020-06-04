@@ -20,24 +20,31 @@ public class MoveAlgoritm {
 
         Collections.sort(tableaus,Tableau.AllCardsCompare);
 
-        String bestMove = "";
+        String bestMove;
 
-        List<String> moves = new ArrayList<String>();
+        if (!checkEs().equals("")){
+                bestMove = checkEs();
 
-        moves.add(checkEs());
-        moves.add(kingCheck());
-        moves.add(revealHiddenCard());
-        moves.add(grundbunkeToBuildStable());
-        moves.add(moveToFoundation());
-        moves.add(typeStreak());
-        moves.add(revealCardFromWaste());
-        moves.add(endGame());
+        } else if (!kingCheck().equals("")){
+                bestMove = kingCheck();
 
-        for (String move : moves) {
-            if (!move.equals("")) {
-                bestMove = move;
-                break;
-            }
+        }else if (!revealHiddenCard().equals("")){
+                bestMove = revealHiddenCard();
+
+        } else if (!grundbunkeToBuildStable().equals("")){
+                bestMove = grundbunkeToBuildStable();
+
+        } else if (!moveToFoundation().equals("")){
+                bestMove = moveToFoundation();
+
+        } else if (!typeStreak().equals("")){
+                bestMove = typeStreak();
+
+        } else if (!revealCardFromWaste().equals("")){
+                bestMove = revealCardFromWaste();
+
+        } else {
+            bestMove = "Game is unsolvable (redo last move(s) or give up)";
         }
 
         return bestMove;
@@ -84,7 +91,6 @@ public class MoveAlgoritm {
                     kingsAvalible.add(card);
                 }
             }
-
 
         }
 
@@ -294,10 +300,5 @@ public class MoveAlgoritm {
         return wastePile ? "Vend et kort fra grundbunken" : "" ;
     }
 
-    //TODO Take a stance to delete this, literally only returns a string
-    //Game is unsolvable (redo last move(s) or give up)
-    public String endGame() {
-        return "Game is unsolvable (redo last move(s) or give up)";
-    }
 
 }
