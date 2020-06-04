@@ -20,34 +20,31 @@ public class MoveAlgoritm {
 
         Collections.sort(tableaus,Tableau.AllCardsCompare);
 
-        String bestMove;
-
         if (!checkEs().equals("")){
-                bestMove = checkEs();
+                return checkEs();
 
         } else if (!kingCheck().equals("")){
-                bestMove = kingCheck();
+                return kingCheck();
 
         }else if (!revealHiddenCard().equals("")){
-                bestMove = revealHiddenCard();
+                return revealHiddenCard();
 
         } else if (!grundbunkeToBuildStable().equals("")){
-                bestMove = grundbunkeToBuildStable();
+                return grundbunkeToBuildStable();
 
         } else if (!moveToFoundation().equals("")){
-                bestMove = moveToFoundation();
+                return moveToFoundation();
 
         } else if (!typeStreak().equals("")){
-                bestMove = typeStreak();
+                return typeStreak();
 
         } else if (!revealCardFromWaste().equals("")){
-                bestMove = revealCardFromWaste();
+                return revealCardFromWaste();
 
         } else {
-            bestMove = "Game is unsolvable (redo last move(s) or give up)";
+            return "Game is unsolvable (redo last move(s) or give up)";
         }
 
-        return bestMove;
     }
 
 
