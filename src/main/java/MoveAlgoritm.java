@@ -63,66 +63,92 @@ public class MoveAlgoritm {
     //Ryk ikke kort fra byggestabel til grundbunken med mindre der er en konge, som kan tage dens plads
     //Hvis rød og sort konge kan fylde en tom plads i byggestablen, vælg den hvor der er størst mulighed for at lave en stabel (hvis der ligger rød knægt, vælg rød konge og vent på sort dronning osv.)
     public String kingCheck() {
-
-        List<Card> kingsAvalible = new ArrayList<Card>();
+        //Copy Tableaus and sort
+        List<Tableau> sortedTableaus = new ArrayList<Tableau>(tableaus); //FixMe This references
+        Collections.sort(sortedTableaus,Tableau.HiddenCardsCompare); //Sort so first found has highest amount of hidden cards
+        List<Card> kingsAvailable = new ArrayList<Card>();
 
         int emptySpaces = 0;
-        //find available kings
 
-        for (Tableau tableau : tableaus) {
-
+        //Find available kings and check for empty spaces
+        for (Tableau tableau : sortedTableaus) {
             if (tableau.isEmpty()){
-            emptySpaces++;
+                emptySpaces++;
             }
 
-            //check if first card is king
+            //Check if first card is king
             // TODO: might want to make it more complex later
             if (!tableau.isEmpty()) {
-                Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
+                Card card = tableau.getVisibleCards()[0];
 
                 if (card.getValue() == 13) {
-                    kingsAvalible.add(card);
+                    kingsAvailable.add(card);
                 }
             }
-
-
         }
 
-        if (kingsAvalible.size() > 1 && emptySpaces > 0) {
+        if (kingsAvailable.size() > 1 && emptySpaces > 0) {
+            boolean bestKingFound = false;
+            int currSearchValue = 13; //Start by searching for best king to move
 
-            int kingSuitStreak = 0;
-            int leadingKingSuitStreak = 0;
-            Card leadingCard = null;
+            int redKingScore = 0, blackKingScore = 0, currHighscore = 0;
 
-            for (Card king : kingsAvalible) {
+            while(!bestKingFound && currSearchValue > 0) {
+                //Reset scores for round
+                redKingScore = 0; blackKingScore = 0; currHighscore = 0;
 
-                for (Tableau tableau : tableaus) {
+                for(Card currKing : kingsAvailable) {
+                    //Looking through for X value card
+                    for(Tableau tab : sortedTableaus) {
 
-                    Card[] card = tableau.getVisibleCards();
+                        //There are cards to check
+                        if(tab.getVisibleCards().length > 0) {
+                            Card backCard = tab.getVisibleCards()[0]; //Take card from the back of the stack
 
-                    for (int i = 0; i < card.length; i++) {
-                        if (card[i].getSuit() == king.getSuit() && card[i].getValue() == king.getValue() - kingSuitStreak) {
-                            kingSuitStreak++;
+                            //Is the card we're looking for
+                            if(backCard.getValue() == currSearchValue && currHighscore > tab.countHiddenCards()) {
+
+                                //Check if suit matches king
+                                if(backCard.getValue() % 2 == 0 && backCard.getSuit() % 2 != currKing.getSuit() % 2
+                                        || backCard.getValue() % 2 == 1 && backCard.getSuit() % 2 == currKing.getSuit() % 2) {
+
+                                    if(currKing.getSuit() % 2 == 0) redKingScore = 1; else blackKingScore = 1; //Set score to 1
+                                    currHighscore = tab.countHiddenCards(); //Set new highscore
+                                }
+                                bestKingFound = true; //Only one answer is found
+
+                            } else if(backCard.getValue() == currSearchValue && currHighscore == tab.countHiddenCards()) {
+                                if(backCard.getValue() % 2 == 0 && backCard.getSuit() % 2 != currKing.getSuit() % 2
+                                        || backCard.getValue() % 2 == 1 && backCard.getSuit() % 2 == currKing.getSuit() % 2) {
+
+                                    if(currKing.getSuit() % 2 == 0) redKingScore++; else blackKingScore++; //Add score
+                                }
+                                bestKingFound = false; //Multiple answers are found
+                            }
                         }
                     }
-
                 }
-
-                if (kingSuitStreak >= leadingKingSuitStreak) {
-                    leadingKingSuitStreak = kingSuitStreak;
-                    leadingCard = king;
-                }
+                if(!bestKingFound) currSearchValue--; //Go down a value in case we need to continue search
             }
 
-            return "Best king to move is " + leadingCard.toString();
-
-        } else if (kingsAvalible.size() == 1 && emptySpaces > 0) {
-            return "Move " + kingsAvalible.get(0).toString() + " to empty space";
-
+            Card bestKing = null;
+            for(Card king : kingsAvailable) {
+                if(redKingScore > blackKingScore && king.getSuit() % 2 == 0) { //If red king is best
+                    bestKing = king;
+                    break;
+                } else if(blackKingScore > redKingScore && king.getSuit() % 2 == 1) { //If black king is best
+                    bestKing = king;
+                    break;
+                } else if(redKingScore == blackKingScore) { //If it's either or
+                    bestKing = king;
+                    break;
+                }
+            }
+            return "Move " + bestKing.toString() + " to empty space";
+        } else if (kingsAvailable.size() == 1 && emptySpaces > 0) {
+            return "Move " + kingsAvailable.get(0).toString() + " to empty space";
         }
-
         return "";
-
     }
 
     private List<Tableau> sortAfterHiddenCards(){
