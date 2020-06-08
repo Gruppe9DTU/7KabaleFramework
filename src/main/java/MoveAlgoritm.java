@@ -27,7 +27,7 @@ public class MoveAlgoritm {
         moves.add(checkEs());
         moves.add(kingCheck());
         moves.add(revealHiddenCard());
-        moves.add(grundbunkeToBuildStable());
+        moves.add(foundationToTableau());
         moves.add(moveToFoundation());
         moves.add(typeStreak());
         moves.add(revealCardFromWaste());
@@ -60,11 +60,13 @@ public class MoveAlgoritm {
         return "";
     }
 
-    //Ryk ikke kort fra byggestabel til grundbunken med mindre der er en konge, som kan tage dens plads
-    //Hvis rød og sort konge kan fylde en tom plads i byggestablen, vælg den hvor der er størst mulighed for at lave en stabel (hvis der ligger rød knægt, vælg rød konge og vent på sort dronning osv.)
+    /**
+     * If there is at minimum one King and one empty space, finds best suitable King. Best suitable King is found from which one frees the highest amount of cards.
+     * @return  Instructions to Player
+     */
     public String kingCheck() {
         //Copy Tableaus and sort
-        List<Tableau> sortedTableaus = new ArrayList<Tableau>(tableaus); //FixMe This references
+        List<Tableau> sortedTableaus = new ArrayList<Tableau>(tableaus);
         Collections.sort(sortedTableaus,Tableau.HiddenCardsCompare); //Sort so first found has highest amount of hidden cards
         List<Card> kingsAvailable = new ArrayList<Card>();
 
@@ -123,7 +125,7 @@ public class MoveAlgoritm {
 
                                     if(currKing.getSuit() % 2 == 0) redKingScore++; else blackKingScore++; //Add score
                                 }
-                                bestKingFound = false; //Multiple answers are found
+                                bestKingFound = (redKingScore + blackKingScore == 1); //Multiple answers are found
                             }
                         }
                     }
@@ -179,7 +181,8 @@ public class MoveAlgoritm {
      *
      * @return  Instructions to player
      */
-    public String grundbunkeToBuildStable() {
+    public String foundationToTableau() {
+        //TODO Should this be sorted?
         for (Foundation foundation : foundations) {
             if (foundation.countCards() > 0) {  //If there is a card in the foundation
                 Card foundationCard = foundation.peekCard(); //Set current possible card
@@ -190,14 +193,8 @@ public class MoveAlgoritm {
                     if (tableauCards.length != 0 &&
                             tableauCards[tableauCards.length - 1].getValue() - 1 == foundationCard.getValue()
                             && tableauCards[tableauCards.length - 1].getSuit() % 2 != foundationCard.getSuit() % 2) { //Check if possible to move card from foundation to tableau
-
-                        //Check if it opens up possibilities //TODO Check with others if best order
-                        //First check waste
-                        if (waste != null && waste.getValue() == foundationCard.getValue() - 1 && waste.getSuit() % 2 != foundationCard.getSuit() % 2) {
-                            return "Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCards[tableauCards.length - 1].toString();
-                        }
-
-                        //Then check other tableaus
+                        //Check if it opens up possibilities
+                        //First check tableaus
                         for (Tableau otherTableau : tableaus) {
                             if (tableau != otherTableau) {
                                 for(Card card : otherTableau.getVisibleCards()) {
@@ -206,6 +203,10 @@ public class MoveAlgoritm {
                                     }
                                 }
                             }
+                        }
+                        //Then check waste
+                        if (waste != null && waste.getValue() == foundationCard.getValue() - 1 && waste.getSuit() % 2 != foundationCard.getSuit() % 2) {
+                            return "Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCards[tableauCards.length - 1].toString();
                         }
                     }
                 }

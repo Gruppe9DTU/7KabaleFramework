@@ -98,10 +98,67 @@ public class MoveAlgoritmTest {
     }
 
     /**
-     * Test if king can be moved to empty space
+     * Test when it has kings, but no empty spaces
      */
     @Test
-    public void testKingCheck(){
+    public void testKingCheck101() {
+        tableaus[0].addCardToStack(new Card(0, 13));
+        tableaus[1].addCardToStack(new Card(0, 13));
+        tableaus[2].addCardToStack(new Card(0, 13));
+        tableaus[3].addCardToStack(new Card(0, 13));
+        tableaus[4].addCardToStack(new Card(0, 13));
+        tableaus[5].addCardToStack(new Card(0, 13));
+        tableaus[6].addCardToStack(new Card(0, 13));
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * Test with only open spaces
+     */
+    @Test
+    public void testKingCheck102() {
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * Test with no kings, but open room
+     */
+    @Test
+    public void testKingCheck103() {
+        tableaus[0].addCardToStack(new Card(0, 12));
+        tableaus[1].addCardToStack(new Card(0, 12));
+        tableaus[2].addCardToStack(new Card(0, 12));
+        tableaus[3].addCardToStack(new Card(0, 12));
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * Test when single king is present and there is an open space for him
+     */
+    @Test
+    public void testKingCheck111(){    //TODO Skriv ind i rapporten
 
         Card tableauCard = new Card(0,13); //King of hearts
 
@@ -125,43 +182,18 @@ public class MoveAlgoritmTest {
     }
 
     /**
-     * Testing when no empty spaces
+     * Test if correct king is chosen to take empty space, with 2 kings with no hidden cards behind them, but one can move one more card than the other.
      */
     @Test
-    public void testKingCheck101() {
-        tableaus[0].addCardToStack(new Card(0, 13));
-        tableaus[1].addCardToStack(new Card(0, 13));
-        tableaus[2].addCardToStack(new Card(0, 13));
-        tableaus[3].addCardToStack(new Card(0, 13));
-        tableaus[4].addCardToStack(new Card(0, 13));
-        tableaus[5].addCardToStack(new Card(0, 13));
-        tableaus[6].addCardToStack(new Card(0, 13));
-
-        //Create a dummy wastepile
-        List<Card> wasteCards = new ArrayList<Card>();
-        wasteCards.add(new Card(0, 8));
-        Waste waste = new Waste(wasteCards, true);
-
-        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
-
-        assertEquals("", algoritmCtrl.kingCheck());
-    }
-
-    /**
-     * Test if correct king is chosen to take empty space
-     */
-    @Test
-    public void testKingCheck102(){
-
+    public void testKingCheck112(){     //TODO Skriv ind i rapporten
         Card tableauCard = new Card(0,13); //King of hearts
         Card tableauCard2 = new Card(1,13); //King of spades
 
         tableaus[0].addCardToStack(new Card(0, 12)); //Queen of hearts
-        tableaus[1].addCardToStack(tableauCard);
-        tableaus[1].addCardToStack(new Card(3, 12)); //Queen of Clubs
+        tableaus[1].addCardToStack(tableauCard2);
         tableaus[2].addCardToStack(new Card(0, 11)); //jack of hearts
         tableaus[3].addCardToStack(new Card(1, 12)); //Queen of spades
-        tableaus[4].addCardToStack(tableauCard2);
+        tableaus[4].addCardToStack(tableauCard);
 
         //Create a dummy wastepile
         List<Card> wasteCards = new ArrayList<Card>();
@@ -203,7 +235,7 @@ public class MoveAlgoritmTest {
         //Setup Algorithm class
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
         //Test
-        assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCard, algoritmCtrl.grundbunkeToBuildStable());
+        assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCard, algoritmCtrl.foundationToTableau());
     }
 
     /**
@@ -238,7 +270,7 @@ public class MoveAlgoritmTest {
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
         //Test
-        assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauDestinationCard, algoritmCtrl.grundbunkeToBuildStable());
+        assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauDestinationCard, algoritmCtrl.foundationToTableau());
     }
 
     /**
