@@ -43,7 +43,6 @@ public class MoveAlgoritm {
         return bestMove;
     }
 
-
     //Altid ryk en es til grundbunker
     public String checkEs() {
 
@@ -83,7 +82,7 @@ public class MoveAlgoritm {
             if (!tableau.isEmpty()) {
                 Card card = tableau.getVisibleCards()[0];
 
-                if (card.getValue() == 13) {
+                if (card.getValue() == 13 && tableau.countHiddenCards() != 0) {
                     kingsAvailable.add(card);
                 }
             }
@@ -133,22 +132,22 @@ public class MoveAlgoritm {
                 if(!bestKingFound) currSearchValue--; //Go down a value in case we need to continue search
             }
 
-            Card bestKing = null;
+            String bestKing = null;
             for(Card king : kingsAvailable) {
                 if(redKingScore > blackKingScore && king.getSuit() % 2 == 0) { //If red king is best
-                    bestKing = king;
+                    bestKing = king.toString();
                     break;
                 } else if(blackKingScore > redKingScore && king.getSuit() % 2 == 1) { //If black king is best
-                    bestKing = king;
+                    bestKing = king.toString();
                     break;
                 } else if(redKingScore == blackKingScore) { //If it's either or
-                    bestKing = king;
+                    bestKing = "any king";
                     break;
                 }
             }
-            return "Move " + bestKing.toString() + " to empty space";
+            return "Move " + bestKing + " to an empty space";
         } else if (kingsAvailable.size() == 1 && emptySpaces > 0) {
-            return "Move " + kingsAvailable.get(0).toString() + " to empty space";
+            return "Move " + kingsAvailable.get(0).toString() + " to an empty space";
         }
         return "";
     }
