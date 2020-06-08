@@ -4,31 +4,33 @@ import java.util.List;
 public class PreviousMoves {
 
     private List<String> previousMoves = new ArrayList<String>();
+    private int previousMovesFound;
 
     public PreviousMoves(){}
 
-    public boolean PreviousMovesRecognized(String previousMove) {
+    public void PreviousMovesRecognized(String gamelogicPrintGame) {
 
-        boolean previousMoveFound = false;
+        previousMovesFound = 0;
 
         if (!previousMoves.isEmpty()) {
 
             for (String previousMovess : previousMoves) {
 
-                if (previousMove.equals(previousMovess)){
-                    previousMoveFound = true;
+                if (gamelogicPrintGame.equals(previousMovess)){
+                    previousMovesFound++;
                 }
             }
 
-            if (!previousMoveFound){
-                previousMoves.add(previousMove);
-            }
+            previousMoves.add(gamelogicPrintGame);
+
 
         } else {
-            previousMoves.add(previousMove);
+            previousMoves.add(gamelogicPrintGame);
         }
+    }
 
-        return previousMoveFound;
+    public int getPreviousMovesFound(){
+        return previousMovesFound;
     }
 
 }

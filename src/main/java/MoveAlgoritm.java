@@ -16,11 +16,11 @@ public class MoveAlgoritm {
         this.wastePile = wastePile;
     }
 
-    public String getBestMove(String gamelogicPrintGame, PreviousMoves previousMoves){
+    public String getBestMove(PreviousMoves previousMoves){
 
-        boolean skip = previousMoves.PreviousMovesRecognized(gamelogicPrintGame);
+        int skip = previousMoves.getPreviousMovesFound();
 
-        if (!skip){
+        if (skip == 0){
             return getBestMove();
         } else {
             String allMoves = "This game-layout is recognized, if previous moves have lead to and dead end, you may try the following moves instead:";

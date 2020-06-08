@@ -11,7 +11,8 @@ public class Start {
         List<Tableau> tableaus = Arrays.asList(gamelogic.getTableau());
         List<Foundation> foundations = Arrays.asList(gamelogic.getFoundation());
         MoveAlgoritm move = new MoveAlgoritm(tableaus, foundations, gamelogic.waste.lookAtTop(), gamelogic.getWaste().getPileStatus());
+        previousMoves.PreviousMovesRecognized(gamelogic.printGame());
 
-        System.out.println(move.getBestMove(gamelogic.printGame(), previousMoves));
+        System.out.println(move.getBestMove(previousMoves));
     }
 }
