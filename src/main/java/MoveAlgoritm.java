@@ -107,13 +107,19 @@ public class MoveAlgoritm {
                             Card backCard = tab.getVisibleCards()[0]; //Take card from the back of the stack
 
                             //Is the card we're looking for
-                            if(backCard.getValue() == currSearchValue && currHighscore > tab.countHiddenCards()) {
+                            if(backCard.getValue() == currSearchValue && tab.countHiddenCards() > currHighscore) {
 
                                 //Check if suit matches king
                                 if(backCard.getValue() % 2 == 0 && backCard.getSuit() % 2 != currKing.getSuit() % 2
                                         || backCard.getValue() % 2 == 1 && backCard.getSuit() % 2 == currKing.getSuit() % 2) {
 
-                                    if(currKing.getSuit() % 2 == 0) redKingScore = 1; else blackKingScore = 1; //Set score to 1
+                                    if(currKing.getSuit() % 2 == 0) {
+                                        redKingScore = 1; //Set score to 1-0 for red
+                                        blackKingScore = 0;
+                                    } else {
+                                        blackKingScore = 1; //Set score to 1-0 for black
+                                        redKingScore = 0;
+                                    }
                                     currHighscore = tab.countHiddenCards(); //Set new highscore
                                 }
                                 bestKingFound = true; //Only one answer is found
