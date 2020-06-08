@@ -354,7 +354,7 @@ public class MoveAlgoritmTest {
         //Create tableaus, one with 10 of Hearts and one with 8 of Hearts, with some cards on it.
         Card expected1 = new Card(0, 6);
         Card expected2 = new Card(1, 7);
-        tableaus[1].addCardToStack(new Card(1, 9));
+        tableaus[1].addCardToStack(new Card(1, 4));
         tableaus[2].addCardToStack(new Card(3, 11));
         tableaus[2].addCardToStack(new Card(0, 10));
         tableaus[3].addCardToStack(expected1);
