@@ -7,7 +7,6 @@ public class PreviousMoves {
 
     public PreviousMoves(){}
 
-    //TODO: split up into add and regonize?
     public boolean PreviousMovesRecognized(String previousMove) {
 
         boolean previousMoveFound = false;
@@ -27,7 +26,6 @@ public class PreviousMoves {
 
         } else {
             previousMoves.add(previousMove);
-            previousMoveFound = false;
         }
 
         return previousMoveFound;
