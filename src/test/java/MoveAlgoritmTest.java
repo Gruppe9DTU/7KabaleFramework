@@ -350,7 +350,7 @@ public class MoveAlgoritmTest {
     }
 
     @Test
-    public void moveTableau(){
+    public void moveTableau1(){
         //Create tableaus, one with 10 of Hearts and one with 8 of Hearts, with some cards on it.
         Card expected1 = new Card(0, 8);
         Card expected2 = new Card(1, 7);
@@ -364,6 +364,27 @@ public class MoveAlgoritmTest {
         wasteCards.add(new Card(3, 7));
         Waste waste = new Waste(wasteCards, true);
         waste.revealCard();
+
+        //Setup Algorithm class
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        //Test
+        assertEquals("Tag alle de synlige kort fra byggestablen med det nederste kort " + expected2.toString() + " og placer dem på " + expected1.toString(), algoritmCtrl.moveTableau());
+    }
+
+    @Test
+    public void moveTableau2(){
+        //Create tableaus, one with 10 of Hearts and one with 8 of Hearts, with some cards on it.
+        Card expected1 = new Card(0, 8);
+        Card expected2 = new Card(1, 7);
+        tableaus[1].addCardToStack(new Card(1, 9));
+        tableaus[1].addCardToStack(expected1);
+        tableaus[2].addCardToStack(expected2);
+        tableaus[2].addCardToStack(new Card(0, 6));
+        tableaus[3].addCardToStack(new Card(3, 9));
+        tableaus[3].addCardToStack(new Card(2, 8));
+
+        Waste waste = new Waste(null, true);
 
         //Setup Algorithm class
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
