@@ -3,17 +3,19 @@ import java.util.List;
 
 public class PreviousMoves {
 
-    private List<MoveAlgoritm> previousMoves = new ArrayList<MoveAlgoritm>();
+    private List<String> previousMoves = new ArrayList<String>();
 
     public PreviousMoves(){}
 
     //TODO: split up into add and regonize?
-    public boolean PreviousMovesRecognized(MoveAlgoritm previousMove) {
+    public boolean PreviousMovesRecognized(String previousMove) {
 
         boolean previousMoveFound = false;
 
         if (!previousMoves.isEmpty()) {
-            for (MoveAlgoritm previousMovess : previousMoves) {
+
+            for (String previousMovess : previousMoves) {
+
                 if (previousMove.equals(previousMovess)){
                     previousMoveFound = true;
                 }
@@ -21,8 +23,6 @@ public class PreviousMoves {
 
             if (!previousMoveFound){
                 previousMoves.add(previousMove);
-                previousMoveFound = false;
-
             }
 
         } else {
@@ -32,4 +32,5 @@ public class PreviousMoves {
 
         return previousMoveFound;
     }
+
 }

@@ -20,10 +20,10 @@ public class Gamelogic {
         }
         waste = new Waste(deck.getDeck().size() - 21, deck);
 
-        printGame();
+        System.out.println(printGame());
     }
 
-    private void printGame() {
+    public String printGame() {
         //Waste
         String wasteNfoundation, shownWaste = "";
 //        for(Card c : waste.getKnownCards()) { shownWaste += c.shortString() + "|"; }
@@ -44,8 +44,8 @@ public class Gamelogic {
             tableauLengths += " " + tableau[i].countHiddenCards() + "  ";
             tableauValues += tableau[i].isEmpty() ? "Emp " : tableau[i].getTopCard().shortString() + " " ;
         }
-        System.out.println(tableauLengths);
-        System.out.println(tableauValues);
+
+        return (tableauLengths + "\n" + tableauValues);
     }
 
     public Tableau[] getTableau() {

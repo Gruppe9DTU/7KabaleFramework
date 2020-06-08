@@ -3,7 +3,7 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class PreviousMoveRegonizeTest {
 
@@ -13,11 +13,58 @@ public class PreviousMoveRegonizeTest {
         PreviousMoves previousMoves = new PreviousMoves();
 
         Gamelogic gamelogic = new Gamelogic();
-        List<Tableau> tableaus = Arrays.asList(gamelogic.getTableau());
-        List<Foundation> foundations = Arrays.asList(gamelogic.getFoundation());
-        MoveAlgoritm move = new MoveAlgoritm(tableaus, foundations, gamelogic.waste.lookAtTop(), gamelogic.getWaste().getPileStatus());
 
-        assertEquals(false, previousMoves.PreviousMovesRecognized(move));
+        assertEquals(false, previousMoves.PreviousMovesRecognized(gamelogic.printGame()));
+
+    }
+
+    @Test
+    public void testPreviousMoveRecognized2(){
+
+        PreviousMoves previousMoves = new PreviousMoves();
+
+        Gamelogic gamelogic = new Gamelogic();
+
+        previousMoves.PreviousMovesRecognized(gamelogic.printGame());
+
+        Gamelogic gamelogic2 = gamelogic;
+
+        assertTrue(previousMoves.PreviousMovesRecognized(gamelogic2.printGame()));
+
+    }
+
+    //might produce a false result because the same starting point is created at random!!!
+    @Test
+    public void testPreviousMoveRecognized3(){
+
+        PreviousMoves previousMoves = new PreviousMoves();
+
+        Gamelogic gamelogic = new Gamelogic();
+
+        previousMoves.PreviousMovesRecognized(gamelogic.printGame());
+
+        Gamelogic gamelogic2 = new Gamelogic();
+
+        assertFalse(previousMoves.PreviousMovesRecognized(gamelogic2.printGame()));
+
+    }
+
+    @Test
+    public void testPreviousMoveRecognized4(){
+
+        PreviousMoves previousMoves = new PreviousMoves();
+
+        Gamelogic gamelogic = new Gamelogic();
+
+        previousMoves.PreviousMovesRecognized(gamelogic.printGame());
+
+        Gamelogic gamelogic2 = new Gamelogic();
+
+        previousMoves.PreviousMovesRecognized(gamelogic2.printGame());
+
+        Gamelogic gamelogic3 = gamelogic;
+
+        assertTrue(previousMoves.PreviousMovesRecognized(gamelogic3.printGame()));
 
     }
 }
