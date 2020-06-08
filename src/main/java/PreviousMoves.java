@@ -8,7 +8,7 @@ public class PreviousMoves {
 
     public PreviousMoves(){}
 
-    public void PreviousMovesRecognized(String gamelogicPrintGame) {
+    public void addPreviousMove(String gamelogicPrintGame) {
 
         previousMovesFound = 0;
 
@@ -29,7 +29,7 @@ public class PreviousMoves {
         }
     }
 
-    public int getPreviousMovesFound(){
+    public int timeslastMoveIsRecognized(){
         return previousMovesFound;
     }
 

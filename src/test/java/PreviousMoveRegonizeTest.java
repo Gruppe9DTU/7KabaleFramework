@@ -13,9 +13,9 @@ public class PreviousMoveRegonizeTest {
         PreviousMoves previousMoves = new PreviousMoves();
 
         Gamelogic gamelogic = new Gamelogic();
-        previousMoves.PreviousMovesRecognized(gamelogic.printGame());
+        previousMoves.addPreviousMove(gamelogic.printGame());
 
-        assertEquals(0, previousMoves.getPreviousMovesFound());
+        assertEquals(0, previousMoves.timeslastMoveIsRecognized());
 
     }
 
@@ -26,12 +26,12 @@ public class PreviousMoveRegonizeTest {
 
         Gamelogic gamelogic = new Gamelogic();
 
-        previousMoves.PreviousMovesRecognized(gamelogic.printGame());
+        previousMoves.addPreviousMove(gamelogic.printGame());
 
         Gamelogic gamelogic2 = gamelogic;
-        previousMoves.PreviousMovesRecognized(gamelogic2.printGame());
+        previousMoves.addPreviousMove(gamelogic2.printGame());
 
-        assertEquals(1, previousMoves.getPreviousMovesFound());
+        assertEquals(1, previousMoves.timeslastMoveIsRecognized());
 
     }
 
@@ -43,12 +43,12 @@ public class PreviousMoveRegonizeTest {
 
         Gamelogic gamelogic = new Gamelogic();
 
-        previousMoves.PreviousMovesRecognized(gamelogic.printGame());
+        previousMoves.addPreviousMove(gamelogic.printGame());
 
         Gamelogic gamelogic2 = new Gamelogic();
-        previousMoves.PreviousMovesRecognized(gamelogic2.printGame());
+        previousMoves.addPreviousMove(gamelogic2.printGame());
 
-        assertEquals(0, previousMoves.getPreviousMovesFound());
+        assertEquals(0, previousMoves.timeslastMoveIsRecognized());
 
     }
 
@@ -59,16 +59,16 @@ public class PreviousMoveRegonizeTest {
 
         Gamelogic gamelogic = new Gamelogic();
 
-        previousMoves.PreviousMovesRecognized(gamelogic.printGame());
+        previousMoves.addPreviousMove(gamelogic.printGame());
 
         Gamelogic gamelogic2 = new Gamelogic();
 
-        previousMoves.PreviousMovesRecognized(gamelogic2.printGame());
+        previousMoves.addPreviousMove(gamelogic2.printGame());
 
         Gamelogic gamelogic3 = gamelogic;
-        previousMoves.PreviousMovesRecognized(gamelogic3.printGame());
+        previousMoves.addPreviousMove(gamelogic3.printGame());
 
-        assertEquals(1, previousMoves.getPreviousMovesFound());
+        assertEquals(1, previousMoves.timeslastMoveIsRecognized());
 
     }
 
@@ -78,18 +78,18 @@ public class PreviousMoveRegonizeTest {
         PreviousMoves previousMoves = new PreviousMoves();
 
         Gamelogic gamelogic = new Gamelogic();
-        previousMoves.PreviousMovesRecognized(gamelogic.printGame());
+        previousMoves.addPreviousMove(gamelogic.printGame());
 
         Gamelogic gamelogic2 = new Gamelogic();
-        previousMoves.PreviousMovesRecognized(gamelogic2.printGame());
+        previousMoves.addPreviousMove(gamelogic2.printGame());
 
         Gamelogic gamelogic3 = gamelogic;
-        previousMoves.PreviousMovesRecognized(gamelogic3.printGame());
+        previousMoves.addPreviousMove(gamelogic3.printGame());
 
         Gamelogic gamelogic4 = gamelogic3;
-        previousMoves.PreviousMovesRecognized(gamelogic4.printGame());
+        previousMoves.addPreviousMove(gamelogic4.printGame());
 
-        assertEquals(2, previousMoves.getPreviousMovesFound());
+        assertEquals(2, previousMoves.timeslastMoveIsRecognized());
 
     }
 }
