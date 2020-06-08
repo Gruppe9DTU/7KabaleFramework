@@ -6,7 +6,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class newGetBestMoveTest {
+public class newGetBestMoveTest { //TODO This tests nothing, you're creating two games and comparing them without doing any moves.
 
     @Test
     public void newGetBestMoveTest1(){
@@ -29,8 +29,11 @@ public class newGetBestMoveTest {
         assertNotEquals(move.getBestMove(previousMoves), move2.getBestMove(previousMoves));
     }
 
+    /**
+     * tests if the resoult of a normal getBest move would be the same if the previous moves are checked when a dublicate is created
+     */
     @Test
-    public void newGetBestMoveTest2(){ //tests if the resoult of a normal getBest move would be the same if the previous moves are checked when a dublicate is created
+    public void newGetBestMoveTest2(){
 
         PreviousMoves previousMoves = new PreviousMoves();
         Gamelogic gamelogic = new Gamelogic();
@@ -51,8 +54,11 @@ public class newGetBestMoveTest {
 
     }
 
+    /**
+     * tests if the resoult of a normal getBest move would be the same if the previous moves are checked when a dublicate is created
+     */
     @Test
-    public void newGetBestMoveTest3(){ //tests if the resoult of a normal getBest move would be the same if the previous moves are checked when a dublicate is created
+    public void newGetBestMoveTest3(){
 
         PreviousMoves previousMoves = new PreviousMoves();
         Gamelogic gamelogic = new Gamelogic();

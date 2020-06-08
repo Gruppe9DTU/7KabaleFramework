@@ -17,7 +17,7 @@ public class MoveAlgoritm {
         this.wastePile = wastePile;
     }
 
-    public String getBestMove(PreviousMoves previousMoves){
+    public String getBestMove(PreviousMoves previousMoves){ //TODO Give better name, not duplicate name
 
         int skip = previousMoves.timeslastMoveIsRecognized();
 
@@ -27,12 +27,12 @@ public class MoveAlgoritm {
 
             getBestMove(); //for setting moveNumber again
             String skipMoveTo = "";
-            System.out.println("moveNumber: " + moveNumber + ", skip: " + skip);
+            System.out.println("moveNumber: " + moveNumber + ", skip: " + skip); //TODO Cleanup code
 
             if (moveNumber <= 6) { //no need to check revealFromWaste and end function
 
                 int skipTo = moveNumber + skip;
-                skipMoveTo = "This game-layout is recognized, if previous moves have lead to and dead end, you may try the following moves instead:\n";
+                skipMoveTo = "This game-layout is recognized, if previous moves have lead to and dead end, you may try the following moves instead:\n"; //TODO Cleanup code
 
                 switch (skipTo) {
                     case 2:
