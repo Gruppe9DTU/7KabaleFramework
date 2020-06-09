@@ -57,9 +57,10 @@ public class MoveAlgoritm {
      */
     public String checkEs() {
         for (Tableau tableau : tableaus) {
+            Card[] visibleCards = tableau.getVisibleCards();
 
             //Check if first visible card in tableau is es
-            Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
+            Card card = visibleCards[visibleCards.length - 1];
 
             if (card.getValue() == 1) {
                 return "Ryk " + card.toString() + " til Foundation";
