@@ -57,4 +57,16 @@ public class Gamelogic {
     }
 
     public Waste getWaste() { return waste; }
+
+    public void setTableau(Tableau[] tableau){
+        this.tableau = tableau;
+    }
+
+    public void setFoundation(Foundation[] foundation){
+        this.foundation = foundation;
+    }
+
+    public void setWaste(Waste waste) {
+        this.waste = waste;
+    }
 }

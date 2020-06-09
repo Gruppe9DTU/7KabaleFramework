@@ -24,78 +24,51 @@ public class MoveAlgoritm {
         String move = "";
 
         if (skip != 0) {
-            move = "This game-layout is recognized, if previous moves have lead to and dead end, you may try the following moves instead:\n";
+            move = "Dette layout af kort er blevet præsenteret før, hvis tidligere træk ikke virkede, kan du prøve: \n";
         }
 
         switch (1) {
 
             case 1:
                 if (!checkEs().equals("")) {
-                    if (skip == 0) {
-                        move += checkEs();
-                        break;
-                    } else {
-                        skip--;
-                    }
+                    if (skip == 0) { move += checkEs(); break;
+                    } else { skip--; }
                 }
             case 2:
                 if (!kingCheck().equals("")) {
-                    if (skip == 0) {
-                        move += kingCheck();
-                        break;
-                    } else {
-                        skip--;
-                    }
+                    if (skip == 0) { move += kingCheck(); break;
+                    } else { skip--; }
                 }
             case 3:
                 if (!revealHiddenCard().equals("")) {
-                    if (skip == 0) {
-                        move += revealHiddenCard();
-                        break;
-                    } else {
-                        skip--;
-                    }
+                    if (skip == 0) { move += revealHiddenCard(); break;
+                    } else { skip--; }
                 }
             case 4:
                 if (!grundbunkeToBuildStable().equals("")) {
-                    if (skip == 0) {
-                        move += grundbunkeToBuildStable();
-                        break;
-                    } else {
-                        skip--;
-                    }
+                    if (skip == 0) { move += grundbunkeToBuildStable(); break;
+                    } else { skip--; }
                 }
             case 5:
                 if (!moveToFoundation().equals("")) {
-                    if (skip == 0) {
-                        move += moveToFoundation();
-                        break;
-                    } else {
-                        skip--;
-                    }
+                    if (skip == 0) { move += moveToFoundation(); break;
+                    } else { skip--; }
                 }
+
             case 6:
                 if (!typeStreak().equals("")) {
-                    if (skip == 0) {
-                        move += typeStreak();
-                        break;
-                    } else {
-                        skip--;
-                    }
+                    if (skip == 0) { move += typeStreak(); break;
+                    } else { skip--; }
                 }
+
             case 7:
                 if (!revealCardFromWaste().equals("")) {
-                    if (skip == 0) {
-                        move += revealCardFromWaste();
-                        break;
-                    }
+                    if (skip == 0) { move += revealCardFromWaste(); break; }
                 }
+
             default:
-                if (skip != 0) {
-                    move += "Dept of this funciton cannot recognize another move";
-                } else {
-                    move = "game is unsolvable";
-                }
+                if (skip != 0) { move += "Dept of this funciton cannot recognize another move";
+                } else { move = "game is unsolvable"; }
         }
 
         return move;
