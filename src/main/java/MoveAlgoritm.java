@@ -258,7 +258,11 @@ public class MoveAlgoritm {
         return result || waste != null && (waste.getSuit() == suit && waste.getValue() == value); //returns true if found in tableau or in waste
     }
 
-    //Flyt byggestabel til anden byggestabel for at afslører skjulte kort eller danne en tom plads
+    /**
+     * Moves cards in tableaus to another tableaus to reveal hidden card or create empty space
+     *
+     * @return  Instructions for player
+     */
     public String moveTableau(){
         Card[] cards, cards2;
         String move = "";
@@ -283,7 +287,12 @@ public class MoveAlgoritm {
         return move;
     }
 
-
+    /**
+     * Moves top card of tableau or waste to another tableau if the types match.
+     * For example if you can move a 4 of hearts to a 5 of spades and 5 of clubs, prioritize the one that has a 6 of hearts in the same tableau.
+     *
+     * @return  Instructions for player
+     */
     //Hvis muligt sørg for at “typerne” passer. F.eks. hvis du kan rykke en hjerter 4 til to forskellige 5’er så prioriter den som har en hjerter 6
     public String typeStreak() {
         Card[] cards, cards2;

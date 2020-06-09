@@ -349,9 +349,11 @@ public class MoveAlgoritmTest {
         assertEquals("Move " + wasteCard.toString() + " to it's respective foundation", algoritmCtrl.moveToFoundation());
     }
 
+    /**
+     * Move all cards from tableau to another tableau
+     */
     @Test
     public void moveTableau1(){
-        //Create tableaus, one with 10 of Hearts and one with 8 of Hearts, with some cards on it.
         Card expected1 = new Card(0, 8);
         Card expected2 = new Card(1, 7);
         tableaus[1].addCardToStack(new Card(1, 9));
@@ -372,9 +374,11 @@ public class MoveAlgoritmTest {
         assertEquals("Tag alle de synlige kort fra byggestablen med det nederste kort " + expected2.toString() + " og placer dem på " + expected1.toString(), algoritmCtrl.moveTableau());
     }
 
+    /**
+     * Move all cards from tableau to another tableau with matching type
+     */
     @Test
     public void moveTableau2(){
-        //Create tableaus, one with 10 of Hearts and one with 8 of Hearts, with some cards on it.
         Card expected1 = new Card(0, 8);
         Card expected2 = new Card(1, 7);
         tableaus[1].addCardToStack(new Card(1, 9));
@@ -393,10 +397,11 @@ public class MoveAlgoritmTest {
         assertEquals("Tag alle de synlige kort fra byggestablen med det nederste kort " + expected2.toString() + " og placer dem på " + expected1.toString(), algoritmCtrl.moveTableau());
     }
 
-
+    /**
+     * Move card from tableau to another tableau
+     */
     @Test
-    public void typeStreak(){
-        //Create tableaus, one with 10 of Hearts and one with 8 of Hearts, with some cards on it.
+    public void typeStreak1(){
         Card expected1 = new Card(0, 6);
         Card expected2 = new Card(1, 7);
         tableaus[1].addCardToStack(new Card(1, 4));
@@ -417,9 +422,36 @@ public class MoveAlgoritmTest {
         assertEquals("Tag " + expected1.toString() + " og placer kortet på " + expected2.toString(), algoritmCtrl.typeStreak());
     }
 
+    /**
+     * Move card from tableau to another tableau with matching type
+     */
     @Test
-    public void typeStreakWithWaste(){
-        //Create tableaus, one with 10 of Hearts and one with 8 of Hearts, with some cards on it.
+    public void typeStreak2(){
+        Card expected1 = new Card(0, 6);
+        Card expected2 = new Card(1, 7);
+        tableaus[1].addCardToStack(new Card(1, 4));
+        tableaus[2].addCardToStack(new Card(2, 8));
+        tableaus[2].addCardToStack(new Card(3, 7));
+        tableaus[3].addCardToStack(expected1);
+        tableaus[4].addCardToStack(new Card(3, 9));
+        tableaus[5].addCardToStack(new Card(0, 8));
+        tableaus[5].addCardToStack(expected2);
+
+        //Create a wastepile placeholder
+        Waste waste = new Waste(null, true);
+
+        //Setup Algorithm class
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        //Test
+        assertEquals("Tag " + expected1.toString() + " og placer kortet på " + expected2.toString(), algoritmCtrl.typeStreak());
+    }
+
+    /**
+     * Move card from waste to tableau
+     */
+    @Test
+    public void typeStreak3(){
         Card expected1 = new Card(0, 3);
         Card expected2 = new Card(3, 2);
         tableaus[1].addCardToStack(new Card(1, 9));
@@ -440,6 +472,35 @@ public class MoveAlgoritmTest {
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
         //Test
+        assertEquals("Tag " + expected2.toString() + " og placer kortet på " + expected1.toString(), algoritmCtrl.typeStreak());
+    }
+
+    /**
+     * Move card from waste to tableau with matching type
+     */
+    @Test
+    public void typeStreak4(){
+        Card expected1 = new Card(0, 3);
+        Card expected2 = new Card(3, 2);
+        tableaus[1].addCardToStack(new Card(1, 9));
+        tableaus[2].addCardToStack(new Card(1, 4));
+        tableaus[2].addCardToStack(new Card(2, 3));
+        tableaus[3].addCardToStack(new Card(3, 4));
+        tableaus[3].addCardToStack(expected1);
+        tableaus[4].addCardToStack(new Card(2, 9));
+        tableaus[5].addCardToStack(new Card(0, 8));
+
+        //Create a wastepile with 3 of Clubs on top
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(expected2);
+        Waste waste = new Waste(wasteCards, true);
+        waste.revealCard();
+
+        //Setup Algorithm class
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        //Test
+
         assertEquals("Tag " + expected2.toString() + " og placer kortet på " + expected1.toString(), algoritmCtrl.typeStreak());
     }
 
