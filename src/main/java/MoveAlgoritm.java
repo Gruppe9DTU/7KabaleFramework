@@ -288,7 +288,7 @@ public class MoveAlgoritm {
     }
 
     /**
-     * Moves top card of tableau or waste to another tableau if the types match.
+     * Moves top card of tableau or waste to another tableau if the suits match.
      * For example if you can move a 4 of hearts to a 5 of spades and 5 of clubs, prioritize the one that has a 6 of hearts in the same tableau.
      *
      * @return  Instructions for player

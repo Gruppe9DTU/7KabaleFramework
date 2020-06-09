@@ -375,7 +375,7 @@ public class MoveAlgoritmTest {
     }
 
     /**
-     * Move all cards from tableau to another tableau with matching type
+     * Move all cards from tableau to another tableau with matching suit
      */
     @Test
     public void moveTableau2(){
@@ -407,10 +407,10 @@ public class MoveAlgoritmTest {
         tableaus[1].addCardToStack(new Card(1, 4));
         tableaus[2].addCardToStack(new Card(3, 11));
         tableaus[2].addCardToStack(new Card(0, 10));
-        tableaus[3].addCardToStack(expected1);
-        tableaus[4].addCardToStack(new Card(3, 9));
+        tableaus[3].addCardToStack(expected1);// 0       6
+        tableaus[4].addCardToStack(new Card(3, 12));
         tableaus[5].addCardToStack(new Card(0, 8));
-        tableaus[5].addCardToStack(expected2);
+        tableaus[5].addCardToStack(expected2);// 1       7    // Possible move for expected 1
 
         //Create a wastepile placeholder
         Waste waste = new Waste(null, true);
@@ -423,7 +423,7 @@ public class MoveAlgoritmTest {
     }
 
     /**
-     * Move card from tableau to another tableau with matching type
+     * Move card from tableau to another tableau with matching suit
      */
     @Test
     public void typeStreak2(){
@@ -431,11 +431,11 @@ public class MoveAlgoritmTest {
         Card expected2 = new Card(1, 7);
         tableaus[1].addCardToStack(new Card(1, 4));
         tableaus[2].addCardToStack(new Card(2, 8));
-        tableaus[2].addCardToStack(new Card(3, 7));
-        tableaus[3].addCardToStack(expected1);
-        tableaus[4].addCardToStack(new Card(3, 9));
+        tableaus[2].addCardToStack(new Card(3, 7)); // Possible move for expected 1
+        tableaus[3].addCardToStack(expected1);// 0       6
+        tableaus[4].addCardToStack(new Card(2, 9));
         tableaus[5].addCardToStack(new Card(0, 8));
-        tableaus[5].addCardToStack(expected2);
+        tableaus[5].addCardToStack(expected2);// 1       7    // Possible move for expected 1 (has matching suit)
 
         //Create a wastepile placeholder
         Waste waste = new Waste(null, true);
@@ -455,12 +455,10 @@ public class MoveAlgoritmTest {
         Card expected1 = new Card(0, 3);
         Card expected2 = new Card(3, 2);
         tableaus[1].addCardToStack(new Card(1, 9));
-        tableaus[2].addCardToStack(new Card(3, 11));
-        tableaus[2].addCardToStack(new Card(0, 10));
-        tableaus[3].addCardToStack(new Card(3, 4));
-        tableaus[3].addCardToStack(expected1);
-        tableaus[4].addCardToStack(new Card(2, 9));
-        tableaus[5].addCardToStack(new Card(0, 8));
+        tableaus[2].addCardToStack(new Card(1, 4));
+        tableaus[2].addCardToStack(new Card(2, 3));
+        tableaus[3].addCardToStack(new Card(1, 4));
+        tableaus[3].addCardToStack(expected1);// 0       3    // Possible move for expected 1
 
         //Create a wastepile with 3 of Clubs on top
         List<Card> wasteCards = new ArrayList<Card>();
@@ -476,17 +474,17 @@ public class MoveAlgoritmTest {
     }
 
     /**
-     * Move card from waste to tableau with matching type
+     * Move card from waste to tableau with matching suit
      */
     @Test
     public void typeStreak4(){
         Card expected1 = new Card(0, 3);
         Card expected2 = new Card(3, 2);
-        tableaus[1].addCardToStack(new Card(1, 9));
-        tableaus[2].addCardToStack(new Card(1, 4));
-        tableaus[2].addCardToStack(new Card(2, 3));
+        tableaus[1].addCardToStack(new Card(1, 9));  // Possible move for card in tableaus 5
+        tableaus[2].addCardToStack(new Card(3, 11));
+        tableaus[2].addCardToStack(new Card(0, 10)); // Possible move for card in tableaus 1
         tableaus[3].addCardToStack(new Card(3, 4));
-        tableaus[3].addCardToStack(expected1);
+        tableaus[3].addCardToStack(expected1);// 0       3     // Possible move for expected 2. This has matching suit which is why we prioritize the waste in this case
         tableaus[4].addCardToStack(new Card(2, 9));
         tableaus[5].addCardToStack(new Card(0, 8));
 
@@ -500,7 +498,6 @@ public class MoveAlgoritmTest {
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
         //Test
-
         assertEquals("Tag " + expected2.toString() + " og placer kortet på " + expected1.toString(), algoritmCtrl.typeStreak());
     }
 
