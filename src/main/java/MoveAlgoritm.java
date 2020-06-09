@@ -35,6 +35,9 @@ public class MoveAlgoritm {
         } else if (!moveToFoundation().equals("")){
                 return moveToFoundation();
 
+        } else if (!moveTableau().equals("")){
+            return moveTableau();
+
         } else if (!typeStreak().equals("")){
                 return typeStreak();
 
@@ -291,19 +294,55 @@ public class MoveAlgoritm {
         return result || waste != null && (waste.getSuit() == suit && waste.getValue() == value); //returns true if found in tableau or in waste
     }
 
-    //TODO: fix this
+    /**
+     * Moves cards in tableaus to another tableaus to reveal hidden card or create empty space
+     *
+     * @return  Instructions for player
+     */
+    public String moveTableau(){
+        Card[] cards, cards2;
+        String move = "";
+
+        for (Tableau tableau : tableaus) {
+            cards = tableau.getVisibleCards();
+            for (Tableau tableau2 : tableaus) {
+                cards2 = tableau2.getVisibleCards();
+
+                //Hvis en af bunkerne er tomme er der ingen grund til at sammenligne dem
+                if (cards.length - 1 >= 0 && cards2.length - 1 >= 0) {
+                    //Hvis der er mere end ét kort tilstæde i byggestablen og det nederste kort passer på det øverste kort i en anden byggestabel, ryk alle de synlige kort fra byggestablen over til den anden byggestabel
+                    if (cards.length - 1 != 0 && cards[0].getValue() == cards2[cards2.length - 1].getValue() - 1 && cards[0].getSuit() % 2 != cards2[cards2.length - 1].getSuit() % 2) {
+                        move = "Tag alle de synlige kort fra byggestablen med det nederste kort " + cards[0] + " og placer dem på " + cards2[cards2.length - 1].toString();
+                        if (cards2.length - 2 >= 0 && cards[0].getSuit() == cards2[cards2.length - 2].getSuit()) {
+                            return move;
+                        }
+                    }
+                }
+            }
+        }
+        return move;
+    }
+
+    /**
+     * Moves top card of tableau or waste to another tableau if the suits match.
+     * For example if you can move a 4 of hearts to a 5 of spades and 5 of clubs, prioritize the one that has a 6 of hearts in the same tableau.
+     *
+     * @return  Instructions for player
+     */
     //Hvis muligt sørg for at “typerne” passer. F.eks. hvis du kan rykke en hjerter 4 til to forskellige 5’er så prioriter den som har en hjerter 6
     public String typeStreak() {
         Card[] cards, cards2;
-        String move = "";
+        String move = "", prioMove = "";
         for (Tableau tableau : tableaus) {
             cards = tableau.getVisibleCards();
 
             for (Tableau tableau2 : tableaus) {
                 cards2 = tableau2.getVisibleCards();
+
                 //Hvis en af bunkerne er tomme er der ingen grund til at sammenligne dem
                 if (cards.length - 1 >= 0 && cards2.length - 1 >= 0) {
-                    //hvis øverste kort i tableu passer med anden tableus øverste kort lig den på hvis "typerne" passer ellers vent
+
+                    //Hvis øverste kort i tableu passer med anden tableus øverste kort lig den på hvis "typerne" passer ellers vent
                     if (cards[cards.length - 1].getValue() == cards2[cards2.length - 1].getValue() - 1 && cards[cards.length - 1].getSuit() % 2 != cards2[cards2.length - 1].getSuit() % 2) {
                         move = "Tag " + cards[cards.length - 1] + " og placer kortet på " + cards2[cards2.length - 1].toString();
                         if (cards2.length - 2 >= 0 && cards[cards.length - 1].getSuit() == cards2[cards2.length - 2].getSuit()) {
@@ -317,12 +356,12 @@ public class MoveAlgoritm {
             if (waste != null && cards.length - 1 >= 0 && cards[cards.length - 1].getValue() - 1 == waste.getValue() && cards[cards.length - 1].getSuit() % 2 != waste.getSuit() % 2) {
                 move = "Tag " + waste.toString() + " og placer kortet på " + cards[cards.length - 1].toString();
                 if (cards.length - 2 >= 0 && waste.getSuit() == cards[cards.length - 2].getSuit()){
-                    return move;
+                    prioMove = move;
                 }
             }
         }
 
-        return move;
+        return !prioMove.equals("") ? prioMove : move;
     }
 
     /**
