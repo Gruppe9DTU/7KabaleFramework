@@ -29,8 +29,8 @@ public class MoveAlgoritm {
         }else if (!revealHiddenCard().equals("")){
                 return revealHiddenCard();
 
-        } else if (!grundbunkeToBuildStable().equals("")){
-                return grundbunkeToBuildStable();
+        } else if (!moveToFoundation().equals("")){
+                return moveToFoundation();
 
         } else if (!moveToFoundation().equals("")){
                 return moveToFoundation();
@@ -46,7 +46,6 @@ public class MoveAlgoritm {
         }
 
     }
-
 
     //Altid ryk en es til grundbunker
     public String checkEs() {
@@ -64,68 +63,106 @@ public class MoveAlgoritm {
         return "";
     }
 
-    //Ryk ikke kort fra byggestabel til grundbunken med mindre der er en konge, som kan tage dens plads
-    //Hvis rød og sort konge kan fylde en tom plads i byggestablen, vælg den hvor der er størst mulighed for at lave en stabel (hvis der ligger rød knægt, vælg rød konge og vent på sort dronning osv.)
+    /**
+     * If there is at minimum one King and one empty space, finds best suitable King. Best suitable King is found from which one frees the highest amount of cards.
+     * @return  Instructions to Player
+     */
     public String kingCheck() {
-
-        List<Card> kingsAvalible = new ArrayList<Card>();
-
+        //Copy Tableaus and sort
+        Collections.sort(tableaus,Tableau.HiddenCardsCompare); //Sort so first found has highest amount of hidden cards
+        List<Card> kingsAvailable = new ArrayList<Card>();
         int emptySpaces = 0;
-        //find available kings
 
+        //Find available kings and check for empty spaces
         for (Tableau tableau : tableaus) {
-
             if (tableau.isEmpty()){
-            emptySpaces++;
-            }
+                emptySpaces++;
+            } else if (tableau.getVisibleCards().length > 0) {//Check if first card is king
+                Card card = tableau.getVisibleCards()[0];
 
-            //check if first card is king
-            // TODO: might want to make it more complex later
-            if (!tableau.isEmpty()) {
-                Card card = tableau.getVisibleCards()[tableau.getVisibleCards().length - 1];
-
-                if (card.getValue() == 13) {
-                    kingsAvalible.add(card);
+                if (card.getValue() == 13 && tableau.countHiddenCards() != 0) {
+                    kingsAvailable.add(card);
                 }
             }
-
         }
 
-        if (kingsAvalible.size() > 1 && emptySpaces > 0) {
+        if (kingsAvailable.size() > 1 && emptySpaces > 0) {
+            boolean bestKingFound = false;
+            int currSearchValue = 13; //Start by searching for best king to move
 
-            int kingSuitStreak = 0;
-            int leadingKingSuitStreak = 0;
-            Card leadingCard = null;
+            int redKingScore = 0, blackKingScore = 0, currMostFreedCards = 0;
 
-            for (Card king : kingsAvalible) {
+            while(!bestKingFound && currSearchValue > 0) {
+                //Reset scores for round
+                redKingScore = 0; blackKingScore = 0; currMostFreedCards = 0;
 
-                for (Tableau tableau : tableaus) {
+                for(Card currKing : kingsAvailable) {
+                    //Looking through for X value card
+                    for(Tableau tab : tableaus) {
 
-                    Card[] card = tableau.getVisibleCards();
+                        //There are cards to check
+                        if(tab.getVisibleCards().length > 0) {
+                            Card backCard = tab.getVisibleCards()[0]; //Take card from the back of the stack
 
-                    for (int i = 0; i < card.length; i++) {
-                        if (card[i].getSuit() == king.getSuit() && card[i].getValue() == king.getValue() - kingSuitStreak) {
-                            kingSuitStreak++;
+                            //Is the card we're looking for
+                            if(backCard.getValue() == currSearchValue && tab.countHiddenCards() > currMostFreedCards) {
+
+                                if(isCompatibleToKingsStack(currKing, backCard)) { //Check if card matches kings stack
+                                    if(currKing.getSuit() % 2 == 0) {
+                                        redKingScore = 1; //Set score to 1-0 for red
+                                        blackKingScore = 0;
+                                    } else {
+                                        blackKingScore = 1; //Set score to 1-0 for black
+                                        redKingScore = 0;
+                                    }
+                                    currMostFreedCards = tab.countHiddenCards(); //Set new highscore
+                                }
+                                bestKingFound = true; //Only one answer is found
+
+                            } else if(backCard.getValue() == currSearchValue && currMostFreedCards == tab.countHiddenCards()) {
+                                if(isCompatibleToKingsStack(currKing, backCard)) { //Check if card matches kings stack
+
+                                    if(currKing.getSuit() % 2 == 0) redKingScore++; else blackKingScore++; //Add score
+                                }
+                                bestKingFound = (redKingScore + blackKingScore == 1); //Multiple answers are found
+                            }
                         }
                     }
-
                 }
 
-                if (kingSuitStreak >= leadingKingSuitStreak) {
-                    leadingKingSuitStreak = kingSuitStreak;
-                    leadingCard = king;
-                }
+                if(!bestKingFound) currSearchValue--; //Go down a value in case we need to continue search
             }
 
-            return "Best king to move is " + leadingCard.toString();
-
-        } else if (kingsAvalible.size() == 1 && emptySpaces > 0) {
-            return "Move " + kingsAvalible.get(0).toString() + " to empty space";
-
+            String bestKing = null;
+            for(Card king : kingsAvailable) {
+                if(redKingScore > blackKingScore && king.getSuit() % 2 == 0) { //If red king is best
+                    bestKing = king.toString();
+                    break;
+                } else if(blackKingScore > redKingScore && king.getSuit() % 2 == 1) { //If black king is best
+                    bestKing = king.toString();
+                    break;
+                } else if(redKingScore == blackKingScore) { //If it's either or
+                    bestKing = "any king";
+                    break;
+                }
+            }
+            return "Move " + bestKing + " to an empty space";
+        } else if (kingsAvailable.size() == 1 && emptySpaces > 0) { //Only one king found
+            return "Move " + kingsAvailable.get(0).toString() + " to an empty space";
         }
-
         return "";
+    }
 
+    /**
+     * Checks if card can be part of the stack of a king
+     *
+     * @param currKing  King which stacks we compare
+     * @param backCard  Card to check if compatible
+     * @return          True if compatible, else false
+     */
+    private boolean isCompatibleToKingsStack(Card currKing, Card backCard) {
+        return backCard.getValue() % 2 == 0 && backCard.getSuit() % 2 != currKing.getSuit() % 2
+                || backCard.getValue() % 2 == 1 && backCard.getSuit() % 2 == currKing.getSuit() % 2;
     }
 
     /**
@@ -148,7 +185,8 @@ public class MoveAlgoritm {
      *
      * @return  Instructions to player
      */
-    public String grundbunkeToBuildStable() {
+    public String foundationToTableau() {
+        //TODO Should this be sorted?
         for (Foundation foundation : foundations) {
             if (foundation.countCards() > 0) {  //If there is a card in the foundation
                 Card foundationCard = foundation.peekCard(); //Set current possible card
@@ -159,14 +197,8 @@ public class MoveAlgoritm {
                     if (tableauCards.length != 0 &&
                             tableauCards[tableauCards.length - 1].getValue() - 1 == foundationCard.getValue()
                             && tableauCards[tableauCards.length - 1].getSuit() % 2 != foundationCard.getSuit() % 2) { //Check if possible to move card from foundation to tableau
-
-                        //Check if it opens up possibilities //TODO Check with others if best order
-                        //First check waste
-                        if (waste != null && waste.getValue() == foundationCard.getValue() - 1 && waste.getSuit() % 2 != foundationCard.getSuit() % 2) {
-                            return "Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCards[tableauCards.length - 1].toString();
-                        }
-
-                        //Then check other tableaus
+                        //Check if it opens up possibilities
+                        //First check tableaus
                         for (Tableau otherTableau : tableaus) {
                             if (tableau != otherTableau) {
                                 for(Card card : otherTableau.getVisibleCards()) {
@@ -175,6 +207,10 @@ public class MoveAlgoritm {
                                     }
                                 }
                             }
+                        }
+                        //Then check waste
+                        if (waste != null && waste.getValue() == foundationCard.getValue() - 1 && waste.getSuit() % 2 != foundationCard.getSuit() % 2) {
+                            return "Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCards[tableauCards.length - 1].toString();
                         }
                     }
                 }

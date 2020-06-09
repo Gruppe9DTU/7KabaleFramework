@@ -98,16 +98,116 @@ public class MoveAlgoritmTest {
     }
 
     /**
-     * Test if king can be moved to empty space
+     * Test when it has kings, but no empty spaces
      */
     @Test
-    public void testKingCheck(){
+    public void testKingCheck101() {
+        tableaus[0].addCardToStack(new Card(0, 13));
+        tableaus[1].addCardToStack(new Card(0, 13));
+        tableaus[2].addCardToStack(new Card(0, 13));
+        tableaus[3].addCardToStack(new Card(0, 13));
+        tableaus[4].addCardToStack(new Card(0, 13));
+        tableaus[5].addCardToStack(new Card(0, 13));
+        tableaus[6].addCardToStack(new Card(0, 13));
 
-        Card tableauCard = new Card(0,13); //King of hearts
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * Test with only open spaces
+     */
+    @Test
+    public void testKingCheck102() {
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * Test with no kings, but open room
+     */
+    @Test
+    public void testKingCheck103() {
+        tableaus[0].addCardToStack(new Card(0, 12));
+        tableaus[1].addCardToStack(new Card(0, 12));
+        tableaus[2].addCardToStack(new Card(0, 12));
+        tableaus[3].addCardToStack(new Card(0, 12));
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * No kings, but empty spaces
+     */
+    @Test
+    public void testKingCheck104() {
+        tableaus[0].addCardToStack(new Card(1, 5));
+        tableaus[1].addCardToStack(new Card(1, 7));
+        tableaus[2].addCardToStack(new Card(0, 8));
+        tableaus[3].addCardToStack(new Card(0, 7));
+        tableaus[4].addCardToStack(new Card(0, 6));
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * No empty spaces
+     */
+    @Test
+    public void testKingCheck105() {
+        tableaus[0] = new Tableau(2, Arrays.asList(new Card(0, 13)));
+        tableaus[1] = new Tableau(2, Arrays.asList(new Card(1, 13)));
+        tableaus[2].addCardToStack(new Card(1, 5));
+        tableaus[3].addCardToStack(new Card(1, 7));
+        tableaus[4].addCardToStack(new Card(0, 8));
+        tableaus[5].addCardToStack(new Card(0, 7));
+        tableaus[6].addCardToStack(new Card(0, 6));
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * Test when single king is present and there is an open space for him
+     */
+    @Test
+    public void testKingCheck110() {
+        Card wantedCard[] = {new Card(0,13)}; //King of hearts
 
         tableaus[0].addCardToStack(new Card(1, 3)); //random card
 
-        tableaus[1].addCardToStack(tableauCard);
+        tableaus[1] = new Tableau(2, Arrays.asList(wantedCard));
 
         tableaus[2].addCardToStack(new Card(0, 4));
         tableaus[3].addCardToStack(new Card(1, 6)); //random card
@@ -120,24 +220,19 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Move " + tableauCard.toString() + " to empty space", algoritmCtrl.kingCheck());
-
+        assertEquals("Move " + wantedCard[0].toString() + " to an empty space", algoritmCtrl.kingCheck());
     }
 
     /**
-     * Test if correct king is chosen to take empty space
+     * With 2 kings of equal value with cards behind them and same colour, with empty spaces
      */
     @Test
-    public void testKingCheck2(){
+    public void testKingCheck111() {
+        Card wantedCard[] = {new Card(0,13)};
+        Card distractionCard[] = {new Card(2,13)};
 
-        Card tableauCard = new Card(0,13); //King of hearts
-        Card tableauCard2 = new Card(1,13); //King of spades
-
-        tableaus[0].addCardToStack(new Card(0, 12)); //Queen of hearts
-        tableaus[1].addCardToStack(tableauCard);
-        tableaus[2].addCardToStack(new Card(0, 11)); //jack of hearts
-        tableaus[3].addCardToStack(new Card(1, 12)); //Queen of spades
-        tableaus[4].addCardToStack(tableauCard2);
+        tableaus[0] = new Tableau(1, Arrays.asList(wantedCard));
+        tableaus[1] = new Tableau(1, Arrays.asList(distractionCard));
 
         //Create a dummy wastepile
         List<Card> wasteCards = new ArrayList<Card>();
@@ -146,8 +241,193 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Best king to move is " + tableauCard.toString(), algoritmCtrl.kingCheck());
+        assertEquals("Move any king to an empty space", algoritmCtrl.kingCheck());
+    }
 
+    /**
+     * With 2 kings of equal value with cards behind them and different colour, with empty spaces
+     */
+    @Test
+    public void testKingCheck112() {
+        Card wantedCard[] = {new Card(0,13)};
+        Card distractionCard[] = {new Card(1,13)};
+
+        tableaus[0] = new Tableau(1, Arrays.asList(wantedCard));
+        tableaus[1] = new Tableau(1, Arrays.asList(distractionCard));
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move any king to an empty space", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * With 2 kings of equal value with no cards behind them and same colour, with empty spaces
+     */
+    @Test
+    public void testKingCheck113() {
+        Card wantedCard[] = {new Card(0,13)};
+        Card distractionCard[] = {new Card(2,13)};
+
+        tableaus[0] = new Tableau(0, Arrays.asList(wantedCard));
+        tableaus[1] = new Tableau(0, Arrays.asList(distractionCard));
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * With 2 kings, but first has more hidden cards behind it, with empty spaces
+     */
+    @Test
+    public void testKingCheck114() {
+        Card wantedCard[] = {new Card(0,13)}; //King of hearts
+        Card distractionCard[] = {new Card(1,13)}; //King of spades
+
+        tableaus[0] = new Tableau(2, Arrays.asList(wantedCard));
+        tableaus[1].addCardToStack(new Card(0, 10)); //10 of hearts
+        tableaus[2] = new Tableau(1, Arrays.asList(distractionCard));
+        tableaus[3].addCardToStack(new Card(0, 5)); //5 of hearts
+        tableaus[4].addCardToStack(new Card(1, 10)); //10 of spades
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + wantedCard[0].toString() + " to an empty space", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * With 2 kings, but second has more hidden cards behind it, with empty spaces
+     */
+    @Test
+    public void testKingCheck115() {
+        Card wantedCard[] = {new Card(0,13)}; //King of hearts
+        Card distractionCard[] = {new Card(1,13)}; //King of spades
+
+        tableaus[1] = new Tableau(1, Arrays.asList(distractionCard));
+        tableaus[1].addCardToStack(new Card(0, 10)); //10 of hearts
+        tableaus[2] = new Tableau(2, Arrays.asList(wantedCard));
+        tableaus[3].addCardToStack(new Card(0, 5)); //5 of hearts
+        tableaus[4].addCardToStack(new Card(1, 10)); //10 of spades
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + wantedCard[0].toString() + " to an empty space", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * With 2 equal value kings, first is better because of lower value card exists, with empty spaces
+     */
+    @Test
+    public void testKingCheck116() {
+        Card wantedCard[] = {new Card(0,13)}; //King of hearts
+        Card distractionCard[] = {new Card(1,13)}; //King of spades
+
+        tableaus[0].addCardToStack(new Card(0, 12)); //Queen of hearts
+        tableaus[1] = new Tableau(2, Arrays.asList(wantedCard));
+        tableaus[2].addCardToStack(new Card(0, 11)); //jack of hearts
+        tableaus[3].addCardToStack(new Card(1, 12)); //Queen of spades
+        tableaus[4] = new Tableau(2, Arrays.asList(distractionCard));
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + wantedCard[0].toString() + " to an empty space", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * With 2 equal value kings, second is better because of lower value cards exists, with empty spaces
+     */
+    @Test
+    public void testKingCheck117() {
+        Card wantedCard[] = {new Card(0,13)}; //King of hearts
+        Card distractionCard[] = {new Card(1,13)}; //King of spades
+
+        tableaus[0].addCardToStack(new Card(0, 12)); //Queen of hearts
+        tableaus[1] = new Tableau(2, Arrays.asList(distractionCard));
+        tableaus[2].addCardToStack(new Card(0, 11)); //jack of hearts
+        tableaus[3].addCardToStack(new Card(1, 12)); //Queen of spades
+        tableaus[4] = new Tableau(2, Arrays.asList(wantedCard));
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + wantedCard[0].toString() + " to an empty space", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * With 2 equal value kings, first is better because lower value card has more hidden cards behind it, with empty spaces
+     */
+    @Test
+    public void testKingCheck118() {
+        Card wantedCard[] = {new Card(0,13)}; //King of Hearts
+        Card distractionCard[] = {new Card(1,13)}; //King of Spades
+        Card cardOfInterest[] = {new Card(1, 12)}; //Queen of Spades
+
+        tableaus[0] = new Tableau(2, Arrays.asList(cardOfInterest)); //Queen of Spades
+        tableaus[1] = new Tableau(2, Arrays.asList(distractionCard)); //King of Spades
+        tableaus[3].addCardToStack(new Card(0, 12)); //Queen of Hearts
+        tableaus[4] = new Tableau(2, Arrays.asList(wantedCard));//King of Hearts
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + wantedCard[0].toString() + " to an empty space", algoritmCtrl.kingCheck());
+    }
+
+    /**
+     * With 2 equal value kings, second is better because lower value card has more hidden cards behind it, with empty spaces
+     */
+    @Test
+    public void testKingCheck119() {
+        Card wantedCard[] = {new Card(0,13)}; //King of Hearts
+        Card distractionCard[] = {new Card(1,13)}; //King of Spades
+        Card cardOfInterest[] = {new Card(1, 12)}; //Queen of Spades
+
+        tableaus[0].addCardToStack(new Card(0, 12)); //Queen of Hearts
+        tableaus[1] = new Tableau(2, Arrays.asList(distractionCard)); //King of Spades
+        tableaus[3] = new Tableau(2, Arrays.asList(cardOfInterest)); //Queen of Spades
+        tableaus[4] = new Tableau(2, Arrays.asList(wantedCard));//King of Hearts
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + wantedCard[0].toString() + " to an empty space", algoritmCtrl.kingCheck());
     }
 
     /**
@@ -180,7 +460,7 @@ public class MoveAlgoritmTest {
         //Setup Algorithm class
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
         //Test
-        assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCard, algoritmCtrl.grundbunkeToBuildStable());
+        assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauCard, algoritmCtrl.foundationToTableau());
     }
 
     /**
@@ -215,7 +495,7 @@ public class MoveAlgoritmTest {
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
         //Test
-        assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauDestinationCard, algoritmCtrl.grundbunkeToBuildStable());
+        assertEquals("Ryk " + foundationCard.toString() + " fra grundbunken ned på rækken med " + tableauDestinationCard, algoritmCtrl.foundationToTableau());
     }
 
     /**
