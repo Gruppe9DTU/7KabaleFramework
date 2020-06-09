@@ -19,6 +19,8 @@ public class MoveAlgoritm {
 
     public String getBestMove(PreviousMoves previousMoves) {
 
+        Collections.sort(tableaus,Tableau.AllCardsCompare);
+
         int skip = previousMoves.timeslastMoveIsRecognized();
 
         String move = "";
@@ -67,8 +69,8 @@ public class MoveAlgoritm {
                 }
 
             default:
-                if (skip != 0) { move += "Dept of this funciton cannot recognize another move";
-                } else { move = "game is unsolvable"; }
+                if (skip != 0) { move += "komplixiteten af denne function kan ikke se andre mulige træk";
+                } else { move = "spil kan ikke vindes herfra, prøv at gå nogle træk tilbage"; }
         }
 
         return move;

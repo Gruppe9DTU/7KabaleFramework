@@ -34,6 +34,7 @@ public class MoveAlgoritmTest {
     @Test
     public void testCheckEs(){
 
+        PreviousMoves previousMoves = new PreviousMoves();
         Card tableauCard = new Card(0,1); //ace of hearts
         Card tableauCard2 = new Card(1,1); //ace of spades
 
@@ -60,7 +61,7 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Ryk " + tableauCard2.toString() + " til Foundation", algoritmCtrl.checkEs());
+        assertEquals("Ryk " + tableauCard2.toString() + " til Foundation", algoritmCtrl.getBestMove(previousMoves));
     }
 
     /**
@@ -69,6 +70,7 @@ public class MoveAlgoritmTest {
     @Test
     public void testCheckEs2(){
 
+        PreviousMoves previousMoves = new PreviousMoves();
         Card tableauCard = new Card(0,1); //ace of hearts
         Card tableauCard2 = new Card(1,1); //ace of spades
 
@@ -95,7 +97,7 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Ryk " + tableauCard.toString() + " til Foundation", algoritmCtrl.checkEs());
+        assertEquals("Ryk " + tableauCard.toString() + " til Foundation", algoritmCtrl.getBestMove(previousMoves));
     }
 
     /**
