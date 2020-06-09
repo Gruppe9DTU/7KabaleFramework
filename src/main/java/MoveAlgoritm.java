@@ -17,114 +17,88 @@ public class MoveAlgoritm {
         this.wastePile = wastePile;
     }
 
-    public String getBestMove(PreviousMoves previousMoves){ //TODO Give better name, not duplicate name
+    public String getBestMove(PreviousMoves previousMoves) {
 
         int skip = previousMoves.timeslastMoveIsRecognized();
 
-        if (skip == 0){
-            return getBestMove();
-        } else {
+        String move = "";
 
-            getBestMove(); //for setting moveNumber again
-            String skipMoveTo = "";
-            System.out.println("moveNumber: " + moveNumber + ", skip: " + skip); //TODO Cleanup code
+        if (skip != 0) {
+            move = "This game-layout is recognized, if previous moves have lead to and dead end, you may try the following moves instead:\n";
+        }
 
-            if (moveNumber <= 6) { //no need to check revealFromWaste and end function
+        switch (1) {
 
-                int skipTo = moveNumber + skip;
-                skipMoveTo = "This game-layout is recognized, if previous moves have lead to and dead end, you may try the following moves instead:\n"; //TODO Cleanup code
-
-                switch (skipTo) {
-                    case 2:
-                        if (!kingCheck().equals("")) {
-                            skipMoveTo += kingCheck();
-                            break;
-                        } else {
-                            skipMoveTo += "- kingCheck not possible\n";
-                        }
-                    case 3:
-                        if (!revealHiddenCard().equals("")) {
-                            skipMoveTo += revealHiddenCard();
-                            break;
-                        } else {
-                            skipMoveTo += "- revealHiddenCard not possible\n";
-                        }
-                    case 4:
-                        if (!grundbunkeToBuildStable().equals("")) {
-                            skipMoveTo += grundbunkeToBuildStable();
-                            break;
-                        } else {
-                            skipMoveTo += "- grundbunkeToBuildStable not possible\n";
-                        }
-                    case 5:
-                        if (!moveToFoundation().equals("")) {
-                            skipMoveTo += moveToFoundation();
-                            break;
-                        } else{
-                            skipMoveTo += "- moveToFoundation not possible\n";
-                        }
-                    case 6:
-                        if (!typeStreak().equals("")) {
-                            skipMoveTo += typeStreak();
-                            break;
-                        } else {
-                            skipMoveTo += "- typeStreak not possible\n";
-                        }
-                    case 7:
-                        if (!revealCardFromWaste().equals("")) {
-                            skipMoveTo += revealCardFromWaste();
-                            break;
-                        } else {
-                            skipMoveTo += "- revealCardFromWaste not possible\n";
-                        }
-                    default:
-                        skipMoveTo += "Dept of this funciton cannot recognize another move";
+            case 1:
+                if (!checkEs().equals("")) {
+                    if (skip == 0) {
+                        move += checkEs();
+                        break;
+                    } else {
+                        skip--;
+                    }
                 }
-
-            }
-
-            return skipMoveTo;
+            case 2:
+                if (!kingCheck().equals("")) {
+                    if (skip == 0) {
+                        move += kingCheck();
+                        break;
+                    } else {
+                        skip--;
+                    }
+                }
+            case 3:
+                if (!revealHiddenCard().equals("")) {
+                    if (skip == 0) {
+                        move += revealHiddenCard();
+                        break;
+                    } else {
+                        skip--;
+                    }
+                }
+            case 4:
+                if (!grundbunkeToBuildStable().equals("")) {
+                    if (skip == 0) {
+                        move += grundbunkeToBuildStable();
+                        break;
+                    } else {
+                        skip--;
+                    }
+                }
+            case 5:
+                if (!moveToFoundation().equals("")) {
+                    if (skip == 0) {
+                        move += moveToFoundation();
+                        break;
+                    } else {
+                        skip--;
+                    }
+                }
+            case 6:
+                if (!typeStreak().equals("")) {
+                    if (skip == 0) {
+                        move += typeStreak();
+                        break;
+                    } else {
+                        skip--;
+                    }
+                }
+            case 7:
+                if (!revealCardFromWaste().equals("")) {
+                    if (skip == 0) {
+                        move += revealCardFromWaste();
+                        break;
+                    }
+                }
+            default:
+                if (skip != 0) {
+                    move += "Dept of this funciton cannot recognize another move";
+                } else {
+                    move = "game is unsolvable";
+                }
         }
 
-    }
-
-    public String getBestMove() {
-
-        Collections.sort(tableaus,Tableau.AllCardsCompare);
-
-        if (!checkEs().equals("")){
-            moveNumber = 1;
-            return checkEs();
-
-        } else if (!kingCheck().equals("")){
-            moveNumber = 2;
-            return kingCheck();
-
-        }else if (!revealHiddenCard().equals("")){
-            moveNumber = 3;
-            return revealHiddenCard();
-
-        } else if (!grundbunkeToBuildStable().equals("")){
-            moveNumber = 4;
-            return grundbunkeToBuildStable();
-
-        } else if (!moveToFoundation().equals("")){
-            moveNumber = 5;
-            return moveToFoundation();
-
-        } else if (!typeStreak().equals("")){
-            moveNumber = 6;
-            return typeStreak();
-
-        } else if (!revealCardFromWaste().equals("")){
-            moveNumber = 7;
-            return revealCardFromWaste();
-
-        } else {
-            moveNumber = 8;
-            return "Game is unsolvable (redo last move(s) or give up)";
-        }
-
+        return move;
     }
 
 
