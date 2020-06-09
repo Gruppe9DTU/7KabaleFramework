@@ -65,20 +65,15 @@ public class MoveAlgoritm {
      */
     public String kingCheck() {
         //Copy Tableaus and sort
-        List<Tableau> sortedTableaus = new ArrayList<Tableau>(tableaus);
-        Collections.sort(sortedTableaus,Tableau.HiddenCardsCompare); //Sort so first found has highest amount of hidden cards
+        Collections.sort(tableaus,Tableau.HiddenCardsCompare); //Sort so first found has highest amount of hidden cards
         List<Card> kingsAvailable = new ArrayList<Card>();
-
         int emptySpaces = 0;
 
         //Find available kings and check for empty spaces
-        for (Tableau tableau : sortedTableaus) {
+        for (Tableau tableau : tableaus) {
             if (tableau.isEmpty()){
                 emptySpaces++;
-            }
-
-            //Check if first card is king
-            if (tableau.getVisibleCards().length > 0) {
+            } else if (tableau.getVisibleCards().length > 0) {//Check if first card is king
                 Card card = tableau.getVisibleCards()[0];
 
                 if (card.getValue() == 13 && tableau.countHiddenCards() != 0) {
@@ -91,27 +86,24 @@ public class MoveAlgoritm {
             boolean bestKingFound = false;
             int currSearchValue = 13; //Start by searching for best king to move
 
-            int redKingScore = 0, blackKingScore = 0, currHighscore = 0;
+            int redKingScore = 0, blackKingScore = 0, currMostFreedCards = 0;
 
             while(!bestKingFound && currSearchValue > 0) {
                 //Reset scores for round
-                redKingScore = 0; blackKingScore = 0; currHighscore = 0;
+                redKingScore = 0; blackKingScore = 0; currMostFreedCards = 0;
 
                 for(Card currKing : kingsAvailable) {
                     //Looking through for X value card
-                    for(Tableau tab : sortedTableaus) {
+                    for(Tableau tab : tableaus) {
 
                         //There are cards to check
                         if(tab.getVisibleCards().length > 0) {
                             Card backCard = tab.getVisibleCards()[0]; //Take card from the back of the stack
 
                             //Is the card we're looking for
-                            if(backCard.getValue() == currSearchValue && tab.countHiddenCards() > currHighscore) {
+                            if(backCard.getValue() == currSearchValue && tab.countHiddenCards() > currMostFreedCards) {
 
-                                //Check if suit matches king
-                                if(backCard.getValue() % 2 == 0 && backCard.getSuit() % 2 != currKing.getSuit() % 2
-                                        || backCard.getValue() % 2 == 1 && backCard.getSuit() % 2 == currKing.getSuit() % 2) {
-
+                                if(isCompatibleToKingsStack(currKing, backCard)) { //Check if card matches kings stack
                                     if(currKing.getSuit() % 2 == 0) {
                                         redKingScore = 1; //Set score to 1-0 for red
                                         blackKingScore = 0;
@@ -119,13 +111,12 @@ public class MoveAlgoritm {
                                         blackKingScore = 1; //Set score to 1-0 for black
                                         redKingScore = 0;
                                     }
-                                    currHighscore = tab.countHiddenCards(); //Set new highscore
+                                    currMostFreedCards = tab.countHiddenCards(); //Set new highscore
                                 }
                                 bestKingFound = true; //Only one answer is found
 
-                            } else if(backCard.getValue() == currSearchValue && currHighscore == tab.countHiddenCards()) {
-                                if(backCard.getValue() % 2 == 0 && backCard.getSuit() % 2 != currKing.getSuit() % 2
-                                        || backCard.getValue() % 2 == 1 && backCard.getSuit() % 2 == currKing.getSuit() % 2) {
+                            } else if(backCard.getValue() == currSearchValue && currMostFreedCards == tab.countHiddenCards()) {
+                                if(isCompatibleToKingsStack(currKing, backCard)) { //Check if card matches kings stack
 
                                     if(currKing.getSuit() % 2 == 0) redKingScore++; else blackKingScore++; //Add score
                                 }
@@ -134,6 +125,7 @@ public class MoveAlgoritm {
                         }
                     }
                 }
+
                 if(!bestKingFound) currSearchValue--; //Go down a value in case we need to continue search
             }
 
@@ -151,18 +143,22 @@ public class MoveAlgoritm {
                 }
             }
             return "Move " + bestKing + " to an empty space";
-        } else if (kingsAvailable.size() == 1 && emptySpaces > 0) {
+        } else if (kingsAvailable.size() == 1 && emptySpaces > 0) { //Only one king found
             return "Move " + kingsAvailable.get(0).toString() + " to an empty space";
         }
         return "";
     }
 
-    private List<Tableau> sortAfterHiddenCards(){
-
-        //TODO: make sorting algoritm
-        List<Tableau> tableau = tableaus;
-
-        return tableau;
+    /**
+     * Checks if card can be part of the stack of a king
+     *
+     * @param currKing  King which stacks we compare
+     * @param backCard  Card to check if compatible
+     * @return          True if compatible, else false
+     */
+    private boolean isCompatibleToKingsStack(Card currKing, Card backCard) {
+        return backCard.getValue() % 2 == 0 && backCard.getSuit() % 2 != currKing.getSuit() % 2
+                || backCard.getValue() % 2 == 1 && backCard.getSuit() % 2 == currKing.getSuit() % 2;
     }
 
     /**
@@ -171,7 +167,7 @@ public class MoveAlgoritm {
      * @return  Instruction to player
      */
     public String revealHiddenCard(){
-        for(Tableau tableau : sortAfterHiddenCards()) {
+        for(Tableau tableau : tableaus) {
             if(tableau.getVisibleCards() == null || tableau.getVisibleCards().length == 0
                     && tableau.countHiddenCards() > 0) {
                 return "Turn over a card from the tableau with the highest amount of hidden cards";
