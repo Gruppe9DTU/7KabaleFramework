@@ -78,8 +78,7 @@ public class MoveAlgoritm {
             }
 
             //Check if first card is king
-            // TODO: might want to make it more complex later
-            if (!tableau.isEmpty()) {
+            if (tableau.getVisibleCards().length > 0) {
                 Card card = tableau.getVisibleCards()[0];
 
                 if (card.getValue() == 13 && tableau.countHiddenCards() != 0) {

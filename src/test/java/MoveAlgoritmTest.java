@@ -411,7 +411,23 @@ public class MoveAlgoritmTest {
      */
     @Test
     public void testKingCheck119() {
+        Card wantedCard[] = {new Card(0,13)}; //King of Hearts
+        Card distractionCard[] = {new Card(1,13)}; //King of Spades
+        Card cardOfInterest[] = {new Card(1, 12)}; //Queen of Spades
 
+        tableaus[0].addCardToStack(new Card(0, 12)); //Queen of Hearts
+        tableaus[1] = new Tableau(2, Arrays.asList(distractionCard)); //King of Spades
+        tableaus[3] = new Tableau(2, Arrays.asList(cardOfInterest)); //Queen of Spades
+        tableaus[4] = new Tableau(2, Arrays.asList(wantedCard));//King of Hearts
+
+        //Create a dummy wastepile
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("Move " + wantedCard[0].toString() + " to an empty space", algoritmCtrl.kingCheck());
     }
 
     /**
