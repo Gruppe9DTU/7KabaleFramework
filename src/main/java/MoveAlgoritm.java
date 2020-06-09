@@ -20,27 +20,31 @@ public class MoveAlgoritm {
 
         Collections.sort(tableaus,Tableau.AllCardsCompare);
 
-        String bestMove = "";
+        if (!checkEs().equals("")){
+                return checkEs();
 
-        List<String> moves = new ArrayList<String>();
+        } else if (!kingCheck().equals("")){
+                return kingCheck();
 
-        moves.add(checkEs());
-        moves.add(kingCheck());
-        moves.add(revealHiddenCard());
-        moves.add(foundationToTableau());
-        moves.add(moveToFoundation());
-        moves.add(typeStreak());
-        moves.add(revealCardFromWaste());
-        moves.add(endGame());
+        }else if (!revealHiddenCard().equals("")){
+                return revealHiddenCard();
 
-        for (String move : moves) {
-            if (!move.equals("")) {
-                bestMove = move;
-                break;
-            }
+        } else if (!moveToFoundation().equals("")){
+                return moveToFoundation();
+
+        } else if (!moveToFoundation().equals("")){
+                return moveToFoundation();
+
+        } else if (!typeStreak().equals("")){
+                return typeStreak();
+
+        } else if (!revealCardFromWaste().equals("")){
+                return revealCardFromWaste();
+
+        } else {
+            return "Game is unsolvable (redo last move(s) or give up)";
         }
 
-        return bestMove;
     }
 
     //Altid ryk en es til grundbunker
@@ -329,10 +333,5 @@ public class MoveAlgoritm {
         return wastePile ? "Vend et kort fra grundbunken" : "" ;
     }
 
-    //TODO Take a stance to delete this, literally only returns a string
-    //Game is unsolvable (redo last move(s) or give up)
-    public String endGame() {
-        return "Game is unsolvable (redo last move(s) or give up)";
-    }
 
 }
