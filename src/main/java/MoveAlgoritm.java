@@ -8,7 +8,6 @@ public class MoveAlgoritm {
     private List<Foundation> foundations;
     private Card waste;
     private boolean wastePile;
-    private int moveNumber;
 
     public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Card waste, boolean wastePile) {
         this.tableaus = tableaus;

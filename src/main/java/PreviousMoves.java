@@ -10,14 +10,16 @@ public class PreviousMoves {
 
     public void addPreviousMove(String gameImage) {
 
-        previousMovesFound = 0; //TODO Consider if possible to move into if statement
-
         if (!previousMoves.isEmpty()) {
-            //TODO Consider: I'm afraid of the length, since I don't know how many times a move can be made throughout the game.
+
+            previousMovesFound = 0;
+
             for (String previousMove : previousMoves) {
 
                 if (gameImage.equals(previousMove)){
                     previousMovesFound++;
+                } else if (previousMovesFound > 7){ //kan alligevel ikke skippe over 7 gange i denne verison
+                    break;
                 }
             }
 

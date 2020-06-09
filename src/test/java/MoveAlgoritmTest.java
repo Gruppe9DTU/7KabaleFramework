@@ -34,7 +34,7 @@ public class MoveAlgoritmTest {
     @Test
     public void testCheckEs(){
 
-        PreviousMoves previousMoves = new PreviousMoves();
+        PreviousMoves previousMoves = new PreviousMoves(); //kan være tom da der ikke forvents nogle tidliger layouts
         Card tableauCard = new Card(0,1); //ace of hearts
         Card tableauCard2 = new Card(1,1); //ace of spades
 
@@ -70,7 +70,7 @@ public class MoveAlgoritmTest {
     @Test
     public void testCheckEs2(){
 
-        PreviousMoves previousMoves = new PreviousMoves();
+        PreviousMoves previousMoves = new PreviousMoves(); //kan være tom da der ikke forvents nogle tidliger layouts
         Card tableauCard = new Card(0,1); //ace of hearts
         Card tableauCard2 = new Card(1,1); //ace of spades
 
