@@ -117,10 +117,45 @@ public class MoveAlgoritmTest {
     /**
      * Tests if it skips previous possible moves, if later move have been made
      */
-     @Test
-     public void testGetBestMove103() {
+    @Test
+    public void testGetBestMove103() {
+        PreviousStatesController previousStatesController = new PreviousStatesController();
 
-     }
+        Card tableauCard = new Card(0,1); //ace of hearts
+
+        tableaus[0].addCardToStack(new Card(1, 4)); //random card
+        tableaus[0].addCardToStack(new Card(2, 3)); //random card
+
+        tableaus[1].addCardToStack(new Card(1, 2)); //random card
+        tableaus[1].addCardToStack(tableauCard);
+
+        tableaus[2].addCardToStack(new Card(1, 9));
+
+        tableaus[3].addCardToStack(new Card(1, 11));
+
+        tableaus[4].addCardToStack(new Card(0, 10));
+
+        //Create a wastepile with 8 of Hearts on top
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 12));
+        wasteCards.add(new Card(0, 11));
+        Waste waste = new Waste(wasteCards, true);
+
+        Gamelogic gamelogic = new Gamelogic();
+
+        gamelogic.setTableau(tableaus);
+        gamelogic.setFoundation(foundations);
+        gamelogic.setWaste(waste);
+
+        previousStatesController.addPreviousMove(new PreviousState(gamelogic.printGame(), 1)); //Have moved an ace from this position before
+        previousStatesController.addPreviousMove(new PreviousState(gamelogic.printGame(), 6)); //Previously moved a 10 to 11
+
+
+        MoveAlgoritm move = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals( "Vend et kort fra grundbunken"
+                , move.getBestMove(previousStatesController.getLatestSolutionToState(gamelogic.printGame())));
+    }
 
     /**
      * Test what ace is prioritised to go into the foundation
