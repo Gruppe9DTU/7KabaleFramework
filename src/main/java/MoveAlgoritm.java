@@ -46,8 +46,8 @@ public class MoveAlgoritm {
                     } else { skip--; }
                 }
             case 4:
-                if (!grundbunkeToBuildStable().equals("")) {
-                    if (skip == 0) { move += grundbunkeToBuildStable(); break;
+                if (!foundationToTableau().equals("")) {
+                    if (skip == 0) { move += foundationToTableau(); break;
                     } else { skip--; }
                 }
             case 5:
