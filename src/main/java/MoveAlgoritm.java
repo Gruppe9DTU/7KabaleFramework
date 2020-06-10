@@ -8,6 +8,7 @@ public class MoveAlgoritm {
     private List<Foundation> foundations;
     private Card waste;
     private boolean wastePile;
+    private int latestMove;
 
     public MoveAlgoritm(List<Tableau> tableaus, List<Foundation> foundations, Card waste, boolean wastePile) {
         this.tableaus = tableaus;
@@ -16,76 +17,56 @@ public class MoveAlgoritm {
         this.wastePile = wastePile;
     }
 
-    public String getBestMove(PreviousMoves previousMoves) {
-        int skip = previousMoves.timeslastMoveIsRecognized();
+    public String getBestMove(PreviousState preState) {
+        int latestMove;
+        String bestMove;
 
-        String move = "";
-        String skipMsg = "";
+        //Gets latest move done
+        if(preState == null) latestMove = 0;
+        else latestMove = preState.getMove();
 
-        if (skip != 0) {
-            skipMsg = "Dette layout af kort er blevet præsenteret før, hvis tidligere træk ikke virkede, kan du prøve: \n";
-        }
+        bestMove = moveChecker(latestMove);
 
-        switch (0) { //TODO This is not using a switch
+        return bestMove;
+    }
 
-            case 0:
-                move = checkEs();
-                if (!move.equals("")) {
-                    if (skip == 0) {
-                        break;
-                    } else { skip--; }
-                }
+    private String moveChecker(int latestMove) {
+        String bestMove;
+        switch (++latestMove) { //Skips previous move, goes to first if none were made before
+
             case 1:
-                move = kingCheck();
-                if (!move.equals("")) {
-                    if (skip == 0) {
-                        break;
-                    } else { skip--; }
-                }
+                bestMove = checkEs();
+                if (!bestMove.equals("")) break;
+
             case 2:
-                move = revealHiddenCard();
-                if (!move.equals("")) {
-                    if (skip == 0) {
-                        break;
-                    } else { skip--; }
-                }
+                bestMove = kingCheck();
+                if (!bestMove.equals("")) break;
+
             case 3:
-                move = foundationToTableau();
-                if (!move.equals("")) {
-                    if (skip == 0) {
-                        break;
-                    } else { skip--; }
-                }
+                bestMove = revealHiddenCard();
+                if (!bestMove.equals("")) break;
+
             case 4:
-                move = moveToFoundation();
-                if (!move.equals("")) {
-                    if (skip == 0) {
-                        break;
-                    } else { skip--; }
-                }
+                bestMove = foundationToTableau();
+                if (!bestMove.equals("")) break;
 
             case 5:
-                move = typeStreak();
-                if (!move.equals("")) {
-                    if (skip == 0) {
-                        break;
-                    } else { skip--; }
-                }
+                bestMove = moveToFoundation();
+                if (!bestMove.equals("")) break;
 
             case 6:
-                move = revealCardFromWaste();
-                if (!move.equals("")) {
-                    if (skip == 0) {
-                        break;
-                    } else move = ""; //Move has been offered before
-                }
+                bestMove = typeStreak();
+                if (!bestMove.equals("")) break;
+
+            case 7:
+                bestMove = revealCardFromWaste();
+                if (!bestMove.equals("")) break;
 
             default:
-                if (skip != 0) { move += "komplixiteten af denne function kan ikke se andre mulige træk";
-                } else { move = "spil kan ikke vindes herfra, prøv at gå nogle træk tilbage"; }
+                if(latestMove == 1) bestMove = "Intet træk blev fundet for nuværende spil";
+                else bestMove = "Der kunne ikke findes noget nyt træk for denne position af spillet";
         }
-
-        return skipMsg + move;
+        return bestMove;
     }
 
     /**

@@ -34,7 +34,7 @@ public class newGetBestMoveTest { //TODO Delete class, everything is copied to M
 //    @Test
 //    public void newGetBestMove1(){
 //
-//        PreviousMoves previousMoves = new PreviousMoves();
+//        PreviousStatesController previousMoves = new PreviousStatesController();
 //
 //        Card tableauCard = new Card(0,1); //ace of hearts
 //
@@ -80,7 +80,7 @@ public class newGetBestMoveTest { //TODO Delete class, everything is copied to M
 //    @Test
 //    public void newGetBestMove2(){
 //
-//        PreviousMoves previousMoves = new PreviousMoves();
+//        PreviousStatesController previousMoves = new PreviousStatesController();
 //
 //        Card tableauCard = new Card(0,1); //ace of hearts
 //
@@ -129,7 +129,7 @@ public class newGetBestMoveTest { //TODO Delete class, everything is copied to M
 //    @Test
 //    public void newGetBestMove(){
 //
-//        PreviousMoves previousMoves = new PreviousMoves();
+//        PreviousStatesController previousMoves = new PreviousStatesController();
 //
 //        Card tableauCard = new Card(0,1); //ace of hearts
 //

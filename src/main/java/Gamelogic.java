@@ -19,8 +19,6 @@ public class Gamelogic {
             tableau[i] = new Tableau(i, visibleCards); //'i' in constructor needs to be replaced by a read value of how many hidden cards we can see
         }
         waste = new Waste(deck.getDeck().size() - 21, deck);
-
-        System.out.println(printGame());
     }
 
     public String printGame() {
