@@ -32,7 +32,7 @@ public class MoveAlgoritmTest {
      * For this test is has already tried to move an ace to a stack before
      */
     @Test
-    public void newGetBestMove1(){
+    public void testGetBestMove101(){
 
         PreviousStatesController previousStatesController = new PreviousStatesController();
 
@@ -72,10 +72,10 @@ public class MoveAlgoritmTest {
     }
 
     /**
-     * Test that default value is regognized when running out of moves
+     * Tests that it gives instructions to the player that there are no more possible moves
      */
     @Test
-    public void newGetBestMove2(){
+    public void testGetBestMove102(){
 
         PreviousStatesController previousStatesController = new PreviousStatesController();
 
@@ -111,12 +111,11 @@ public class MoveAlgoritmTest {
 
         MoveAlgoritm move = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Dette layout af kort er blevet præsenteret før, hvis tidligere træk ikke virkede, kan du prøve: \n" +
-                "komplixiteten af denne function kan ikke se andre mulige træk", move.getBestMove(previousStatesController.getLatestSolutionToState(gamelogic.printGame())));
+        assertEquals("Der kunne ikke findes noget nyt træk for denne position af spillet", move.getBestMove(previousStatesController.getLatestSolutionToState(gamelogic.printGame())));
     }
 
     /**
-     *
+     * Tests if it skips previous possible moves, if later move have been made
      */
      @Test
      public void testGetBestMove103() {
@@ -128,7 +127,6 @@ public class MoveAlgoritmTest {
      */
     @Test
     public void testCheckEs(){
-
         PreviousStatesController previousStatesController = new PreviousStatesController(); //kan være tom da der ikke forvents nogle tidliger layouts
         Card tableauCard = new Card(0,1); //ace of hearts
         Card tableauCard2 = new Card(1,1); //ace of spades

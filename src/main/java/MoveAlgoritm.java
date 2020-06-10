@@ -75,16 +75,18 @@ public class MoveAlgoritm {
      * @return Instructions to Player
      */
     public String checkEs() {
-        Collections.sort(tableaus,Tableau.AllCardsCompare);
+        Collections.sort(tableaus,Tableau.AllCardsCompare); //TODO Why not just hidden cards?
 
         for (Tableau tableau : tableaus) {
             Card[] visibleCards = tableau.getVisibleCards();
 
             //Check if first visible card in tableau is es
-            Card card = visibleCards[visibleCards.length - 1];
+            if(visibleCards.length > 0) {
+                Card card = visibleCards[visibleCards.length - 1];
 
-            if (card.getValue() == 1) {
-                return "Ryk " + card.toString() + " til Foundation";
+                if (card.getValue() == 1) {
+                    return "Ryk " + card.toString() + " til Foundation";
+                }
             }
         }
         return "";
