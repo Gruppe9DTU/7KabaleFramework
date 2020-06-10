@@ -35,7 +35,7 @@ public class MoveAlgoritm {
         switch (++latestMove) { //Skips previous move, goes to first if none were made before
 
             case 1:
-                bestMove = checkEs();
+                bestMove = checkAce();
                 if (!bestMove.equals("")) break;
 
             case 2:
@@ -74,7 +74,7 @@ public class MoveAlgoritm {
      *
      * @return Instructions to Player
      */
-    public String checkEs() {
+    public String checkAce() {
         Collections.sort(tableaus,Tableau.AllCardsCompare); //TODO Why not just hidden cards?
 
         for (Tableau tableau : tableaus) {

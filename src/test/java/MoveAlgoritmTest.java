@@ -126,7 +126,7 @@ public class MoveAlgoritmTest {
      * Test what ace is prioritised to go into the foundation
      */
     @Test
-    public void testCheckEs(){
+    public void testCheckAce101(){
         PreviousStatesController previousStatesController = new PreviousStatesController(); //kan være tom da der ikke forvents nogle tidliger layouts
         Card tableauCard = new Card(0,1); //ace of hearts
         Card tableauCard2 = new Card(1,1); //ace of spades
@@ -154,16 +154,14 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Ryk " + tableauCard2.toString() + " til Foundation", algoritmCtrl.checkEs());
+        assertEquals("Ryk " + tableauCard2.toString() + " til Foundation", algoritmCtrl.checkAce());
     }
 
     /**
-     * Test if ace with highest cards found from the bottom is chosen for checkEs
+     * Test if ace with highest cards found from the bottom is chosen for checkAce
      */
     @Test
-    public void testCheckEs2(){
-
-        PreviousStatesController previousStatesController = new PreviousStatesController(); //kan være tom da der ikke forvents nogle tidliger layouts
+    public void testCheckAce102(){
         Card tableauCard = new Card(0,1); //ace of hearts
         Card tableauCard2 = new Card(1,1); //ace of spades
 
@@ -190,7 +188,24 @@ public class MoveAlgoritmTest {
 
         algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
 
-        assertEquals("Ryk " + tableauCard.toString() + " til Foundation", algoritmCtrl.checkEs());
+        assertEquals("Ryk " + tableauCard.toString() + " til Foundation", algoritmCtrl.checkAce());
+    }
+
+    /**
+     * Test for crash if no Ace and empty space
+     */
+    @Test
+    public void testCheckAce103() {
+        tableaus[0].addCardToStack(new Card(0, 6));
+        tableaus[2].addCardToStack(new Card(0, 3));
+
+        List<Card> wasteCards = new ArrayList<Card>();
+        wasteCards.add(new Card(0, 8));
+        Waste waste = new Waste(wasteCards, true);
+
+        algoritmCtrl = new MoveAlgoritm(Arrays.asList(tableaus), Arrays.asList(foundations), waste.lookAtTop(), waste.getPileStatus());
+
+        assertEquals("", algoritmCtrl.checkAce());
     }
 
     /**
