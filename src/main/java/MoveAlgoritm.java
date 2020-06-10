@@ -17,54 +17,67 @@ public class MoveAlgoritm {
     }
 
     public String getBestMove(PreviousMoves previousMoves) {
-
-        Collections.sort(tableaus,Tableau.AllCardsCompare);
-
         int skip = previousMoves.timeslastMoveIsRecognized();
 
         String move = "";
+        String skipMsg = "";
 
         if (skip != 0) {
-            move = "Dette layout af kort er blevet præsenteret før, hvis tidligere træk ikke virkede, kan du prøve: \n";
+            skipMsg = "Dette layout af kort er blevet præsenteret før, hvis tidligere træk ikke virkede, kan du prøve: \n";
         }
 
-        switch (1) {
+        switch (0) { //TODO This is not using a switch
 
+            case 0:
+                move = checkEs();
+                if (!move.equals("")) {
+                    if (skip == 0) {
+                        break;
+                    } else { skip--; }
+                }
             case 1:
-                if (!checkEs().equals("")) {
-                    if (skip == 0) { move += checkEs(); break;
+                move = kingCheck();
+                if (!move.equals("")) {
+                    if (skip == 0) {
+                        break;
                     } else { skip--; }
                 }
             case 2:
-                if (!kingCheck().equals("")) {
-                    if (skip == 0) { move += kingCheck(); break;
+                move = revealHiddenCard();
+                if (!move.equals("")) {
+                    if (skip == 0) {
+                        break;
                     } else { skip--; }
                 }
             case 3:
-                if (!revealHiddenCard().equals("")) {
-                    if (skip == 0) { move += revealHiddenCard(); break;
+                move = foundationToTableau();
+                if (!move.equals("")) {
+                    if (skip == 0) {
+                        break;
                     } else { skip--; }
                 }
             case 4:
-                if (!foundationToTableau().equals("")) {
-                    if (skip == 0) { move += foundationToTableau(); break;
+                move = moveToFoundation();
+                if (!move.equals("")) {
+                    if (skip == 0) {
+                        break;
                     } else { skip--; }
                 }
+
             case 5:
-                if (!moveToFoundation().equals("")) {
-                    if (skip == 0) { move += moveToFoundation(); break;
+                move = typeStreak();
+                if (!move.equals("")) {
+                    if (skip == 0) {
+                        break;
                     } else { skip--; }
                 }
 
             case 6:
-                if (!typeStreak().equals("")) {
-                    if (skip == 0) { move += typeStreak(); break;
-                    } else { skip--; }
-                }
-
-            case 7:
-                if (!revealCardFromWaste().equals("")) {
-                    if (skip == 0) { move += revealCardFromWaste(); break; }
+                move = revealCardFromWaste();
+                if (!move.equals("")) {
+                    if (skip == 0) {
+                        break;
+                    } else move = ""; //Move has been offered before
                 }
 
             default:
@@ -72,7 +85,7 @@ public class MoveAlgoritm {
                 } else { move = "spil kan ikke vindes herfra, prøv at gå nogle træk tilbage"; }
         }
 
-        return move;
+        return skipMsg + move;
     }
 
     /**
@@ -81,6 +94,8 @@ public class MoveAlgoritm {
      * @return Instructions to Player
      */
     public String checkEs() {
+        Collections.sort(tableaus,Tableau.AllCardsCompare);
+
         for (Tableau tableau : tableaus) {
             Card[] visibleCards = tableau.getVisibleCards();
 
