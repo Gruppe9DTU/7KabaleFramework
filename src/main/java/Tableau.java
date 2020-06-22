@@ -1,55 +1,44 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Class to act as Tableau of a game of Solitaire. Tableau is where the game is mainly played and cards a put from King to Ace.
+ */
 public class Tableau {
-    private int hiddenCards;
-    private List<Card> visibleCards = new ArrayList<Card>();
+    private int hiddenCards;                                //Amount of hidden cards in Tableau
+    private List<Card> visibleCards = new ArrayList<>();    //List of Card instances
 
     /**
-     * For testing purposes
+     * Constructor for Tableau class
      *
-     * @param hiddenCards
+     * @param hiddenCards   Amount of hidden cards in Tableau
+     * @param visibleCards  List of instances of Card in Tableau, in the order highest to lowest
      */
-    public Tableau(int hiddenCards) {
-        this.hiddenCards = hiddenCards;
-    }
-
     public Tableau(int hiddenCards, List<Card> visibleCards) {
         this.hiddenCards = hiddenCards;
-        this.visibleCards.addAll(visibleCards);
+        if(visibleCards != null) this.visibleCards.addAll(visibleCards);
     }
 
-    public Card[] getVisibleCards() {
-        Card[] returnval = new Card[visibleCards.size()];
-        for(int i = 0; i < visibleCards.size(); i++) {
-            returnval[i] = visibleCards.get(i);
-        }
-        return returnval;
-    }
-
-    public int countHiddenCards() {
-        return hiddenCards;
-    }
-
-    /***
-     * for testing purposes
+    /**
+     * Returns the amount of hidden cards in Tableau
      *
-     * @param card
+     * @return  Amount of hidden cards
      */
-    public void revealCard(Card card) {
-        hiddenCards -= 1;
-        visibleCards.add(card);
-    }
+    public int countHiddenCards() { return hiddenCards; }
 
-    public boolean isEmpty() {
-        if (hiddenCards == 0 && visibleCards.size() == 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    /**
+     * Controls for if the Tableau is empty, for both hidden and visible cards
+     *
+     * @return  True if no instance of Card is present, else false
+     */
+    public boolean isEmpty() { return hiddenCards == 0 && visibleCards.size() == 0; }
 
+    /**
+     * Adds a Card to the stack of visible cards, if conditions are met
+     *
+     * @param card  Instance of Card to be added to the List of visible cards
+     */
     public void addCardToStack(Card card) {
         if(visibleCards.size() > 0) {
             Card lastCard = visibleCards.get(visibleCards.size() - 1);
@@ -63,7 +52,64 @@ public class Tableau {
         }
     }
 
-    public Card getTopCard() {
-        return visibleCards.get(visibleCards.size() - 1);
+    public Card removeCardFromStack(Deck deck) {
+        Card revealed = visibleCards.remove(visibleCards.size() -1 );
+        if(hiddenCards != 0 && visibleCards.size() == 0) {
+            hiddenCards--;
+            addCardToStack(deck.getNextCard());
+        }
+        return revealed;
     }
+
+    /**
+     * Searches through the Tableau, for a card that matches in wanted value
+     *
+     * @param value Value of 1-13 to search for
+     * @return      If card of chosen value is found and moveable
+     */
+    public boolean searchForMoveableCardByValue(int value) {
+        for(Card card : getVisibleCards()) {
+            if (card.getValue() == value) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Search through the Tableau, for a card that matches in wanted suit and value
+     *
+     * @param suit  Wanted suit
+     * @param value Wanted value
+     * @return      True if card is in Tableau, else false
+     */
+    public boolean searchForMoveableCardBySuitAndValue(int suit, int value) {
+        for(Card card : getVisibleCards()) {
+            if (card.getSuit() == suit && card.getValue() == value) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Getter for list of visible cards
+     *
+     * @return  List of the visible cards of the Tableau
+     */
+    public List<Card> getVisibleCards() { return visibleCards; }
+
+    /**
+     * Returns instance of the card in the back of the Tableau, aka the Card with the highest value.
+     * @return  Card in the back of the Tableau
+     */
+    public Card getTopCard() {
+        return visibleCards.get(visibleCards.size()-1);
+    }
+
+    /**
+     * Comparator methods to sort the cards after how many hidden cards is in the Tableau
+     */
+    public static Comparator<Tableau> HiddenCardsCompare = (tableau1, tableau2) -> {
+        int numCards1 = tableau1.countHiddenCards();
+        int numCards2 = tableau2.countHiddenCards();
+
+        return numCards2-numCards1;
+    };
 }

@@ -1,6 +1,9 @@
+/**
+ * Class to act as a playing card from a normal deck of cards
+ */
 public class Card {
-    private int suit;
-    private int value;
+    private int suit;   //What suit that card is: Heart, spade, etc.
+    private int value;  //What value it has, from ace to king (1-13)
 
     /***
      * Constructor for the Card object. A playing card.
@@ -13,26 +16,19 @@ public class Card {
         this.value = value;
     }
 
-    public int getSuit() {
-        return this.suit;
-    }
+    /**
+     * Getters and Setters for Card class
+     */
+    public int getSuit() { return this.suit; }
+    public void setSuit(int suit) { this.suit = suit; }
 
-    public void setSuit(int suit) {
-        this.suit = suit;
-    }
-
-    public int getValue() {
-        return this.value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
+    public int getValue() { return this.value; }
+    public void setValue(int value) { this.value = value; }
 
     /***
      * A method to get the suit in string form
      *
-     * @return A string explaining the suit, depending on the value of the int
+     * @return A string explaining the suit, depending on the value of Card.suit
      */
     public String readSuit() {
         switch(suit) {
@@ -52,7 +48,7 @@ public class Card {
     /***
      * A method to convert a card to a string
      *
-     * @return A string explaining the card
+     * @return Full description of the card
      */
     public String toString() {
         switch(value){
@@ -71,7 +67,8 @@ public class Card {
 
     /**
      * A method to give a short print of the card
-     * @return
+     *
+     * @return  Short description of the card
      */
     public String shortString() {
         switch (value) {
