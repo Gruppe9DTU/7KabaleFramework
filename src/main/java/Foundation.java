@@ -58,5 +58,12 @@ public class Foundation {
      *
      * @return True if foundation is complete, else false
      */
-    public Boolean isComplete() { return peekCard().getValue() == 13 && countCards() == 13; }
+    public Boolean isComplete() {
+        if (cards.size() > 0) {
+            return peekCard().getValue() == 13 && countCards() == 13;
+        }
+        else {
+            return false;
+        }
+    }
 }

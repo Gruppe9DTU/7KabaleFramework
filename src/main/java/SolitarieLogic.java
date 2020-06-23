@@ -7,6 +7,7 @@ public class SolitarieLogic {
     private Waste waste;
     private Tableau[] tableau;
     private Foundation[] foundation;
+    private boolean isWon = false;
 
     /**
      * Constructor for the controller
@@ -43,16 +44,27 @@ public class SolitarieLogic {
         //wasteNfoundation = waste.isWastePilePresent() ? "W" : "Emp";
         wasteNfoundation = "" + waste.unknownSize();
         wasteNfoundation += "|"+ shownWaste + "     " + foundationString;
-        System.out.println(wasteNfoundation);
         //Tableau
         String tableauLengths = "";
         String tableauValues = "";
-        for(int i = 0 ; i < tableau.length ; i++) {
-            tableauLengths += " " + tableau[i].countHiddenCards() + "  ";
-            tableauValues += tableau[i].isEmpty() ? "Emp ": tableau[i].getVisibleCards().size() == 0 ? "Hid " : tableau[i].getTopCard().shortString() + " " ;
+        int largest = 0;
+        for(Tableau t : tableau) {
+            if(t.getVisibleCards().size() > largest) {
+                largest = t.getVisibleCards().size();
+            }
+        }
+        for(int i = 0; i < largest; i++) {
+            for (int j = 0; j < tableau.length; j++) {
+                if (i == 0) tableauLengths += " " + tableau[j].countHiddenCards() + "  ";
+                if (i == 0) tableauValues += tableau[j].isEmpty() ? "Emp " : tableau[j].getVisibleCards().size() == 0 ? "Hid " : tableau[j].getVisibleCards().size() < i+1 ? "    " :
+                        tableau[j].getVisibleCards().get(i).shortString() + " ";
+                else tableauValues += tableau[j].isEmpty() ? "    " : tableau[j].getVisibleCards().size() == 0 ? "    " : tableau[j].getVisibleCards().size() < i+1 ? "    " :
+                        tableau[j].getVisibleCards().get(i).shortString() + " ";
+            }
+            tableauValues += "\n";
         }
 
-        return (tableauLengths + "\n" + tableauValues + "\n");
+        return (wasteNfoundation + "\n" + tableauLengths + "\n" + tableauValues + "\n");
     }
 
     public Tableau[] getTableau() { return tableau; }
@@ -75,6 +87,7 @@ public class SolitarieLogic {
     }
 
     public Waste getWaste() { return waste; }
+
     public void setWaste(Waste waste) {
         this.waste = waste;
     }
@@ -87,12 +100,16 @@ public class SolitarieLogic {
         this.foundation = foundation;
     }
 
-    public Card takeFromTableau(int i) {
-        return tableau[i].removeCardFromStack(deck);
+    public List<Card> takeFromTableau(int i, int j) {
+        return tableau[i].removeCardFromStack(deck, j);
     }
 
-    public void addToTableau(Card card, int i) {
-        tableau[i].addCardToStack(card);
+    public int getVisibleCardsTablaeu(int i) {
+        return tableau[i].getVisibleCards().size();
+    }
+
+    public void addToTableau(List<Card> card, int i) {
+        tableau[i].addListCardsToStack(card);
     }
 
     public Card takeFromFoundation(int i) {
@@ -112,5 +129,24 @@ public class SolitarieLogic {
             return waste.takeCard();
         }
         else return null;
+    }
+
+    public void updateIsWon() {
+        isWon = true;
+        for(Foundation f : foundation) {
+            if(f.countCards() != 0){
+                if(f.peekCard().getSuit() != 13) {
+                    isWon = false;
+                    break;
+                }
+            } else {
+                isWon = false;
+                break;
+            }
+        }
+    }
+
+    public boolean getIsWon() {
+        return  isWon;
     }
 }

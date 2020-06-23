@@ -69,7 +69,10 @@ public class Waste {
      *
      * @return  True if there are cards to be revealed
      */
-    public boolean isWastePilePresent() { return wastePilePresent;}
+    public boolean isWastePilePresent() {
+        if(knownCards.size() == 0 && unknowncards.size() == 0) return false;
+        else return true;
+    }
 
 
     public int unknownSize() {return unknowncards.size();}

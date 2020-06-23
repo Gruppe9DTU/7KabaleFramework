@@ -5,7 +5,7 @@ import java.util.List;
  * Container for instances of PreviousState class
  */
 public class PreviousStatesContainer {
-    private List<PreviousState> previousStates = new ArrayList<PreviousState>();
+    private List<PreviousState> previousStates = new ArrayList();
     private static PreviousStatesContainer singleton = null;
 
     private PreviousStatesContainer() {

@@ -52,13 +52,22 @@ public class Tableau {
         }
     }
 
-    public Card removeCardFromStack(Deck deck) {
-        Card revealed = visibleCards.remove(visibleCards.size() -1 );
+    public List<Card> removeCardFromStack(Deck deck, int i) {
+        List<Card> toRemove = new ArrayList();
+        for (int j = 0; j <= i; j++) {
+            toRemove.add(visibleCards.remove(visibleCards.size()-1));
+        }
         if(hiddenCards != 0 && visibleCards.size() == 0) {
             hiddenCards--;
             addCardToStack(deck.getNextCard());
         }
-        return revealed;
+        return toRemove;
+    }
+
+    public void addListCardsToStack(List<Card> cards) {
+        for(Card c : cards) {
+            addCardToStack(c);
+        }
     }
 
     /**
