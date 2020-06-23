@@ -1,8 +1,11 @@
+import javafx.scene.control.Tab;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class SolitarieLogic {
+public class SolitaireLogic {
     private Deck deck;
     private Waste waste;
     private Tableau[] tableau;
@@ -12,7 +15,7 @@ public class SolitarieLogic {
     /**
      * Constructor for the controller
      */
-    public SolitarieLogic() {
+    public SolitaireLogic() {
         deck = new Deck();
         deck.shuffle();
         waste = new Waste(false, null);
@@ -149,4 +152,5 @@ public class SolitarieLogic {
     public boolean getIsWon() {
         return  isWon;
     }
+
 }

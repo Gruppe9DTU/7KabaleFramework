@@ -4,19 +4,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GameControl {
-    private SolitarieLogic logic;
+    private SolitaireLogic logic;
     private MoveAlgorithm ma;
     private PreviousStatesContainer prevStates;
 
     public GameControl(){
-        logic = new SolitarieLogic();
+        logic = new SolitaireLogic();
         ma = new MoveAlgorithm(logic);
         this.prevStates = PreviousStatesContainer.getInstance();
     }
 
     public void playGame() {
         while (!logic.getIsWon()) {
-            System.out.println(logic.getGameState());
             makeMove();
             logic.updateIsWon();
         }
@@ -25,6 +24,7 @@ public class GameControl {
     public void makeMove() {
         ma = new MoveAlgorithm(logic);
         String moveSuggestion = ma.getBestMove(prevStates.getLatestSolutionToState(logic.getGameState()));
+        prevStates.addPreviousMove(new PreviousState(logic.getGameState(), ma.getMoveChosen()));
         System.out.println(moveSuggestion);
         Scanner input = new Scanner(System.in);
         String choice;
@@ -43,6 +43,7 @@ public class GameControl {
                 }
                 else if (choice.equals("t")) {
                     chosenCard = logic.takeFromWaste();
+                    chosenCards.add(chosenCard);
                     if(chosenCard.equals(null)) {
                         System.out.println("Waste is empty");
                     }
@@ -56,7 +57,7 @@ public class GameControl {
                 isMoving = true;
                 int choiceNo = input.nextInt();
                 System.out.println("Please choose how many cards to take(1-" +
-                        logic.getVisibleCardsTablaeu(choiceNo) + ")");
+                        logic.getVisibleCardsTablaeu(choiceNo-1) + ")");
                 int cardNo = input.nextInt();
                 chosenCards = logic.takeFromTableau(choiceNo-1, cardNo-1);
                 break;
@@ -89,6 +90,5 @@ public class GameControl {
                 System.out.println("please try again");
             }
         }
-        prevStates.addPreviousMove(new PreviousState(logic.getGameState(), ma.getMoveChosen()));
     }
 }
