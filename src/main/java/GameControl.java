@@ -72,9 +72,13 @@ public class GameControl {
             System.out.println("Byggestablen er tom.");
             return;
         }
-        System.out.println("Hvor mange kort vil du samle op (1-"
-                + logic.getVisibleCardsTablaeu(fromNo-1) + ")");
-        int cardNo = readIntFromInput(1, logic.getVisibleCardsTablaeu(fromNo-1));
+        int cardNo;
+        if(logic.getVisibleCardsTablaeu(fromNo - 1) > 1 ) {
+            System.out.println("Hvor mange kort vil du samle op (1-"
+                    + logic.getVisibleCardsTablaeu(fromNo-1) + ")");
+            cardNo = readIntFromInput(1, logic.getVisibleCardsTablaeu(fromNo-1));
+        } else cardNo = 1;
+
         chosenCards = logic.takeFromTableau(fromNo-1, cardNo-1);
         System.out.println("Hvor vil du rykke kortet hen? (Byggestabel, Grundbunke)");
         String choice = input.nextLine();
