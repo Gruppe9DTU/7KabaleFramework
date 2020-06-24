@@ -430,7 +430,8 @@ public class MoveAlgorithm {
                     //Hvis der er mere end ét kort tilstæde i byggestablen og det nederste kort passer på det øverste kort i en anden byggestabel, ryk alle de synlige kort fra byggestablen over til den anden byggestabel
                     if (cards.get(0).getValue() == cards2.get(cards2.size() - 1).getValue() - 1
                             && cards.get(0).getSuit() % 2 != cards2.get(cards2.size() - 1).getSuit() % 2) {
-                        return "Tag alle de synlige kort fra byggestablen hvor det forreste kort er " + cards.get(0) + ", og placer dem på " + cards2.get(cards2.size() - 1).toString();
+                        if (cards.size() == 1) return "Flyt " + cards.get(0) + ", og placer dem på " + cards2.get(cards2.size() - 1).toString();
+                        else return "Tag alle de synlige kort fra byggestablen hvor det bagerste kort er " + cards.get(0) + ", og placer dem på " + cards2.get(cards2.size() - 1).toString();
                     }
                 }
             }
