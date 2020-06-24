@@ -50,14 +50,14 @@ public class GameControl {
             try {
                 int choiceNo = input.nextInt();
                 if(choiceNo < min || choiceNo > max) {
-                    System.out.println("Input out of range, please write a number between " + min + " and "
+                    System.out.println("tallet skal være imellem " + min + " og "
                     + max);
                 }
                 else{
                     return choiceNo;
                 }
             } catch (InputMismatchException e) {
-                System.out.println("Please only input integers");
+                System.out.println("Venligst indtast et tal");
                 input.next();
                 continue;
             }
