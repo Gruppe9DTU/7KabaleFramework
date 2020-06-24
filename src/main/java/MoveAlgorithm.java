@@ -485,7 +485,7 @@ public class MoveAlgorithm {
      *
      * @return Instructions to player
      */
-    public String revealCardFromWaste() { return wastePile ? "Vend et kort fra grundbunken" : ""; }
+    public String revealCardFromWaste() { return wastePile ? "Vend et kort fra bunken" : ""; }
 
     /**
      * Getter for move chosen
