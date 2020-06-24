@@ -112,7 +112,7 @@ public class SolitaireLogic {
     }
 
     public void addToTableau(List<Card> card, int i, int j) {
-        if(j != 999 && tableau[i].addListCardsToStack(card)) {
+        if(tableau[i].addListCardsToStack(card) && j != 999) {
             tableau[j].removeListCards(card, deck);
         }
     }
