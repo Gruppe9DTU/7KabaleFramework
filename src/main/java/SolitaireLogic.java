@@ -137,10 +137,6 @@ public class SolitaireLogic {
         waste.revealCard();
     }
 
-    public void removeFromWaste() {
-        waste.removeCard();
-    }
-
     public Card takeFromWaste() {
         if(waste.getKnownCards().size() > 0) {
             return waste.takeCard();
