@@ -33,13 +33,13 @@ public class Card {
     public String readSuit() {
         switch(suit) {
             case 0:
-                return "Hearts";
+                return "Hjerter";
             case 1:
-                return "Spades";
+                return "Spar";
             case 2:
-                return "Diamonds";
+                return "Ruder";
             case 3:
-                return "Clubs";
+                return "Klør";
             default:
                 return "error reading suit, please make sure card is correct.";
         }
@@ -53,15 +53,15 @@ public class Card {
     public String toString() {
         switch(value){
             case 1:
-                return "Ace of " + readSuit();
+                return readSuit() + " Es";
             case 11:
-                return "Jack of " + readSuit();
+                return readSuit() + " Bonde";
             case 12:
-                return "Queen of " + readSuit();
+                return readSuit() + " Dronning";
             case 13:
-                return "King of " + readSuit();
+                return readSuit() + " Konge";
             default:
-                return value + " of " + readSuit();
+                return readSuit() + value;
         }
     }
 
@@ -73,17 +73,17 @@ public class Card {
     public String shortString() {
         switch (value) {
             case 1:
-                return "Ac" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "Es";
             case 10:
-                return "10" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "10";
             case 11:
-                return "Ja" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "Bo";
             case 12:
-                return "Qu" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "Dr";
             case 13:
-                return "Ki" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "Ko";
             default:
-                return "0" + value + readSuit().charAt(0);
+                return readSuit().charAt(0) + "0" + value;
         }
     }
 }

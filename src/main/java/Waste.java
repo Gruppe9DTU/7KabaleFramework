@@ -33,7 +33,7 @@ public class Waste {
     }
 
     public Card takeCard() {
-        return knownCards.get(knownCards.size()-1);
+        return knownCards.remove(knownCards.size()-1);
     }
 
 

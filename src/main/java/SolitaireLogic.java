@@ -111,14 +111,11 @@ public class SolitaireLogic {
         return tableau[i].getVisibleCards().size();
     }
 
-    public boolean addToTableau(List<Card> card, int i, int j) {
-        if(tableau[i].addListCardsToStack(card) && j != 999) {
-            tableau[j].removeListCards(card, deck);
+    public boolean addToTableau(List<Card> card, int i) {
+        if(tableau[i].addListCardsToStack(card)) {
             return true;
         }
-        else{
-            return false;
-        }
+        else return false;
     }
 
     public void removeFromTableau(List<Card> card, int i) {
@@ -129,8 +126,8 @@ public class SolitaireLogic {
         return foundation[i].takeCard();
     }
 
-    public void addToFoundation(Card card, int i) {
-        foundation[i].addCard(card);
+    public boolean addToFoundation(Card card, int i) {
+        return(foundation[i].addCard(card));
     }
 
     public void revealFromWaste() {
@@ -156,6 +153,15 @@ public class SolitaireLogic {
                 isWon = false;
                 break;
             }
+        }
+    }
+
+    public boolean isTableauEmpty(int i) {
+        if(tableau[i].getVisibleCards().size() == 0) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 

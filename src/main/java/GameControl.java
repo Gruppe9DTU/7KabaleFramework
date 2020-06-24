@@ -1,3 +1,5 @@
+import com.sun.javafx.tk.ScreenConfigurationAccessor;
+
 import java.util.*;
 
 public class GameControl {
@@ -25,70 +27,20 @@ public class GameControl {
         System.out.println(moveSuggestion);
         Scanner input = new Scanner(System.in);
         String firstChoice;
-        Card chosenCard = null;
-        List<Card> chosenCards = new ArrayList();
-        int fromNo = 1000;
-        boolean isMoving;
         while(true) {
-            isMoving = false;
-            System.out.println("What type of pile do you want to move from? (Tableau, Foundation, Waste)");
+            System.out.println("Hvilken bunke vil du tage fra? (Byggestabel, Grundbunke, Bunke)");
             firstChoice = input.nextLine();
-            if (firstChoice.equals("w")) {
-                System.out.println("Do you want to Reveal or Take?");
-                String wasteChoice = input.nextLine();
-                if(wasteChoice.equals("r")) {
-                    logic.revealFromWaste();
-                }
-                else if (wasteChoice.equals("t")) {
-                    chosenCard = logic.takeFromWaste();
-                    chosenCards.add(chosenCard);
-                    if(chosenCard.equals(null)) {
-                        System.out.println("Waste is empty");
-                    }
-                    else {
-                        isMoving = true;
-                    }
-                }
+            if (firstChoice.toLowerCase().equals("b") || firstChoice.toLowerCase().equals("bunke")) {
+                moveFromWaste();
                 break;
-            } else if (firstChoice.equals("t")) {
-                System.out.println("Please choose the tableau number(1-7)");
-                isMoving = true;
-                fromNo = readIntFromInput(1,7);
-                System.out.println("Please choose how many cards to take(1-" +
-                        logic.getVisibleCardsTablaeu(fromNo-1) + ")");
-                int cardNo = readIntFromInput(1, logic.getVisibleCardsTablaeu(fromNo-1));
-                chosenCards = logic.takeFromTableau(fromNo-1, cardNo-1);
+            } else if (firstChoice.toLowerCase().equals("b") || firstChoice.toLowerCase().equals("byggestabel")) {
+                moveFromTableau();
                 break;
-            } else if (firstChoice.equals("f")) {
-                System.out.println("Please choose the foundation number(1-4)");
-                isMoving = true;
-                fromNo = readIntFromInput(1, 4);
-                chosenCard = logic.takeFromFoundation(fromNo-1);
-                chosenCards.add(chosenCard);
+            } else if (firstChoice.toLowerCase().equals("g") ||firstChoice.toLowerCase().equals("grundbunke")) {
+                moveFromFoundation();
                 break;
             } else {
-                System.out.println("please try again");
-            }
-        }
-        while(isMoving) {
-            System.out.println("What type of pile do you want to move to? (Tableau, Foundation)");
-            String secondChoice = input.nextLine();
-            if (secondChoice.equals("t")) {
-                System.out.println("Please choose the tableau number(1-7)");
-                int choiceNo = readIntFromInput(1, 7);
-                Collections.reverse(chosenCards);
-                logic.addToTableau(chosenCards, choiceNo-1, fromNo - 1);
-                isMoving = false;
-            } else if (secondChoice.equals("f")) {
-                System.out.println("Please choose the foundation number(1-4)");
-                int choiceNo = readIntFromInput(1, 4);
-                logic.addToFoundation(chosenCards.get(0), choiceNo-1);
-                if(firstChoice.equals("t")) {
-                    logic.removeFromTableau(chosenCards, fromNo-1);
-                }
-                isMoving = false;
-            } else {
-                System.out.println("please try again");
+                System.out.println("Ugyldigt input, prøv venligst igen.");
             }
         }
     }
@@ -111,5 +63,73 @@ public class GameControl {
                 continue;
             }
         }
+    }
+
+    public void moveFromTableau() {
+        Scanner input = new Scanner(System.in);
+        List<Card> chosenCards;
+        System.out.println("Vælg venligst hvilken byggestabel du vil tage fra (1-7)");
+        int fromNo = readIntFromInput(1, 7);
+        if(logic.isTableauEmpty(fromNo-1)) {
+            System.out.println("Byggestablen er tom.");
+            return;
+        }
+        System.out.println("Hvor mange kort vil du samle op (1-"
+                + logic.getVisibleCardsTablaeu(fromNo-1) + ")");
+        int cardNo = readIntFromInput(1, logic.getVisibleCardsTablaeu(fromNo-1));
+        chosenCards = logic.takeFromTableau(fromNo-1, cardNo-1);
+        System.out.println("Hvor vil du rykke kortet hen? (Byggestabel, Grundbunke)");
+        String choice = input.nextLine();
+        if(choice.toLowerCase().equals("b") || choice.toLowerCase().equals("byggestabel")) {
+            System.out.println("Vælg venligst hvilken byggestabel du vil lægge kortet på (1-7)");
+            int destNo = readIntFromInput(1, 7);
+            Collections.reverse(chosenCards);
+            if(logic.addToTableau(chosenCards, destNo-1)) {
+                logic.removeFromTableau(chosenCards, fromNo-1);
+            }
+        }
+        else if(choice.toLowerCase().equals("g") || choice.toLowerCase().equals("grundbunke")) {
+            System.out.println("Vælg venligst hvilken grundbunke du vil lægge kortet på (1-4)");
+            int destNo = readIntFromInput(1, 4);
+            if(logic.addToFoundation(chosenCards.get(0), destNo-1))
+                logic.removeFromTableau(chosenCards, fromNo-1);
+        }
+    }
+
+    public void moveFromFoundation() {
+        Scanner input = new Scanner(System.in);
+        List<Card> chosenCards = new ArrayList();
+        System.out.println("Vælg venligst hvilken grundbunke du vil tage fra");
+        int fromNo = readIntFromInput(1, 4);
+        chosenCards.add(logic.takeFromFoundation(fromNo-1));
+        System.out.println("Vælg venligst hvilken grundbunke du vil lægge kortet på");
+        int destNo = readIntFromInput(1, 7);
+        logic.addToTableau(chosenCards, destNo-1);
+    }
+
+    public void moveFromWaste() {
+        Scanner input = new Scanner(System.in);
+        List<Card> chosenCards = new ArrayList();
+        System.out.println("Vil du Vende et kort, eller Tage det øverste kort?");
+        String choice = input.nextLine();
+        if (choice.toLowerCase().equals("v") || choice.toLowerCase().equals("vende")) {
+            logic.revealFromWaste();
+        }
+        else if (choice.toLowerCase().equals("t") || choice.toLowerCase().equals("tage")) {
+            chosenCards.add(logic.takeFromWaste());
+            System.out.println("Hvor vil du rykke kortet hen? (Byggestabel, Grundbunke)");
+            String dest = input.nextLine();
+            if(choice.toLowerCase().equals("b") || choice.toLowerCase().equals("byggestabel")) {
+                System.out.println("Vælg venligst hvilken byggestabel du lægge kortet på (1-7)");
+                int destNo = readIntFromInput(1, 7);
+                logic.addToTableau(chosenCards, destNo-1);
+            }
+            else if(choice.toLowerCase().equals("g") || choice.toLowerCase().equals("grundbunke")) {
+                System.out.println("Vælg venligst den grundbunke du vil lægge kortet på (1-4)");
+                int destNo = readIntFromInput(1, 7);
+                logic.addToFoundation(chosenCards.get(0), destNo-1);
+            }
+        }
+
     }
 }

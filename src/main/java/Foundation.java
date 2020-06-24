@@ -15,19 +15,28 @@ public class Foundation {
      *
      * @param card  Card instance to be added
      */
-    public void addCard(Card card) {
+    public boolean addCard(Card card) {
         if (cards.size() > 0) { //If there are cards in the Foundation
             Card lastcard = peekCard();
-            if(card.getSuit() != lastcard.getSuit() || card.getValue() != (lastcard.getValue() + 1))
-                System.out.println("Cannot add card to deck");
-            else
+            if(card.getSuit() != lastcard.getSuit() || card.getValue() != (lastcard.getValue() + 1)) {
+                System.out.println("Kortet kan ikke lægges på grundbunken");
+                return false;
+            }
+
+            else {
                 cards.add(card);
+                return true;
+            }
         }
         else { //If it is the first card in the Foundation
-            if(card.getValue() != 1)
-                System.out.println("Cannot add non-aces to empty foundation");
-            else
+            if(card.getValue() != 1){
+                System.out.println("Det første kort på grundbunken skal været et es");
+                return false;
+            }
+            else{
                 cards.add(card);
+                return true;
+            }
         }
     }
 
