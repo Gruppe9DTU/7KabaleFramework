@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +37,13 @@ public class Waste {
     }
 
     public void revealCard() {
+        if(unknowncards.size() == 0) {
+            for(Card c : knownCards) {
+                unknowncards.add(c);
+            }
+            knownCards.clear();
+            Collections.reverse(unknowncards);
+        }
         Card revealed = unknowncards.remove(unknowncards.size()-1);
         knownCards.add(revealed);
 
