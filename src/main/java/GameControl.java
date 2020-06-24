@@ -93,8 +93,11 @@ public class GameControl {
         else if(choice.toLowerCase().equals("g") || choice.toLowerCase().equals("grundbunke") || choice.toLowerCase().equals("f")) {
             System.out.println("Vælg venligst hvilken grundbunke du vil lægge kortet på (1-4)");
             int destNo = readIntFromInput(1, 4);
-            if(logic.addToFoundation(chosenCards.get(0), destNo-1))
-                logic.removeFromTableau(chosenCards, fromNo-1);
+            if(logic.addToFoundation(chosenCards.get(0), destNo-1)) {
+                List<Card> cards = new ArrayList();
+                cards.add(chosenCards.get(0));
+                logic.removeFromTableau(cards, fromNo - 1);
+            }
         }
     }
 
