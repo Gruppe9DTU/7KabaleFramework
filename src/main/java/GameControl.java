@@ -7,7 +7,6 @@ public class GameControl {
 
     public GameControl(){
         logic = new SolitaireLogic();
-        ma = new MoveAlgorithm(logic);
         this.prevStates = PreviousStatesContainer.getInstance();
     }
 
