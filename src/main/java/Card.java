@@ -61,7 +61,7 @@ public class Card {
             case 13:
                 return readSuit() + " Konge";
             default:
-                return readSuit() + value;
+                return readSuit() + " " + value;
         }
     }
 

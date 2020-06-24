@@ -1,5 +1,3 @@
-import com.sun.javafx.tk.ScreenConfigurationAccessor;
-
 import java.util.*;
 
 public class GameControl {
@@ -119,15 +117,19 @@ public class GameControl {
             chosenCards.add(logic.takeFromWaste());
             System.out.println("Hvor vil du rykke kortet hen? (Byggestabel, Grundbunke)");
             String dest = input.nextLine();
-            if(choice.toLowerCase().equals("b") || choice.toLowerCase().equals("byggestabel") || choice.toLowerCase().equals("t")) {
+            if(dest.toLowerCase().equals("b") || dest.toLowerCase().equals("byggestabel") || dest.toLowerCase().equals("t")) {
                 System.out.println("Vælg venligst hvilken byggestabel du lægge kortet på (1-7)");
                 int destNo = readIntFromInput(1, 7);
-                logic.addToTableau(chosenCards, destNo-1);
+                if(logic.addToTableau(chosenCards, destNo-1)) {
+                    logic.removeFromWaste();
+                }
             }
-            else if(choice.toLowerCase().equals("g") || choice.toLowerCase().equals("grundbunke") || choice.toLowerCase().equals("f")) {
+            else if(dest.toLowerCase().equals("g") || dest.toLowerCase().equals("grundbunke") || dest.toLowerCase().equals("f")) {
                 System.out.println("Vælg venligst den grundbunke du vil lægge kortet på (1-4)");
                 int destNo = readIntFromInput(1, 7);
-                logic.addToFoundation(chosenCards.get(0), destNo-1);
+                if(logic.addToFoundation(chosenCards.get(0), destNo-1)) {
+                    logic.removeFromWaste();
+                }
             }
         }
 

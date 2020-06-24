@@ -1,8 +1,4 @@
-import javafx.scene.control.Tab;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SolitaireLogic {
@@ -132,6 +128,10 @@ public class SolitaireLogic {
 
     public void revealFromWaste() {
         waste.revealCard();
+    }
+
+    public void removeFromWaste() {
+        waste.removeCard();
     }
 
     public Card takeFromWaste() {
