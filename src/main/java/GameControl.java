@@ -27,7 +27,7 @@ public class GameControl {
         String firstChoice;
         Card chosenCard = null;
         List<Card> chosenCards = new ArrayList();
-        int fromNo = 999;
+        int fromNo = 1000;
         boolean isMoving;
         while(true) {
             isMoving = false;
