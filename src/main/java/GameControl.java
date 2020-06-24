@@ -36,6 +36,8 @@ public class GameControl {
             } else if (firstChoice.toLowerCase().equals("g") ||firstChoice.toLowerCase().equals("grundbunke") || firstChoice.toLowerCase().equals("f")) {
                 moveFromFoundation();
                 break;
+            }else if (firstChoice.toLowerCase().equals("exit")) {
+                System.exit(0);
             } else {
                 System.out.println("Ugyldigt input, prøv venligst igen.");
             }
