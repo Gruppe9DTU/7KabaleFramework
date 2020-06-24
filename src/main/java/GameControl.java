@@ -76,6 +76,7 @@ public class GameControl {
             if (secondChoice.equals("t")) {
                 System.out.println("Please choose the tableau number(1-7)");
                 int choiceNo = readIntFromInput(1, 7);
+                Collections.reverse(chosenCards);
                 logic.addToTableau(chosenCards, choiceNo-1, fromNo - 1);
                 isMoving = false;
             } else if (secondChoice.equals("f")) {

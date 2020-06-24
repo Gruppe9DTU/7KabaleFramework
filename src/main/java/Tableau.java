@@ -70,7 +70,7 @@ public class Tableau {
 
     public List<Card> removeCardFromStack(int i) {
         List<Card> toRemove = new ArrayList();
-        for (int j = 0; j <= i; j++) {
+        for (int j = i; j >= 0; j--) {
             toRemove.add(visibleCards.get(j));
         }
         return toRemove;
