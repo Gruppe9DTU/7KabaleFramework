@@ -28,9 +28,9 @@ public class GameControl {
         Scanner input = new Scanner(System.in);
         String firstChoice;
         while(true) {
-            System.out.println("Hvilken bunke vil du tage fra? (Byggestabel, Grundbunke, Bunke)");
+            System.out.println("Hvilken bunke vil du tage fra? (Byggestabel, Grundbunke, bUnke)");
             firstChoice = input.nextLine();
-            if (firstChoice.toLowerCase().equals("b") || firstChoice.toLowerCase().equals("bunke")) {
+            if (firstChoice.toLowerCase().equals("u") || firstChoice.toLowerCase().equals("bunke")) {
                 moveFromWaste();
                 break;
             } else if (firstChoice.toLowerCase().equals("b") || firstChoice.toLowerCase().equals("byggestabel")) {
