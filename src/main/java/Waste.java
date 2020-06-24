@@ -33,7 +33,8 @@ public class Waste {
     }
 
     public Card takeCard() {
-        return knownCards.get(knownCards.size()-1);
+        if(knownCards.size() > 0) return knownCards.get(knownCards.size()-1);
+        else return null;
     }
 
     public void removeCard() {

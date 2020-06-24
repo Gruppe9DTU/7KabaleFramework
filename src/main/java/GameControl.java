@@ -121,6 +121,10 @@ public class GameControl {
             logic.revealFromWaste();
         }
         else if (choice.toLowerCase().equals("t") || choice.toLowerCase().equals("tage")) {
+            if(logic.takeFromWaste() == null) {
+                System.out.println("Der er ingen kort i bunken");
+                return;
+            }
             chosenCards.add(logic.takeFromWaste());
             System.out.println("Hvor vil du rykke kortet hen? (Byggestabel, Grundbunke)");
             String dest = input.nextLine();
