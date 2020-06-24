@@ -111,9 +111,13 @@ public class SolitaireLogic {
         return tableau[i].getVisibleCards().size();
     }
 
-    public void addToTableau(List<Card> card, int i, int j) {
+    public boolean addToTableau(List<Card> card, int i, int j) {
         if(tableau[i].addListCardsToStack(card) && j != 999) {
             tableau[j].removeListCards(card, deck);
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
@@ -131,6 +135,10 @@ public class SolitaireLogic {
 
     public void revealFromWaste() {
         waste.revealCard();
+    }
+
+    public void removeFromWaste() {
+        waste.removeCard();
     }
 
     public Card takeFromWaste() {

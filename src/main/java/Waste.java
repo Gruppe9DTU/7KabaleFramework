@@ -36,6 +36,8 @@ public class Waste {
         return knownCards.remove(knownCards.size()-1);
     }
 
+    public void removeCard() { knownCards.remove(knownCards.size()-1);}
+
 
     public void revealCard() {
         if(unknowncards.size() == 0) {
