@@ -36,6 +36,7 @@ public class Waste {
         return knownCards.remove(knownCards.size()-1);
     }
 
+
     public void revealCard() {
         if(unknowncards.size() == 0) {
             for(Card c : knownCards) {
@@ -44,8 +45,13 @@ public class Waste {
             knownCards.clear();
             Collections.reverse(unknowncards);
         }
-        Card revealed = unknowncards.remove(unknowncards.size()-1);
-        knownCards.add(revealed);
+        if(unknowncards.size() > 0) {
+            Card revealed = unknowncards.remove(unknowncards.size() - 1);
+            knownCards.add(revealed);
+        }
+        else {
+            System.out.println("No cards found in waste");
+        }
 
     }
 

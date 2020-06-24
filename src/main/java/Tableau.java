@@ -43,7 +43,7 @@ public class Tableau {
         if(visibleCards.size() > 0) {
             Card lastCard = visibleCards.get(visibleCards.size() - 1);
             if (lastCard.getSuit() % 2 == card.getSuit() % 2 || card.getValue() != (lastCard.getValue() - 1)){
-                System.out.println("Wrong card type, cannot stack hiddenCards of the same color, or of higher value");
+                System.out.println("Wrong card type, cannot stack cards of the same color, or of higher value");
                 return false;
             }
             else {
@@ -64,14 +64,14 @@ public class Tableau {
         }
     }
 
-    public List<Card> removeCardFromStack(Deck deck, int i) {
+    public void revealHiddenCard(Card card) {
+        visibleCards.add(card);
+    }
+
+    public List<Card> removeCardFromStack(int i) {
         List<Card> toRemove = new ArrayList();
         for (int j = 0; j <= i; j++) {
             toRemove.add(visibleCards.get(visibleCards.size()-1));
-        }
-        if(hiddenCards != 0 && visibleCards.size() == 0) {
-            hiddenCards--;
-            addCardToStack(deck.getNextCard());
         }
         return toRemove;
     }
@@ -82,8 +82,15 @@ public class Tableau {
                 return false;
             }
         }
-        visibleCards.removeAll(cards);
         return true;
+    }
+
+    public void removeListCards(List<Card> cards, Deck deck) {
+        visibleCards.removeAll(cards);
+        if(hiddenCards != 0 && visibleCards.size() == 0) {
+            hiddenCards--;
+            revealHiddenCard(deck.getNextCard());
+        }
     }
 
     /**

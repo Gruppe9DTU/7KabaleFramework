@@ -24,21 +24,22 @@ public class GameControl {
         prevStates.addPreviousMove(new PreviousState(logic.getGameState(), ma.getMoveChosen()));
         System.out.println(moveSuggestion);
         Scanner input = new Scanner(System.in);
-        String choice;
+        String firstChoice;
         Card chosenCard = null;
         List<Card> chosenCards = new ArrayList();
+        int fromNo = 999;
         boolean isMoving;
         while(true) {
             isMoving = false;
             System.out.println("What type of pile do you want to move from? (Tableau, Foundation, Waste)");
-            choice = input.nextLine();
-            if (choice.equals("w")) {
+            firstChoice = input.nextLine();
+            if (firstChoice.equals("w")) {
                 System.out.println("Do you want to Reveal or Take?");
-                choice = input.nextLine();
-                if(choice.equals("r")) {
+                String wasteChoice = input.nextLine();
+                if(wasteChoice.equals("r")) {
                     logic.revealFromWaste();
                 }
-                else if (choice.equals("t")) {
+                else if (wasteChoice.equals("t")) {
                     chosenCard = logic.takeFromWaste();
                     chosenCards.add(chosenCard);
                     if(chosenCard.equals(null)) {
@@ -49,20 +50,20 @@ public class GameControl {
                     }
                 }
                 break;
-            } else if (choice.equals("t")) {
+            } else if (firstChoice.equals("t")) {
                 System.out.println("Please choose the tableau number(1-7)");
                 isMoving = true;
-                int choiceNo = readIntFromInput(1,7);
+                fromNo = readIntFromInput(1,7);
                 System.out.println("Please choose how many cards to take(1-" +
-                        logic.getVisibleCardsTablaeu(choiceNo-1) + ")");
-                int cardNo = readIntFromInput(1, logic.getVisibleCardsTablaeu(choiceNo-1));
-                chosenCards = logic.takeFromTableau(choiceNo-1, cardNo-1);
+                        logic.getVisibleCardsTablaeu(fromNo-1) + ")");
+                int cardNo = readIntFromInput(1, logic.getVisibleCardsTablaeu(fromNo-1));
+                chosenCards = logic.takeFromTableau(fromNo-1, cardNo-1);
                 break;
-            } else if (choice.equals("f")) {
+            } else if (firstChoice.equals("f")) {
                 System.out.println("Please choose the foundation number(1-4)");
                 isMoving = true;
-                int choiceNo = readIntFromInput(1, 4);
-                chosenCard = logic.takeFromFoundation(choiceNo-1);
+                fromNo = readIntFromInput(1, 4);
+                chosenCard = logic.takeFromFoundation(fromNo-1);
                 chosenCards.add(chosenCard);
                 break;
             } else {
@@ -71,17 +72,20 @@ public class GameControl {
         }
         while(isMoving) {
             System.out.println("What type of pile do you want to move to? (Tableau, Foundation)");
-            choice = input.nextLine();
-            if (choice.equals("t")) {
+            String secondChoice = input.nextLine();
+            if (secondChoice.equals("t")) {
                 System.out.println("Please choose the tableau number(1-7)");
                 int choiceNo = readIntFromInput(1, 7);
                 Collections.reverse(chosenCards);
-                logic.addToTableau(chosenCards, choiceNo-1);
+                logic.addToTableau(chosenCards, choiceNo-1, fromNo - 1);
                 isMoving = false;
-            } else if (choice.equals("f")) {
+            } else if (secondChoice.equals("f")) {
                 System.out.println("Please choose the foundation number(1-4)");
                 int choiceNo = readIntFromInput(1, 4);
                 logic.addToFoundation(chosenCards.get(0), choiceNo-1);
+                if(firstChoice.equals("t")) {
+                    logic.removeFromTableau(chosenCards, fromNo-1);
+                }
                 isMoving = false;
             } else {
                 System.out.println("please try again");

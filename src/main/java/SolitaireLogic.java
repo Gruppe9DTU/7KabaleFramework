@@ -104,15 +104,22 @@ public class SolitaireLogic {
     }
 
     public List<Card> takeFromTableau(int i, int j) {
-        return tableau[i].removeCardFromStack(deck, j);
+        return tableau[i].removeCardFromStack(j);
     }
 
     public int getVisibleCardsTablaeu(int i) {
         return tableau[i].getVisibleCards().size();
     }
 
-    public void addToTableau(List<Card> card, int i) {
+    public void addToTableau(List<Card> card, int i, int j) {
         tableau[i].addListCardsToStack(card);
+        if(j != 999) {
+            tableau[j].removeListCards(card, deck);
+        }
+    }
+
+    public void removeFromTableau(List<Card> card, int i) {
+            if(i != 999) tableau[i].removeListCards(card, deck);
     }
 
     public Card takeFromFoundation(int i) {
