@@ -166,7 +166,7 @@ public class SolitaireLogic {
     }
 
     public boolean getIsWon() {
-        return  isWon;
+        return isWon;
     }
 
 }

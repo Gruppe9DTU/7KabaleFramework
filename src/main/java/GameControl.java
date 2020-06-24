@@ -104,7 +104,7 @@ public class GameControl {
         System.out.println("Vælg venligst hvilken grundbunke du vil tage fra");
         int fromNo = readIntFromInput(1, 4);
         chosenCards.add(logic.takeFromFoundation(fromNo-1));
-        System.out.println("Vælg venligst hvilken grundbunke du vil lægge kortet på");
+        System.out.println("Vælg venligst hvilken byggestabel du vil lægge kortet på");
         int destNo = readIntFromInput(1, 7);
         logic.addToTableau(chosenCards, destNo-1);
     }
