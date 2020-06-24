@@ -30,13 +30,13 @@ public class GameControl {
         while(true) {
             System.out.println("Hvilken bunke vil du tage fra? (Byggestabel, Grundbunke, bUnke)");
             firstChoice = input.nextLine();
-            if (firstChoice.toLowerCase().equals("u") || firstChoice.toLowerCase().equals("bunke")) {
+            if (firstChoice.toLowerCase().equals("u") || firstChoice.toLowerCase().equals("bunke") || firstChoice.toLowerCase().equals("w")) {
                 moveFromWaste();
                 break;
-            } else if (firstChoice.toLowerCase().equals("b") || firstChoice.toLowerCase().equals("byggestabel")) {
+            } else if (firstChoice.toLowerCase().equals("b") || firstChoice.toLowerCase().equals("byggestabel") || firstChoice.toLowerCase().equals("t")) {
                 moveFromTableau();
                 break;
-            } else if (firstChoice.toLowerCase().equals("g") ||firstChoice.toLowerCase().equals("grundbunke")) {
+            } else if (firstChoice.toLowerCase().equals("g") ||firstChoice.toLowerCase().equals("grundbunke") || firstChoice.toLowerCase().equals("f")) {
                 moveFromFoundation();
                 break;
             } else {
@@ -80,7 +80,7 @@ public class GameControl {
         chosenCards = logic.takeFromTableau(fromNo-1, cardNo-1);
         System.out.println("Hvor vil du rykke kortet hen? (Byggestabel, Grundbunke)");
         String choice = input.nextLine();
-        if(choice.toLowerCase().equals("b") || choice.toLowerCase().equals("byggestabel")) {
+        if(choice.toLowerCase().equals("b") || choice.toLowerCase().equals("byggestabel") || choice.toLowerCase().equals("t")) {
             System.out.println("Vælg venligst hvilken byggestabel du vil lægge kortet på (1-7)");
             int destNo = readIntFromInput(1, 7);
             Collections.reverse(chosenCards);
@@ -88,7 +88,7 @@ public class GameControl {
                 logic.removeFromTableau(chosenCards, fromNo-1);
             }
         }
-        else if(choice.toLowerCase().equals("g") || choice.toLowerCase().equals("grundbunke")) {
+        else if(choice.toLowerCase().equals("g") || choice.toLowerCase().equals("grundbunke") || choice.toLowerCase().equals("f")) {
             System.out.println("Vælg venligst hvilken grundbunke du vil lægge kortet på (1-4)");
             int destNo = readIntFromInput(1, 4);
             if(logic.addToFoundation(chosenCards.get(0), destNo-1))
@@ -112,19 +112,19 @@ public class GameControl {
         List<Card> chosenCards = new ArrayList();
         System.out.println("Vil du Vende et kort, eller Tage det øverste kort?");
         String choice = input.nextLine();
-        if (choice.toLowerCase().equals("v") || choice.toLowerCase().equals("vende")) {
+        if (choice.toLowerCase().equals("v") || choice.toLowerCase().equals("vende") || choice.toLowerCase().equals("r")) {
             logic.revealFromWaste();
         }
         else if (choice.toLowerCase().equals("t") || choice.toLowerCase().equals("tage")) {
             chosenCards.add(logic.takeFromWaste());
             System.out.println("Hvor vil du rykke kortet hen? (Byggestabel, Grundbunke)");
             String dest = input.nextLine();
-            if(choice.toLowerCase().equals("b") || choice.toLowerCase().equals("byggestabel")) {
+            if(choice.toLowerCase().equals("b") || choice.toLowerCase().equals("byggestabel") || choice.toLowerCase().equals("t")) {
                 System.out.println("Vælg venligst hvilken byggestabel du lægge kortet på (1-7)");
                 int destNo = readIntFromInput(1, 7);
                 logic.addToTableau(chosenCards, destNo-1);
             }
-            else if(choice.toLowerCase().equals("g") || choice.toLowerCase().equals("grundbunke")) {
+            else if(choice.toLowerCase().equals("g") || choice.toLowerCase().equals("grundbunke") || choice.toLowerCase().equals("f")) {
                 System.out.println("Vælg venligst den grundbunke du vil lægge kortet på (1-4)");
                 int destNo = readIntFromInput(1, 7);
                 logic.addToFoundation(chosenCards.get(0), destNo-1);
