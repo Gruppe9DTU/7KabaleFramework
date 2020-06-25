@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+//TODO Bliver brugt af tests, kan dette undgås så klassen kan slettes?
 public class Deck {
     List<Card> deck = new ArrayList<Card>();
 

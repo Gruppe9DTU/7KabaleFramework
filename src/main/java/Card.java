@@ -1,6 +1,9 @@
+/**
+ * Class to act as a playing card from a normal deck of cards
+ */
 public class Card {
-    private int suit;
-    private int value;
+    private int suit;   //What suit that card is: Heart, spade, etc.
+    private int value;  //What value it has, from ace to king (1-13)
 
     /***
      * Constructor for the Card object. A playing card.
@@ -13,37 +16,30 @@ public class Card {
         this.value = value;
     }
 
-    public int getSuit() {
-        return this.suit;
-    }
+    /**
+     * Getters and Setters for Card class
+     */
+    public int getSuit() { return this.suit; }
+    public void setSuit(int suit) { this.suit = suit; }
 
-    public void setSuit(int suit) {
-        this.suit = suit;
-    }
-
-    public int getValue() {
-        return this.value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
+    public int getValue() { return this.value; }
+    public void setValue(int value) { this.value = value; }
 
     /***
      * A method to get the suit in string form
      *
-     * @return A string explaining the suit, depending on the value of the int
+     * @return A string explaining the suit, depending on the value of Card.suit
      */
     public String readSuit() {
         switch(suit) {
             case 0:
-                return "Hearts";
+                return "Hjerter";
             case 1:
-                return "Spades";
+                return "Spar";
             case 2:
-                return "Diamonds";
+                return "Ruder";
             case 3:
-                return "Clubs";
+                return "Klør";
             default:
                 return "error reading suit, please make sure card is correct.";
         }
@@ -52,41 +48,42 @@ public class Card {
     /***
      * A method to convert a card to a string
      *
-     * @return A string explaining the card
+     * @return Full description of the card
      */
     public String toString() {
         switch(value){
             case 1:
-                return "Ace of " + readSuit();
+                return readSuit() + " Es";
             case 11:
-                return "Jack of " + readSuit();
+                return readSuit() + " Bonde";
             case 12:
-                return "Queen of " + readSuit();
+                return readSuit() + " Dronning";
             case 13:
-                return "King of " + readSuit();
+                return readSuit() + " Konge";
             default:
-                return value + " of " + readSuit();
+                return readSuit() + " " + value;
         }
     }
 
     /**
      * A method to give a short print of the card
-     * @return
+     *
+     * @return  Short description of the card
      */
     public String shortString() {
         switch (value) {
             case 1:
-                return "Ac" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "Es";
             case 10:
-                return "10" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "10";
             case 11:
-                return "Ja" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "Bo";
             case 12:
-                return "Qu" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "Dr";
             case 13:
-                return "Ki" + readSuit().charAt(0);
+                return readSuit().charAt(0) + "Ko";
             default:
-                return "0" + value + readSuit().charAt(0);
+                return readSuit().charAt(0) + "0" + value;
         }
     }
 }
